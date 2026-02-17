@@ -3,7 +3,7 @@ import Image from 'next/image';
 export default function QuoteBanner() {
   return (
     <section className="border-t border-[var(--border-light)] py-12" style={{ background: 'var(--bg-primary)' }}>
-      <div className="mx-auto max-w-4xl px-4 md:px-8">
+      <div className="mx-auto max-w-6xl px-4 md:px-8">
         <div className="relative h-[250px] overflow-hidden rounded-lg md:h-[300px]">
           <Image
             src="/images/quote-future.jpg"
