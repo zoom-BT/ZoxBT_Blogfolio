@@ -12,10 +12,10 @@ export default function CommentSection({ locale }: { locale: string }) {
         {locale === 'fr' ? 'Commentaires' : 'Comments'}
       </h3>
       <Giscus
-        repo="zoom-BT/zoom-BT.github.io"
-        repoId="R_kgDOP8ETFQ"
+        repo="zoom-BT/ZoxBT_Blogfolio"
+        repoId="R_kgDORSHPag"
         category="General"
-        categoryId="DIC_kwDOP8ETFc4C2nK7"
+        categoryId="DIC_kwDORSHPas4C2oIB"
         mapping="pathname"
         strict="0"
         reactionsEnabled="1"
