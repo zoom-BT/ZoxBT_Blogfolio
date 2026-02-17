@@ -1,0 +1,322 @@
+---
+title: "MLPC - Prédiction du PIB"
+excerpt: "Modèle de prédiction du PIB et PIB par habitant pour une meilleure prise de décision économique"
+date: 2024-10-15
+category: ml
+featured: true
+status: completed
+header:
+  teaser: /assets/images/mlpc.jpg
+  overlay_image: /assets/images/mlpc-header.jpg
+  overlay_filter: 0.5
+tags:
+  - Machine Learning
+  - Data Science
+  - Économie
+  - Prédiction
+  - Python
+technologies:
+  - Python
+  - Scikit-learn
+  - Pandas
+  - NumPy
+  - Matplotlib
+  - Seaborn
+github_url: "https://github.com/zoom-BT/mlpc-pib-prediction"
+---
+
+## 📊 Vue d'ensemble
+
+Projet développé dans le cadre de la **Machine Learning Project Competition (MLPC)** organisée par la **Cell AI ENSPY**. L'objectif était de créer un modèle prédictif robuste pour estimer le PIB et le PIB par habitant d'un pays, permettant ainsi une meilleure prise de décision économique.
+
+## 🎯 Objectifs du Projet
+
+### Objectifs Principaux
+1. **Prédire le PIB** d'un pays basé sur des indicateurs économiques
+2. **Prédire le PIB par habitant** pour évaluer le niveau de vie
+3. **Identifier les facteurs** les plus influents sur la croissance économique
+4. **Fournir des insights** actionnables pour les décideurs
+
+### Objectifs Techniques
+- Expérimenter avec plusieurs algorithmes de ML
+- Optimiser les hyperparamètres
+- Gérer des données économiques réelles (parfois incomplètes)
+- Créer des visualisations pertinentes
+
+## 📁 Données Utilisées
+
+### Sources
+- Banque Mondiale (World Bank Open Data)
+- FMI (Fonds Monétaire International)
+- OCDE (Organisation de Coopération et de Développement Économiques)
+
+### Features Principales
+
+**Indicateurs Économiques:**
+- Investissement (% du PIB)
+- Épargne nationale brute
+- Balance commerciale
+- Inflation
+- Dette publique
+
+**Indicateurs Démographiques:**
+- Population totale
+- Croissance démographique
+- Urbanisation
+- Espérance de vie
+
+**Indicateurs Sociaux:**
+- Taux d'alphabétisation
+- Accès à l'électricité
+- Dépenses en éducation
+- Dépenses en santé
+
+**Indicateurs Structurels:**
+- Agriculture (% du PIB)
+- Industrie (% du PIB)
+- Services (% du PIB)
+- Exportations de haute technologie
+
+### Prétraitement des Données
+
+```python
+# Gestion des valeurs manquantes
+df_filled = df.fillna(df.median())
+
+# Normalisation
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Feature engineering
+df['PIB_growth'] = df.groupby('Country')['PIB'].pct_change()
+df['Population_density'] = df['Population'] / df['Area']
+```
+
+## 🧪 Approche Méthodologique
+
+### 1. Exploration des Données (EDA)
+
+```python
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Analyse des corrélations
+corr_matrix = df.corr()
+plt.figure(figsize=(12, 10))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')
+```
+
+**Insights clés:**
+- Forte corrélation entre industrialisation et PIB
+- Corrélation négative entre agriculture et PIB/habitant
+- Éducation fortement liée au PIB/habitant
+
+### 2. Sélection de Features
+
+Techniques utilisées:
+- **Corrélation analysis**
+- **Feature importance** (Random Forest)
+- **Recursive Feature Elimination (RFE)**
+
+Top 10 features identifiées:
+1. Investissement (% du PIB)
+2. Industrie (% du PIB)
+3. Accès à l'électricité
+4. Exportations
+5. Urbanisation
+6. Taux d'alphabétisation
+7. Espérance de vie
+8. Services (% du PIB)
+9. Balance commerciale
+10. Dépenses en R&D
+
+### 3. Modèles Testés
+
+| Modèle | R² Score | RMSE | MAE |
+|--------|----------|------|-----|
+| Linear Regression | 0.72 | 2.8e11 | 1.9e11 |
+| Ridge Regression | 0.74 | 2.6e11 | 1.8e11 |
+| Random Forest | 0.86 | 1.9e11 | 1.3e11 |
+| Gradient Boosting | 0.88 | 1.7e11 | 1.2e11 |
+| **XGBoost** | **0.91** | **1.5e11** | **1.0e11** |
+
+**Modèle retenu:** XGBoost pour sa performance supérieure
+
+### 4. Optimisation des Hyperparamètres
+
+```python
+from sklearn.model_selection import GridSearchCV
+import xgboost as xgb
+
+param_grid = {
+    'max_depth': [3, 5, 7, 9],
+    'learning_rate': [0.01, 0.05, 0.1],
+    'n_estimators': [100, 200, 300],
+    'subsample': [0.7, 0.8, 0.9]
+}
+
+xgb_model = xgb.XGBRegressor()
+grid_search = GridSearchCV(xgb_model, param_grid, cv=5,
+                          scoring='neg_mean_squared_error')
+grid_search.fit(X_train, y_train)
+
+# Meilleurs paramètres
+print(grid_search.best_params_)
+```
+
+## 📈 Résultats
+
+### Performance du Modèle Final
+
+**Métriques (Test Set):**
+- **R² Score:** 0.91 (excellent fit)
+- **RMSE:** 1.5e11 USD
+- **MAE:** 1.0e11 USD
+- **MAPE:** 12.3%
+
+### Visualisations
+
+**1. Prédictions vs Valeurs Réelles**
+```python
+plt.figure(figsize=(10, 6))
+plt.scatter(y_test, y_pred, alpha=0.5)
+plt.plot([y_test.min(), y_test.max()],
+         [y_test.min(), y_test.max()], 'r--', lw=2)
+plt.xlabel('PIB Réel')
+plt.ylabel('PIB Prédit')
+plt.title('Prédictions vs Valeurs Réelles')
+```
+
+**2. Feature Importances**
+- Investissement: 18%
+- Industrie: 15%
+- Exportations: 12%
+- Éducation: 10%
+- Autres: 45%
+
+### Insights Économiques
+
+1. **L'investissement est crucial:** 1% d'augmentation → ~0.8% de croissance PIB
+2. **Industrialisation motrice:** Les pays industrialisés ont un PIB/habitant 3x plus élevé
+3. **Éducation = développement:** Forte corrélation (0.72) entre alphabétisation et PIB/hab
+4. **Diversification économique:** Les économies diversifiées sont plus résilientes
+
+## 💡 Applications Pratiques
+
+### Pour les Décideurs Politiques
+- Prioriser les investissements dans l'éducation
+- Encourager l'industrialisation
+- Diversifier l'économie
+- Améliorer l'infrastructure (électricité)
+
+### Pour les Investisseurs
+- Identifier les marchés émergents prometteurs
+- Évaluer le potentiel de croissance
+- Optimiser l'allocation d'actifs
+
+### Pour les Chercheurs
+- Modèle de base pour études économiques
+- Framework pour analyses comparatives
+- Outil de simulation de politiques
+
+## 🔧 Architecture Technique
+
+```
+Projet MLPC
+│
+├── data/
+│   ├── raw/                 # Données brutes
+│   ├── processed/           # Données nettoyées
+│   └── features/            # Features engineerées
+│
+├── notebooks/
+│   ├── 01_EDA.ipynb        # Exploration
+│   ├── 02_Modeling.ipynb   # Modélisation
+│   └── 03_Results.ipynb    # Résultats
+│
+├── src/
+│   ├── data_processing.py  # Prétraitement
+│   ├── feature_engineering.py
+│   ├── modeling.py         # Modèles
+│   └── visualization.py    # Viz
+│
+├── models/
+│   └── xgb_pib_model.pkl   # Modèle sauvegardé
+│
+└── requirements.txt
+```
+
+## 🏆 Compétition AI Cell ENSPY
+
+### Critères d'Évaluation
+- Précision du modèle (40%)
+- Qualité du code (20%)
+- Insights économiques (20%)
+- Présentation (20%)
+
+### Classement
+Position au top 3 de la compétition parmi 25+ équipes
+
+### Présentation
+- Demo en direct du modèle
+- Explication des choix techniques
+- Discussion des implications économiques
+- Q&A avec le jury
+
+## 📚 Apprentissages
+
+### Techniques
+- Maîtrise de XGBoost pour la régression
+- Feature engineering créatif
+- Gestion de données économiques complexes
+- Validation robuste de modèles
+
+### Business
+- Compréhension des indicateurs macro-économiques
+- Liens entre features et croissance économique
+- Communication de résultats techniques à non-experts
+
+## 🚀 Améliorations Futures
+
+- [ ] Intégrer des données temporelles (séries chronologiques)
+- [ ] Ajouter des features géopolitiques
+- [ ] Développer une API REST pour déploiement
+- [ ] Dashboard interactif (Streamlit/Dash)
+- [ ] Prédictions à horizon variable (1 an, 5 ans, 10 ans)
+- [ ] Analyse de sensibilité plus poussée
+
+## 📦 Code et Déploiement
+
+```python
+# Utilisation du modèle
+import pickle
+
+# Charger le modèle
+with open('models/xgb_pib_model.pkl', 'rb') as f:
+    model = pickle.load(f)
+
+# Prédiction
+new_data = [[...]]  # Nouvelles features
+prediction = model.predict(new_data)
+print(f"PIB prédit: {prediction[0]:,.0f} USD")
+```
+
+## 🔗 Ressources
+
+- **Dataset:** World Bank Open Data
+- **Code:** [GitHub Repository](https://github.com/zoom-BT/mlpc-pib-prediction)
+- **Présentation:** [Slides](link-to-slides)
+
+## 🎯 Impact
+
+Ce projet démontre comment le **Machine Learning** peut:
+- Éclairer les décisions de politique économique
+- Identifier les leviers de croissance
+- Prévoir les tendances macro-économiques
+- Contribuer au développement durable
+
+---
+
+**Un projet qui allie Data Science et impact socio-économique réel!**

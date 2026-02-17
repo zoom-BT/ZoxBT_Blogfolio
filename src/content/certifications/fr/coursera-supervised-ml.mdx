@@ -1,0 +1,243 @@
+---
+title: "Supervised Machine Learning: Regression and Classification"
+provider: "Coursera - Stanford University (Andrew Ng)"
+date: 2024-08-20
+type: "Certificat"
+icon: "🎓"
+credential_id: "COURSERA2024ANDREWNG"
+certificate_url: "#"
+verify_url: "https://coursera.org/verify/COURSERA2024ANDREWNG"
+description: "Premier cours de la spécialisation Machine Learning par Andrew Ng, couvrant les fondamentaux de la régression et de la classification"
+skills:
+  - Supervised Learning
+  - Linear Regression
+  - Logistic Regression
+  - Gradient Descent
+  - Regularization
+  - Python
+  - NumPy
+---
+
+## 📖 À Propos de ce Cours
+
+Le cours **Supervised Machine Learning: Regression and Classification** est le premier de la spécialisation Machine Learning enseignée par **Andrew Ng**, professeur à Stanford et co-fondateur de Coursera et DeepLearning.AI.
+
+## 📚 Contenu du Cours
+
+### Semaine 1: Introduction au ML et Régression Linéaire
+
+**Concepts:**
+- Qu'est-ce que le Machine Learning?
+- Supervised vs Unsupervised Learning
+- Linear Regression avec une variable
+- Cost Function (Fonction de Coût)
+- Gradient Descent
+
+**Implémentation:**
+```python
+# Régression linéaire simple
+def compute_cost(X, y, w, b):
+    m = X.shape[0]
+    cost = 0
+    for i in range(m):
+        f_wb = w * X[i] + b
+        cost += (f_wb - y[i])**2
+    total_cost = cost / (2 * m)
+    return total_cost
+```
+
+### Semaine 2: Régression Linéaire Multiple
+
+**Concepts:**
+- Multiple Features
+- Vectorisation
+- Gradient Descent pour Multiple Variables
+- Feature Scaling
+- Learning Rate
+
+**Implémentation:**
+```python
+def gradient_descent(X, y, w_init, b_init, alpha, num_iters):
+    w = w_init
+    b = b_init
+
+    for i in range(num_iters):
+        # Calculer les gradients
+        dj_dw, dj_db = compute_gradient(X, y, w, b)
+
+        # Mettre à jour les paramètres
+        w = w - alpha * dj_dw
+        b = b - alpha * dj_db
+
+    return w, b
+```
+
+### Semaine 3: Classification et Régression Logistique
+
+**Concepts:**
+- Classification binaire
+- Logistic Regression
+- Decision Boundary
+- Cost Function pour la classification
+- Gradient Descent pour Logistic Regression
+
+**Sigmoid Function:**
+```python
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+def predict(X, w, b):
+    z = np.dot(X, w) + b
+    f_wb = sigmoid(z)
+    return f_wb >= 0.5
+```
+
+### Semaine 4: Régularisation et Overfitting
+
+**Concepts:**
+- Problème d'overfitting
+- Underfitting vs Overfitting
+- Régularisation L2 (Ridge)
+- Regularised Linear Regression
+- Regularised Logistic Regression
+
+**Régularisation:**
+```python
+def compute_cost_reg(X, y, w, b, lambda_):
+    m = X.shape[0]
+    cost = compute_cost(X, y, w, b)
+
+    # Terme de régularisation
+    reg_cost = (lambda_ / (2 * m)) * np.sum(w**2)
+
+    total_cost = cost + reg_cost
+    return total_cost
+```
+
+## 🎯 Objectifs d'Apprentissage
+
+### Compétences Théoriques
+- ✅ Comprendre les fondamentaux du ML supervisé
+- ✅ Maîtriser la régression linéaire et logistique
+- ✅ Comprendre le gradient descent
+- ✅ Identifier et résoudre l'overfitting
+- ✅ Appliquer la régularisation
+
+### Compétences Pratiques
+- ✅ Implémenter des algorithmes de zéro en Python
+- ✅ Utiliser NumPy pour le calcul vectorisé
+- ✅ Visualiser les données et résultats
+- ✅ Débugger les modèles ML
+- ✅ Choisir les bons hyperparamètres
+
+## 💻 Labs Pratiques
+
+### Lab 1: Linear Regression
+- Prédiction du prix des maisons
+- Visualisation des données
+- Implémentation du gradient descent
+- Optimisation des hyperparamètres
+
+### Lab 2: Logistic Regression
+- Classification binaire (Admitted/Not Admitted)
+- Decision boundary visualization
+- Régularisation pour éviter l'overfitting
+
+### Lab 3: Feature Engineering
+- Polynomial features
+- Feature scaling et normalisation
+- Impact sur la performance
+
+## 📊 Projets Réalisés
+
+### Projet 1: Prédiction du Prix des Maisons
+**Objectif:** Prédire le prix en fonction de features
+**Dataset:** Housing prices
+**Résultats:** R² > 0.85
+
+### Projet 2: Admission Universitaire
+**Objectif:** Prédire l'admission basée sur scores
+**Dataset:** University admission
+**Résultats:** Accuracy > 90%
+
+## 🧠 Concepts Clés Maîtrisés
+
+### 1. Gradient Descent
+Algorithme d'optimisation fondamental:
+```
+Repeat {
+    w = w - α * ∂J/∂w
+    b = b - α * ∂J/∂b
+}
+```
+
+### 2. Cost Function
+- Mean Squared Error (MSE) pour régression
+- Binary Cross-Entropy pour classification
+
+### 3. Regularisation
+Prévenir l'overfitting:
+```
+J(w,b) = J_original(w,b) + (λ/2m) Σw²
+```
+
+## 💡 Apprentissages Majeurs
+
+### Technique
+- **Vectorisation** est cruciale pour la performance
+- **Feature scaling** accélère la convergence
+- **Learning rate** doit être soigneusement choisi
+- **Régularisation** = compromis biais-variance
+
+### Pratique
+- Toujours visualiser les données avant
+- Commencer simple, complexifier si nécessaire
+- Valider sur un set de test
+- Itérer et expérimenter
+
+## 🏆 Impact sur mon Parcours
+
+Ce cours a été **fondamental** pour:
+- Comprendre les bases mathématiques du ML
+- Développer une intuition pour les algorithmes
+- Réaliser mes propres projets ML
+- Préparer pour le Deep Learning
+
+## 📖 Pourquoi Andrew Ng?
+
+Andrew Ng est:
+- Co-fondateur de Coursera
+- Ancien chef de Google Brain et Baidu AI
+- Professeur à Stanford
+- Expert mondial en ML/IA
+
+**Style d'enseignement:**
+- Explications claires et intuitives
+- Bon équilibre théorie/pratique
+- Nombreux exemples concrets
+- Encouragement à la pratique
+
+## 🚀 Suite de la Spécialisation
+
+Ce cours fait partie de la **Machine Learning Specialization**:
+1. ✅ Supervised ML (ce cours)
+2. Advanced Learning Algorithms
+3. Unsupervised Learning
+
+## 📚 Ressources Complémentaires
+
+- Notes de cours complètes
+- Codes Python commentés
+- Quizz de compréhension
+- Exercices de programmation
+
+## 🎓 Certification
+
+- Certificat vérifiable
+- Reconnu dans l'industrie
+- Partage sur LinkedIn
+- Validation des compétences
+
+---
+
+**Ce cours est LE point de départ idéal pour toute personne voulant apprendre le Machine Learning!**

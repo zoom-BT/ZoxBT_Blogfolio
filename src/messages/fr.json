@@ -1,0 +1,17 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "projects": "Projets",
+    "blog": "Blog",
+    "research": "Recherche",
+    "certifications": "Certifications",
+    "about": "A propos",
+    "contact": "Contact"
+  },
+  "common": {
+    "read_more": "Lire la suite",
+    "view_all": "Voir tout",
+    "back": "Retour",
+    "search": "Rechercher..."
+  }
+}

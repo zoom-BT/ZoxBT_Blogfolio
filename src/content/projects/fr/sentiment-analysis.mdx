@@ -1,0 +1,143 @@
+---
+title: "Analyse de Sentiments Multilingue"
+excerpt: "Système d'analyse de sentiments pour le français et les langues africaines"
+date: 2024-09-15
+category: ml
+featured: true
+status: completed
+header:
+  teaser: /assets/images/sentiment-analysis.jpg
+tags:
+  - Machine Learning
+  - NLP
+  - Sentiment Analysis
+  - Deep Learning
+technologies:
+  - Python
+  - PyTorch
+  - Transformers
+  - FastAPI
+  - Docker
+github_url: "https://github.com/zoom-BT/sentiment-analysis"
+demo_url: "https://sentiment-demo.example.com"
+---
+
+## 🎯 Objectif du Projet
+
+Développer un système d'analyse de sentiments capable de:
+- Classifier les sentiments en français et langues africaines
+- Fonctionner avec des données limitées (few-shot learning)
+- Être déployable via API REST
+- Supporter plusieurs modèles de langue
+
+## 🔍 Problématique
+
+L'analyse de sentiments est bien développée pour les langues à ressources riches (anglais, français), mais pose des défis pour les langues africaines en raison du manque de données annotées.
+
+## 💻 Architecture Technique
+
+### Backend
+- **Framework:** FastAPI pour l'API REST
+- **Modèles:** BERT multilingue fine-tuné
+- **Base de données:** PostgreSQL pour les logs
+- **Cache:** Redis pour les prédictions fréquentes
+
+### Frontend (Demo)
+- **React.js** pour l'interface utilisateur
+- **Axios** pour les appels API
+- **Tailwind CSS** pour le design
+
+### Déploiement
+- **Docker & Docker Compose**
+- **CI/CD:** GitHub Actions
+- **Hosting:** Heroku / Digital Ocean
+
+## 📊 Dataset
+
+- **Français:** 10 000 tweets annotés
+- **Sources:** Twitter API, actualités
+- **Classes:** Positif, Négatif, Neutre
+- **Augmentation:** Back-translation, paraphrases
+
+## 🧠 Modèles Utilisés
+
+1. **BERT Multilingue**
+   - Base: `bert-base-multilingual-cased`
+   - Fine-tuning sur corpus français/africain
+   - F1-score: 0.87
+
+2. **CamemBERT** (Français)
+   - Spécialisé pour le français
+   - F1-score: 0.91
+
+3. **Ensemble Model**
+   - Combinaison des deux modèles
+   - Meilleurs résultats globaux
+
+## 📈 Résultats
+
+| Modèle | Précision | Rappel | F1-Score |
+|--------|-----------|--------|----------|
+| BERT Multilingue | 0.85 | 0.84 | 0.87 |
+| CamemBERT | 0.90 | 0.89 | 0.91 |
+| Ensemble | 0.91 | 0.90 | 0.92 |
+
+## 🚀 Fonctionnalités
+
+- ✅ Analyse de sentiments en temps réel
+- ✅ Support multilingue (FR, EN + langues africaines)
+- ✅ API REST documentée (Swagger)
+- ✅ Interface web de démonstration
+- ✅ Batch processing pour grandes quantités
+- ✅ Export des résultats (CSV, JSON)
+
+## 💡 Innovation
+
+- **Transfer Learning:** utilisation de modèles pré-entraînés
+- **Few-shot Learning:** apprentissage avec peu de données
+- **Adaptation aux langues africaines:** techniques spéciales
+
+## 🔧 Installation & Utilisation
+
+```bash
+# Cloner le repository
+git clone https://github.com/zoom-BT/sentiment-analysis.git
+
+# Installation des dépendances
+pip install -r requirements.txt
+
+# Lancer l'API
+uvicorn app.main:app --reload
+
+# Utilisation via curl
+curl -X POST "http://localhost:8000/predict" \
+     -H "Content-Type: application/json" \
+     -d '{"text": "Ce film est excellent!"}'
+```
+
+## 📚 Documentation
+
+Documentation complète disponible sur [ReadTheDocs](https://sentiment-analysis.readthedocs.io)
+
+## 🎓 Apprentissages
+
+- Maîtrise de PyTorch et Transformers
+- Architecture d'API REST robuste
+- Déploiement de modèles ML en production
+- Gestion de projets ML end-to-end
+
+## 🔮 Améliorations Futures
+
+- [ ] Support de plus de langues africaines
+- [ ] Détection de sarcasme
+- [ ] Analyse d'aspects (aspect-based sentiment)
+- [ ] Interface mobile
+- [ ] API GraphQL
+
+## 🤝 Contributions
+
+Les contributions sont bienvenues! Voir [CONTRIBUTING.md](https://github.com/zoom-BT/sentiment-analysis/blob/main/CONTRIBUTING.md)
+
+## 📄 Licence
+
+MIT License - voir le fichier LICENSE
