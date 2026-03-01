@@ -56,7 +56,7 @@ export default function HeroSection({ locale }: { locale: string }) {
     ? {
       greeting: 'Salut, je suis',
       role: 'Eleve Ingenieur en Genie Informatique',
-      tagline: 'IA/NLP/CV pour les langues africaines',
+      tagline: 'IA/CV/NLP pour les langues africaines',
       cta1: 'Voir mes projets',
       cta2: 'Lire le blog',
       school: 'ENSPY Yaounde',
@@ -64,7 +64,7 @@ export default function HeroSection({ locale }: { locale: string }) {
     : {
       greeting: "Hi, I'm",
       role: 'Computer Engineering Student',
-      tagline: 'AI & NLP for African Languages',
+      tagline: 'CV & NLP for African Languages',
       cta1: 'View my projects',
       cta2: 'Read the blog',
       school: 'ENSPY Yaounde',
@@ -192,7 +192,7 @@ export default function HeroSection({ locale }: { locale: string }) {
               transition={{ delay: 1.2 }}
               className="mt-4 flex flex-wrap gap-2"
             >
-              {['Python', 'TensorFlow', 'NLP', 'Deep Learning', 'React'].map((tech) => (
+              {['Python', 'TensorFlow', 'NLP', 'Deep Learning', 'Computer Vision'].map((tech) => (
                 <span key={tech} className="inline-block rounded-lg border border-[#21262d] bg-[#161b22] px-2.5 py-0.5 text-xs font-medium text-[#8b949e]">{tech}</span>
               ))}
             </motion.div>
