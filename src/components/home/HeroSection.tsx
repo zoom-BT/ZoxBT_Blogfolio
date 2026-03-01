@@ -54,21 +54,21 @@ function TypingEffect({ lines }: { lines: string[] }) {
 export default function HeroSection({ locale }: { locale: string }) {
   const t = locale === 'fr'
     ? {
-        greeting: 'Salut, je suis',
-        role: 'Eleve Ingenieur en Genie Informatique',
-        tagline: 'IA & NLP pour les langues africaines',
-        cta1: 'Voir mes projets',
-        cta2: 'Lire le blog',
-        school: 'ENSPY Yaounde',
-      }
+      greeting: 'Salut, je suis',
+      role: 'Eleve Ingenieur en Genie Informatique',
+      tagline: 'IA/NLP/CV pour les langues africaines',
+      cta1: 'Voir mes projets',
+      cta2: 'Lire le blog',
+      school: 'ENSPY Yaounde',
+    }
     : {
-        greeting: "Hi, I'm",
-        role: 'Computer Engineering Student',
-        tagline: 'AI & NLP for African Languages',
-        cta1: 'View my projects',
-        cta2: 'Read the blog',
-        school: 'ENSPY Yaounde',
-      };
+      greeting: "Hi, I'm",
+      role: 'Computer Engineering Student',
+      tagline: 'AI & NLP for African Languages',
+      cta1: 'View my projects',
+      cta2: 'Read the blog',
+      school: 'ENSPY Yaounde',
+    };
 
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0d1117]">
