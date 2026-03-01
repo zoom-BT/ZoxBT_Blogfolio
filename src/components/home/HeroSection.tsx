@@ -6,8 +6,8 @@ import { useState, useEffect } from 'react';
 
 const codeLines = [
   'const engineer = new Balbino();',
-  'engineer.field = "AI & NLP";',
-  'engineer.focus = "African Languages";',
+  'engineer.field = "CV & NLP";',
+  'engineer.focus = "Traffic Control & African Languages";',
   'await engineer.build(future);',
 ];
 
@@ -192,7 +192,7 @@ export default function HeroSection({ locale }: { locale: string }) {
               transition={{ delay: 1.2 }}
               className="mt-4 flex flex-wrap gap-2"
             >
-              {['Python', 'TensorFlow', 'NLP', 'Deep Learning', 'Computer Vision'].map((tech) => (
+              {['Python', 'TensorFlow', 'NLP', 'YoLo', 'Deep Learning', 'Computer Vision'].map((tech) => (
                 <span key={tech} className="inline-block rounded-lg border border-[#21262d] bg-[#161b22] px-2.5 py-0.5 text-xs font-medium text-[#8b949e]">{tech}</span>
               ))}
             </motion.div>
