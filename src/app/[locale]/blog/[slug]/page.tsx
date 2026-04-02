@@ -20,6 +20,43 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
 
   const back = locale === 'fr' ? 'Retour au blog' : 'Back to blog';
 
+  if (post.comingSoon) {
+    return (
+      <div className="pt-20">
+        <section className="border-b border-[var(--border-light)] bg-[var(--bg-secondary)] py-16">
+          <div className="mx-auto max-w-4xl px-4 md:px-8">
+            <Link href={`/${locale}/blog`} className="mb-4 inline-flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
+              ← {back}
+            </Link>
+            <div className="mb-3 flex flex-wrap items-center gap-3 text-sm text-[var(--text-secondary)]">
+              <time>{formatDate(post.date, locale)}</time>
+              {post.categories?.map((cat) => (
+                <span key={cat} className="tag">{cat}</span>
+              ))}
+              <span className="rounded-full bg-[var(--accent-blue)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                {locale === 'fr' ? 'Bientôt' : 'Coming Soon'}
+              </span>
+            </div>
+            <h1 className="text-3xl font-black text-[var(--text-primary)] md:text-5xl">{post.title}</h1>
+          </div>
+        </section>
+        <section className="py-24" style={{ background: 'var(--bg-primary)' }}>
+          <div className="mx-auto max-w-4xl px-4 text-center md:px-8">
+            <p className="text-6xl mb-6">✍️</p>
+            <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-3">
+              {locale === 'fr' ? 'Article en cours de rédaction' : 'Article in progress'}
+            </h2>
+            <p className="text-[var(--text-secondary)]">
+              {locale === 'fr'
+                ? 'Cet article sera disponible très bientôt. Revenez dans quelques jours !'
+                : 'This article will be available very soon. Check back in a few days!'}
+            </p>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="pt-20">
       {/* Hero */}

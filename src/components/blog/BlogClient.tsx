@@ -48,6 +48,24 @@ export default function BlogClient({ posts, locale }: { posts: BlogPost[]; local
             <AnimatePresence mode="popLayout">
               {filtered.map((post) => (
                 <motion.div key={post.slug} layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+                  {post.comingSoon ? (
+                    <article className="card h-full p-6 opacity-70 cursor-default">
+                      <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-[var(--text-tertiary)]">
+                        <time>{formatDate(post.date, locale)}</time>
+                        {post.categories?.map((cat) => (
+                          <span key={cat} className="tag">{cat}</span>
+                        ))}
+                        <span className="ml-auto rounded-full bg-[var(--accent-blue)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                          {locale === 'fr' ? 'Bientôt' : 'Coming Soon'}
+                        </span>
+                      </div>
+                      <h2 className="mb-2 text-xl font-bold text-[var(--text-primary)]">{post.title}</h2>
+                      <p className="mb-4 line-clamp-3 text-sm text-[var(--text-secondary)]">{post.excerpt}</p>
+                      <div className="flex items-center justify-between text-xs text-[var(--text-tertiary)]">
+                        <span>{post.readingTime}</span>
+                      </div>
+                    </article>
+                  ) : (
                   <Link href={`/${locale}/blog/${post.slug}`}>
                     <article className="card group h-full p-6">
                       <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-[var(--text-tertiary)]">
@@ -68,8 +86,7 @@ export default function BlogClient({ posts, locale }: { posts: BlogPost[]; local
                       </div>
                     </article>
                   </Link>
-                </motion.div>
-              ))}
+                  )}
             </AnimatePresence>
           </motion.div>
 

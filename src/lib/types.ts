@@ -24,6 +24,7 @@ export interface BlogPost {
   excerpt: string;
   teaser?: string;
   toc?: boolean;
+  comingSoon?: boolean;
   readingTime: string;
   content: string;
 }
