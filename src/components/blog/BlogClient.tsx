@@ -49,7 +49,13 @@ export default function BlogClient({ posts, locale }: { posts: BlogPost[]; local
               {filtered.map((post) => (
                 <motion.div key={post.slug} layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
                   {post.comingSoon ? (
-                    <article className="card h-full p-6 opacity-70 cursor-default">
+                    <article className="card h-full overflow-hidden opacity-70 cursor-default">
+                      {post.teaser && (
+                        <div className="h-44 w-full overflow-hidden">
+                          <img src={post.teaser} alt={post.title} className="h-full w-full object-cover" />
+                        </div>
+                      )}
+                      <div className="p-6">
                       <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-[var(--text-tertiary)]">
                         <time>{formatDate(post.date, locale)}</time>
                         {post.categories?.map((cat) => (
@@ -64,10 +70,17 @@ export default function BlogClient({ posts, locale }: { posts: BlogPost[]; local
                       <div className="flex items-center justify-between text-xs text-[var(--text-tertiary)]">
                         <span>{post.readingTime}</span>
                       </div>
+                      </div>
                     </article>
                   ) : (
                   <Link href={`/${locale}/blog/${post.slug}`}>
-                    <article className="card group h-full p-6">
+                    <article className="card group h-full overflow-hidden">
+                      {post.teaser && (
+                        <div className="h-44 w-full overflow-hidden">
+                          <img src={post.teaser} alt={post.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                        </div>
+                      )}
+                      <div className="p-6">
                       <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-[var(--text-tertiary)]">
                         <time>{formatDate(post.date, locale)}</time>
                         {post.categories?.map((cat) => (
@@ -83,6 +96,7 @@ export default function BlogClient({ posts, locale }: { posts: BlogPost[]; local
                       <div className="flex items-center justify-between text-xs text-[var(--text-tertiary)]">
                         <span>{post.readingTime}</span>
                         <span className="font-medium text-[var(--accent-blue)]">{t.read} &rarr;</span>
+                      </div>
                       </div>
                     </article>
                   </Link>

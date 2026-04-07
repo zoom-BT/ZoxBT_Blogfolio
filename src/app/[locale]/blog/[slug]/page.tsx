@@ -77,6 +77,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
         </div>
       </section>
 
+      {/* Cover image */}
+      {post.teaser && (
+        <div className="mx-auto max-w-4xl px-4 md:px-8 mt-8">
+          <img src={post.teaser} alt={post.title} className="w-full rounded-xl object-cover max-h-80" />
+        </div>
+      )}
+
       {/* Content */}
       <section className="py-12" style={{ background: 'var(--bg-primary)' }}>
         <div className="mx-auto max-w-4xl px-4 md:px-8">
