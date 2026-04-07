@@ -61,7 +61,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
     <div className="pt-20">
       {/* Hero */}
       <section className="border-b border-[var(--border-light)] bg-[var(--bg-secondary)] py-16">
-        <div className="mx-auto max-w-4xl px-4 md:px-8">
+        <div className="mx-auto max-w-2xl px-6 md:px-8">
           <Link href={`/${locale}/blog`} className="mb-4 inline-flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
             ← {back}
           </Link>
@@ -79,15 +79,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
 
       {/* Cover image */}
       {post.teaser && (
-        <div className="mx-auto max-w-4xl px-4 md:px-8 mt-8">
+        <div className="mx-auto max-w-2xl px-6 md:px-8 mt-8">
           <img src={post.teaser} alt={post.title} className="w-full rounded-xl object-cover max-h-80" />
         </div>
       )}
 
       {/* Content */}
-      <section className="py-12" style={{ background: 'var(--bg-primary)' }}>
-        <div className="mx-auto max-w-4xl px-4 md:px-8">
-          <article className="prose prose-lg max-w-none" style={{ color: 'var(--text-primary)' }}>
+      <section className="py-16" style={{ background: 'var(--bg-primary)' }}>
+        <div className="mx-auto max-w-2xl px-6 md:px-8">
+          <article className="prose max-w-none" style={{ color: 'var(--text-primary)' }}>
             <MDXRemote source={post.content} />
           </article>
 
