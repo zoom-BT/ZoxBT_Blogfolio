@@ -60,29 +60,40 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
   return (
     <div className="pt-20">
       {/* Hero */}
-      <section className="border-b border-[var(--border-light)] bg-[var(--bg-secondary)] py-16">
-        <div className="mx-auto max-w-2xl px-6 md:px-8">
-          <Link href={`/${locale}/blog`} className="mb-4 inline-flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
+      <section
+        className="relative border-b border-[var(--border-light)] py-20 overflow-hidden"
+        style={post.teaser ? { minHeight: '380px' } : { background: 'var(--bg-secondary)' }}
+      >
+        {post.teaser && (
+          <>
+            <img
+              src={post.teaser}
+              alt={post.title}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/55" />
+          </>
+        )}
+        <div className="relative mx-auto max-w-2xl px-6 md:px-8">
+          <Link
+            href={`/${locale}/blog`}
+            className={`mb-6 inline-flex items-center gap-2 text-sm ${post.teaser ? 'text-white/80 hover:text-white' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'}`}
+          >
             ← {back}
           </Link>
-          <div className="mb-3 flex flex-wrap items-center gap-3 text-sm text-[var(--text-secondary)]">
+          <div className={`mb-4 flex flex-wrap items-center gap-3 text-sm ${post.teaser ? 'text-white/70' : 'text-[var(--text-secondary)]'}`}>
             <time>{formatDate(post.date, locale)}</time>
-            <span>--</span>
+            <span>·</span>
             <span>{post.readingTime}</span>
             {post.categories?.map((cat) => (
-              <span key={cat} className="tag">{cat}</span>
+              <span key={cat} className={post.teaser ? 'rounded border border-white/30 px-2 py-0.5 text-xs text-white/80' : 'tag'}>{cat}</span>
             ))}
           </div>
-          <h1 className="text-3xl font-black text-[var(--text-primary)] md:text-5xl">{post.title}</h1>
+          <h1 className={`text-3xl font-black md:text-5xl leading-tight ${post.teaser ? 'text-white' : 'text-[var(--text-primary)]'}`}>
+            {post.title}
+          </h1>
         </div>
       </section>
-
-      {/* Cover image */}
-      {post.teaser && (
-        <div className="mx-auto max-w-2xl px-6 md:px-8 mt-8">
-          <img src={post.teaser} alt={post.title} className="w-full rounded-xl object-cover max-h-80" />
-        </div>
-      )}
 
       {/* Content */}
       <section className="py-16" style={{ background: 'var(--bg-primary)' }}>
