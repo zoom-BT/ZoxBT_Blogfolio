@@ -5,6 +5,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import { formatDate } from '@/lib/utils';
 import LikeButton from '@/components/blog/LikeButton';
 import CommentSection from '@/components/blog/CommentSection';
+import ShareButtons from '@/components/blog/ShareButtons';
 
 export async function generateStaticParams() {
   const posts = getPosts('fr');
@@ -112,6 +113,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
               ))}
             </div>
           )}
+
+          {/* Share */}
+          <ShareButtons title={post.title} slug={slug} locale={locale} />
 
           {/* Like */}
           <div className="mt-8 flex justify-center">
