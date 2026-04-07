@@ -87,6 +87,8 @@ export default function BlogClient({ posts, locale }: { posts: BlogPost[]; local
                     </article>
                   </Link>
                   )}
+                </motion.div>
+              ))}
             </AnimatePresence>
           </motion.div>
 
