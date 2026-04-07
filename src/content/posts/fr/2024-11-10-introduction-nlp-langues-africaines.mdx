@@ -1,189 +1,93 @@
 ---
-comingSoon: true
-title: "Introduction au NLP pour les Langues Africaines"
-teaser: /images/blog/festival-medumba.jpg
-date: 2024-11-10
+title: "Ma langue, mon projet : pourquoi je veux préserver le Medumba avec l'IA"
+date: 2026-04-07
 categories:
   - NLP
-  - Recherche
+  - Personnel
 tags:
+  - Medumba
   - NLP
   - Langues Africaines
   - IA
-  - Tutorial
-header:
-  teaser: /assets/images/nlp-africa.jpg
-  overlay_image: /assets/images/nlp-africa-header.jpg
-  overlay_filter: 0.5
-excerpt: "Découvrez les défis et opportunités du traitement automatique des langues africaines"
+  - Cameroun
+teaser: /images/blog/festival-medumba.jpg
+excerpt: "Le Medumba est ma langue maternelle. 210 000 locuteurs, zéro outil numérique. Voici pourquoi je veux changer ça avec l'IA."
 ---
 
-## Introduction
-
-Le Traitement du Langage Naturel (NLP) a fait d'énormes progrès ces dernières années avec des modèles comme BERT, GPT et autres transformers. Cependant, ces avancées profitent principalement aux langues à ressources riches comme l'anglais, le chinois ou le français.
-
-Qu'en est-il des **2 000+ langues africaines**? Comment pouvons-nous appliquer le NLP à ces langues pour:
-- Préserver le patrimoine linguistique
-- Améliorer l'accès à l'information
-- Réduire la fracture numérique
-
-## Les Défis Spécifiques
-
-### 1. Manque de Données
-
-La plupart des langues africaines sont **sous-dotées en ressources numériques**:
-- Peu ou pas de corpus textuels
-- Absence de dictionnaires électroniques
-- Manque de données annotées
-- Ressources limitées pour la collecte
-
-### 2. Diversité Linguistique
-
-L'Afrique compte:
-- Plus de **2 000 langues**
-- 4 grandes familles linguistiques
-- De nombreux dialectes et variantes
-- Systèmes d'écriture variés
-
-### 3. Problèmes d'Orthographe
-
-Beaucoup de langues africaines n'ont pas:
-- De standardisation orthographique établie
-- De règles grammaticales codifiées
-- De consensus sur la transcription
-
-## Opportunités et Solutions
-
-### Transfer Learning
-
-L'apprentissage par transfert permet de:
-```python
-# Exemple: Fine-tuning d'un modèle multilingue
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
-
-model = AutoModelForSequenceClassification.from_pretrained(
-    "bert-base-multilingual-cased",
-    num_labels=3
-)
-
-# Fine-tuning avec peu de données
-trainer.train()
-```
-
-### Augmentation de Données
-
-Techniques pour pallier le manque de données:
-- **Back-translation:** traduction aller-retour
-- **Paraphrase:** reformulation automatique
-- **Collecte communautaire:** plateformes participatives
-
-### Modèles Multilingues
-
-Utilisation de modèles pré-entraînés:
-- mBERT (BERT Multilingue)
-- XLM-RoBERTa
-- AfroLM (spécifique aux langues africaines)
-
-## Cas d'Usage Pratiques
-
-### 1. Traduction Automatique
-
-Développer des systèmes de traduction:
-- Langue locale ↔ Français/Anglais
-- Faciliter la communication
-- Accès aux contenus éducatifs
-
-### 2. Reconnaissance Vocale
-
-Applications pour:
-- Assistants vocaux en langues locales
-- Transcription automatique
-- Accessibilité pour illettrés
-
-### 3. Analyse de Sentiments
-
-Comprendre l'opinion sur:
-- Réseaux sociaux
-- Feedback clients
-- Analyse politique
-
-## Ressources Disponibles
-
-### Datasets
-
-- **JW300:** Corpus parallèle multilingue
-- **ALFFA:** Corpus de parole africaine
-- **Masakhane:** Initiative communautaire de NLP africain
-
-### Outils
-
-```python
-# Exemple avec la bibliothèque 'africanlp'
-from africanlp import load_model
-
-model = load_model('your_language')
-tokens = model.tokenize("Votre texte")
-```
-
-### Communautés
-
-- [Masakhane](https://www.masakhane.io/): Communauté NLP pour l'Afrique
-- [AfricaNLP Workshop](https://africanlp.github.io/)
-- Groupes de recherche universitaires
-
-## Comment Contribuer?
-
-### 1. Collecte de Données
-
-- Numériser des textes existants
-- Enregistrer des conversations
-- Créer des corpus annotés
-
-### 2. Développement d'Outils
-
-- Tokenizers adaptés
-- Modèles de langue
-- APIs et bibliothèques
-
-### 3. Recherche
-
-- Publier des articles
-- Partager les résultats
-- Collaborer internationalement
-
-## Mon Expérience: Projet Medumba
-
-J'ai développé un corpus pour le **Medumba**, langue camerounaise:
-- 5 000+ phrases collectées
-- Tokenizer personnalisé
-- Modèle de traduction prototype
-
-**Apprentissages clés:**
-- La collecte manuelle est laborieuse mais nécessaire
-- L'implication de la communauté est cruciale
-- Les petits modèles peuvent donner de bons résultats
-
-## Conclusion
-
-Le NLP pour les langues africaines est un domaine:
-- **Prometteur:** énorme potentiel d'impact
-- **Challengeant:** nombreux obstacles techniques
-- **Nécessaire:** pour l'inclusion numérique
-
-Chacun peut contribuer, que vous soyez:
-- Développeur
-- Linguiste
-- Locuteur natif
-- Passionné de technologie
-
-## Ressources Complémentaires
-
-- [Tutorial: Build your first African Language Model](https://example.com)
-- [Paper: Low-Resource NLP for African Languages](https://arxiv.org)
-- [GitHub: Awesome African NLP](https://github.com/awesome-african-nlp)
+Je m'appelle **Balbino Tchoutzine**, étudiant en 4e année de Génie Informatique à l'ENSPY *(École Nationale Supérieure Polytechnique de Yaoundé)*, Deep Learning enthusiast — et si vous voulez en savoir plus sur mon parcours dans l'IA, [j'y consacre un article entier ici](/fr/blog/mon-parcours-ia). Mais aujourd'hui, je veux parler d'autre chose : ma langue maternelle, le **Medumba**.
 
 ---
 
-**Questions? Commentaires?** N'hésitez pas à me contacter ou à commenter ci-dessous!
+## Le Medumba, c'est quoi ?
 
-**Tags:** #NLP #Africa #AI #MachineLearning #LanguagePreservation
+{/* 📸 IMAGE RECOMMANDÉE : Une photo de Bangangté, du marché central ou du paysage de l'Ouest Cameroun */}
+
+Le Medumba est la langue du **Département du Ndé**, dans la région de l'Ouest Cameroun. Elle est parlée à **Bangangté** — le chef-lieu du département — mais aussi dans une dizaine de villages alentour : Bakong, Bangoulap, Bahouoc, Bagnoun, Tonga et bien d'autres. On compte environ **210 000 locuteurs**.
+
+C'est la langue de ma famille. Celle que j'entendais chaque jour à la maison, dans la bouche de mes parents.
+
+Pourtant, moi, je ne la parle pas vraiment.
+
+---
+
+## L'école prend toute la place
+
+Le français d'abord, l'anglais ensuite. C'est la réalité de beaucoup d'étudiants africains : les langues maternelles restent à la maison pendant que les langues d'étude occupent tout l'espace intellectuel. Je ne le vis pas comme un regret pesant — c'est juste la réalité dans laquelle j'ai grandi.
+
+Mais avec le temps, une envie s'est installée. Pas forcément l'envie de parler le Medumba couramment du jour au lendemain, mais quelque chose de plus grand : l'envie de le **préserver**. Pour les générations futures. Et pour moi aussi.
+
+---
+
+## Le déclic : NLP for African Languages
+
+{/* 📸 IMAGE RECOMMANDÉE : Screenshot ou bannière du site Masakhane, ou une capture du festival FESTAC Medumba */}
+
+Quand j'ai commencé à m'intéresser à l'IA, j'ai découvert une tendance qui prenait de l'ampleur sur le continent : utiliser le **NLP** *(Natural Language Processing)* pour donner une existence numérique à des langues jusque-là invisibles.
+
+Des initiatives comme [Masakhane](https://www.masakhane.io/), pionnière en Afrique sub-saharienne. Ou [GalsenAI](https://github.com/GalsenAICommunity), la communauté sénégalaise qui fait un travail remarquable pour le Wolof — traducteur, synthèse vocale, modèles de langage. Des étudiants, des chercheurs, des passionnés qui prouvent que c'est possible, et qui le font.
+
+Et plus près de chez moi — **à l'ENSPY même** — des aînés de Polytech ont fait la même chose avec le **Yemba**, langue de la région de Dschang. Ça, ça m'a vraiment parlé.
+
+Je me suis dit : *le Medumba mérite ça aussi. Et je peux le faire.*
+
+---
+
+## Ce que je veux construire
+
+Mon objectif concret, c'est un **traducteur automatique pour le Medumba** — quelque chose qui pourrait être intégré dans des plateformes ou des chatbots accessibles au grand public.
+
+{/* 📸 IMAGE RECOMMANDÉE : Un schéma simple montrant : Medumba → Modèle NLP → Français/Anglais, ou une capture d'un chatbot existant pour illustrer l'idée */}
+
+Pas forcément révolutionnaire sur le papier. Mais un outil **utile, concret, accessible** — quelque chose qui met la langue en avant et résout un vrai problème.
+
+---
+
+## Le vrai défi : la donnée
+
+Est-ce que j'ai déjà commencé ? Honnêtement, **pas encore vraiment**. Et le principal obstacle n'est pas la technique — les compétences s'acquièrent, les ressources sont nombreuses et souvent gratuites.
+
+Je suis actuellement le programme [Google DeepMind AI Research Foundations](https://www.skills.google/collections/deepmind), une excellente immersion dans les grands modèles de langage et leurs applications NLP. Je recommande si vous êtes étudiant en informatique.
+
+Le vrai défi, c'est la **donnée numérique**. Les ressources écrites en Medumba sont limitées et difficiles à trouver en ligne. Mais la donnée, elle, **existe**. Elle est vivante :
+
+- Dans la bouche des **210 000 locuteurs**
+- Dans les **familles** — la mienne la première
+- Dans les **villages**, les conversations quotidiennes, les cérémonies
+
+La collecter et la transcrire prend du temps et des ressources. Mais c'est tout à fait **faisable**.
+
+---
+
+## Mon message
+
+{/* 📸 IMAGE RECOMMANDÉE : Une photo personnelle, ou une image symbolique — jeune africain devant un écran, ou une carte des langues africaines */}
+
+Si tu es étudiant et que ta langue maternelle n'a aucun outil numérique : **lance-toi**.
+
+Pas pour résoudre un grand problème dès le départ. Juste pour construire quelque chose d'**utile**, quelque chose qui met ta langue en avant. Et si ta langue a déjà quelques ressources — va plus loin, vulgarise-la, crée des outils qui la rendent accessible.
+
+L'IA offre aujourd'hui des moyens concrets pour faire ça. Autant en profiter.
+
+---
+
+*Ce projet est au début. Ce blog aussi. Mais les deux avancent — et je vous emmène avec moi.*
