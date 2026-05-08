@@ -1,0 +1,176 @@
+---
+title: "Tchoutzify: give meaning to every track and build your mood playlists"
+date: 2026-05-04
+categories:
+  - AI
+  - Project
+tags:
+  - n8n
+  - Spotify
+  - AI Agent
+  - Automation
+  - Python
+  - Telegram
+teaser: /images/blog/tunezine-cover.png
+excerpt: "From Kanye West to a full music agent — how the frustration of not understanding a song pushed me to build TuneZine AI, a 100% free n8n agent that analyzes your music in real time."
+---
+
+It was around 7 in the morning. I was making coffee, Spotify playing in the background, when suddenly a sound hit me. A rising string section, a heavy bass, a voice that seemed to carry the weight of the entire world.
+
+**Power. Kanye West. My Beautiful Dark Twisted Fantasy.**
+
+![Spotify showing Power by Kanye West](/images/blog/powerSpotify.png)
+
+I deeply loved what I was hearing. The flow, the energy, the sound construction. But the lyrics completely escaped me. I didn't understand what Kanye was saying, what he was living through, what he was conveying.
+
+And then, a simple thought: *I like giving meaning to what I do.*
+
+Listening to music without understanding its message is like reading a book while only looking at the illustrations. The beauty is there, but the depth is missing.
+
+---
+
+## The idea that changed everything
+
+I thought: what if every time a new song started playing, someone told me its story? Not a cold translation. A real narrative. The context, the era, the artist, what they wanted to say — all in French, delivered within seconds.
+
+**TuneZine AI** was born from that frustration.
+
+An agent that turns every listening session into learning. Every track becomes a story. Every song change becomes a lesson in culture, emotion, and humanity.
+
+And the best part? **100% free to build.**
+
+---
+
+## What TuneZine AI does
+
+Concretely, here's what happens every time you change a song on Spotify:
+
+1. An **n8n** workflow detects the change within 5 seconds
+2. **Google Gemini** generates a cultural and musical narrative
+3. **Henri** — a natural Microsoft Edge TTS male voice — pauses the music, reads the narration, resumes
+4. The full message arrives on your **Telegram bot**
+
+![TuneZine AI architecture schema](/images/blog/schemaArchitecture.png)
+
+You can also send "analyse" to your bot for an immediate analysis, or "concentration" to start a playlist adapted to your current state.
+
+---
+
+## A concrete example
+
+Imagine you're listening to *Children* by Robert Miles. Within seconds, Henri tells you:
+
+> *"It's 1996, and Robert Miles, a 24-year-old Italian DJ, has just created something unusual in the techno world. Children isn't just a haunting melody — it's a direct response to the car accidents that happened after club nights, when people drove home exhausted after hours of intense music. Miles wanted to create something softer to end evenings, something that would allow people to gradually come down. The soaring synthesizers and repetitive melodies are no accident — they're designed to calm, to bring back a quieter state of consciousness. The deep message of this track is as simple as it is moving: music can save lives."*
+
+![Analysis received on the Telegram bot](/images/blog/AnalyseBootWU.png)
+
+That's TuneZine AI.
+
+---
+
+## The tech stack — all free
+
+What surprised me most while building this is that you can build something this powerful without spending a single cent on AI tools.
+
+| Component | Technology | Cost |
+|-----------|------------|------|
+| Orchestration | n8n self-hosted | Free |
+| Intelligence | Google Gemini 2.5 Flash | Free |
+| Voice | Microsoft Edge TTS | Free |
+| Notifications | Telegram Bot API | Free |
+| Music | Spotify Web API | Free* |
+
+*\*Spotify Premium at $3.29/month required for playback control*
+
+![The 4 active workflows in n8n](/images/blog/ScreenQuatrewFN8N.jpg)
+
+---
+
+## How I designed it
+
+I started by defining the complete design before writing a single line of code. A detailed spec, a thought-out architecture, documented decisions.
+
+Then I coded the Python server first — the local part that handles pause/TTS/resume. With unit tests for each component.
+
+```python
+class TTSEngine:
+    def __init__(self, voice: str = 'fr-FR-HenriNeural'):
+        self.voice = voice
+        pygame.mixer.init()
+
+    def speak(self, text: str):
+        tmp_path = tempfile.mktemp(suffix='.mp3')
+        asyncio.run(self._generate(text, tmp_path))
+        pygame.mixer.music.load(tmp_path)
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy():
+            pygame.time.wait(100)
+        pygame.mixer.music.unload()
+        os.unlink(tmp_path)
+```
+
+Then the 4 n8n workflows, built node by node, tested live with Spotify.
+
+![The spotify-watcher workflow in n8n](/images/blog/wf1.jpg)
+
+---
+
+## The struggles (and what I learned)
+
+This project taught me more than I expected. Not just about the technical side — about perseverance.
+
+**Spotify and its restrictions.** The Spotify API in developer mode blocks certain operations. I had to work around it using the Windows window title to detect tracks without Premium, and find alternative endpoints to create playlists.
+
+**Groq rate limits.** Through testing, I burned through the 100k free daily tokens. I migrated to Gemini mid-project — and ultimately both coexist.
+
+**n8n and expressions.** n8n's expression engine is powerful but demands precision. Every `$('NodeName').first().json` must match exactly the node name on the canvas.
+
+Every blocker taught something. That's the real lesson.
+
+---
+
+## For the community
+
+If you want to build your own TuneZine AI, all the code is available on GitHub:
+
+**[github.com/zoom-BT/Tchoutzify-Agent](https://github.com/zoom-BT/Tchoutzify-Agent)**
+
+![TuneZine AI bot on Telegram](/images/blog/TuneZineBotprofil.png)
+
+The README contains all installation instructions. You'll need:
+- Python 3.10+
+- Node.js (for n8n)
+- A Spotify Developer account (free)
+- A Telegram bot (@BotFather)
+- A Gemini API key (free at aistudio.google.com)
+
+This project is a starting point. You can adapt it, improve it, add new languages, new notification channels, new music sources.
+
+**The code belongs to the community. Fork it, improve it, share it.**
+
+---
+
+## What I truly learned
+
+Beyond the technical side, this project taught me something important:
+
+**The best ideas are born from personal frustration.**
+
+I wasn't trying to build "an AI agent". I was trying to solve my own problem — understanding the music I love. The agent came naturally.
+
+If you have a recurring frustration in your life, something that holds you back — that's probably where your next project is hiding.
+
+And you don't need a big budget. You don't need a team. You need curiosity, perseverance, and the right tools.
+
+The tools are there. Free. Powerful. Accessible.
+
+---
+
+> *"Music can change the world because it can change people."*
+> — Bono
+
+TuneZine AI doesn't change the world. But it changes the way I experience music — and maybe it will change yours too.
+
+---
+
+*The source code is available on [GitHub](https://github.com/zoom-BT/Tchoutzify-Agent). Feel free to open an issue, suggest an improvement, or just let me know what you think.*
