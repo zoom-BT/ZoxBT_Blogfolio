@@ -9,8 +9,9 @@ import CommentSection from '@/components/blog/CommentSection';
 import ShareButtons from '@/components/blog/ShareButtons';
 
 function renderTitle(title: string) {
-  if (!title.includes('Tchoutzify')) return title;
-  const parts = title.split('Tchoutzify');
+  const match = title.match(/TCHOUTZIFY|Tchoutzify/);
+  if (!match) return title;
+  const parts = title.split(match[0]);
   return (
     <>
       {parts[0]}
@@ -18,7 +19,7 @@ function renderTitle(title: string) {
         color: '#1DB954',
         textShadow: '0 0 12px rgba(29,185,84,0.8), 0 0 30px rgba(29,185,84,0.5), 0 0 60px rgba(29,185,84,0.25)',
       }}>
-        Tchoutzify
+        {match[0]}
       </span>
       {parts[1]}
     </>
