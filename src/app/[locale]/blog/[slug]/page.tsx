@@ -7,6 +7,23 @@ import LikeButton from '@/components/blog/LikeButton';
 import CommentSection from '@/components/blog/CommentSection';
 import ShareButtons from '@/components/blog/ShareButtons';
 
+function renderTitle(title: string) {
+  if (!title.includes('Tchoutzify')) return title;
+  const parts = title.split('Tchoutzify');
+  return (
+    <>
+      {parts[0]}
+      <span style={{
+        color: '#1DB954',
+        textShadow: '0 0 12px rgba(29,185,84,0.8), 0 0 30px rgba(29,185,84,0.5), 0 0 60px rgba(29,185,84,0.25)',
+      }}>
+        Tchoutzify
+      </span>
+      {parts[1]}
+    </>
+  );
+}
+
 export async function generateStaticParams() {
   const posts = getPosts('fr');
   return ['fr', 'en'].flatMap((locale) =>
@@ -91,7 +108,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
             ))}
           </div>
           <h1 className={`text-3xl font-black md:text-5xl leading-tight ${post.teaser ? 'text-white' : 'text-[var(--text-primary)]'}`}>
-            {post.title}
+            {renderTitle(post.title)}
           </h1>
         </div>
       </section>
