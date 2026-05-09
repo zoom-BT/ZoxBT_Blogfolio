@@ -30,7 +30,7 @@ export default function Navbar({ locale }: { locale: string }) {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
           useHeroStyle
             ? 'bg-transparent'
             : 'glass shadow-sm'
@@ -111,7 +111,7 @@ export default function Navbar({ locale }: { locale: string }) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', damping: 25 }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-6 md:hidden"
+            className="fixed inset-0 z-[90] flex flex-col items-center justify-center gap-6 md:hidden"
             style={{ background: 'var(--bg-primary)' }}
           >
             {items.map((item, i) => (
