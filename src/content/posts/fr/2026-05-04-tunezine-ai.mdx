@@ -23,9 +23,9 @@ Je faisais quelques rangements dans ma chambre, Spotify tournait en fond, et sou
 
 J'aimais profondément ce que j'entendais. Le flow, l'énergie, la construction du son. Mais les paroles m'échappaient complètement. Je ne comprenais pas ce que Kanye voulait dire, ce qu'il vivait, ce qu'il transmettait.
 
-Et là, une pensée simple : *j'aime donner du sens à ce que je fais.*
+Je suis quelqu'un qui a besoin de comprendre ce qu'il fait, pourquoi il le fait. Pas juste ressentir, mais *saisir*. C'est cette façon de fonctionner qui m'a naturellement amené à chercher une solution. Et avec les cours du **Batch** de 6h30 , les agents  étaient déjà bien présents dans ma tête, l'idée d'en construire un est venue toute seule.
 
-Écouter de la musique sans en comprendre le message, c'est comme lire un livre en ne regardant que les illustrations. La beauté est là, mais la profondeur manque.
+Écouter de la musique sans en comprendre le message, c'est comme lire un livre en ne regardant que les illustrations ou images. La beauté est là, mais la profondeur manque.
 
 ---
 
@@ -43,13 +43,13 @@ Et le meilleur ? **100% gratuit à construire.**
 
 ## Tchoutzify ou TuneZine AI ? Les deux, chef.
 
-Petit aveu avant de continuer : ce projet a deux noms.
+Ce projet a deux noms, et ce n'est pas un hasard.
 
-**TuneZine AI** sur GitHub, le nom "sérieux", celui que tu mets dans un CV sans avoir honte.
+Après avoir filtré pas mal d'options, j'ai gardé **TuneZine AI** : *iTunes* fusionné avec *Tchoutzine*. C'est le nom du système entier, l'architecture, ce que tu déploies.
 
-**Tchoutzify** dans la vraie vie, parce que mon nom de famille c'est Tchoutzine, que ça sonne un peu comme Spotify, et que honnêtement c'est beaucoup plus marrant à dire à voix haute. Essaie. *Tchoutzify.* Tu vois.
+Et **Tchoutzify** pour l'agent lui-même : *Tchoutzine* croisé avec *Spotify*. C'est lui qui écoute, qui analyse, qui te parle.
 
-Les deux désignent la même chose. Choisis celui que tu préfères.
+TuneZine AI est le cerveau. Tchoutzify est la voix.
 
 ---
 
@@ -100,13 +100,13 @@ C'est ce genre de moment qui te fait réaliser que tu as construit quelque chose
 
 Ce qui m'a le plus surpris en buildant ça, c'est qu'on peut construire quelque chose d'aussi puissant sans dépenser un centime sur les outils IA.
 
-| Composant | Technologie | Coût |
-|-----------|-------------|------|
-| Orchestration | n8n self-hosted | Gratuit |
-| Intelligence | Google Gemini 2.5 Flash | Gratuit |
-| Voix | Microsoft Edge TTS | Gratuit |
-| Notifications | Telegram Bot API | Gratuit |
-| Musique | Spotify Web API | Gratuit* |
+| Composant | Technologie | Rôle | Coût |
+|-----------|-------------|------|------|
+| Orchestration | n8n self-hosted | Coordonne tous les workflows | Gratuit |
+| Intelligence | Google Gemini 2.5 Flash | Génère les narrations culturelles | Gratuit |
+| Voix | Microsoft Edge TTS | Lit l'analyse à voix haute | Gratuit |
+| Notifications | Telegram Bot API | Envoie les analyses, reçoit les humeurs | Gratuit |
+| Musique | Spotify Web API | Détecte les morceaux, crée les playlists | Gratuit* |
 
 *\*J'ai d'abord fait tourner le projet sans Spotify Premium, et ça marche très bien. L'essai gratuit que tout le monde peut activer suffit largement pour démarrer.*
 
@@ -123,23 +123,51 @@ Puis j'ai codé le serveur Python d'abord, la partie locale qui gère la pause/T
 ```python
 class TTSEngine:
     def __init__(self, voice: str = 'fr-FR-HenriNeural'):
-        self.voice = voice
-        pygame.mixer.init()
+        self.voice = voice          # Henri. Pas de discussion.
+        pygame.mixer.init()         # On réveille les haut-parleurs
 
     def speak(self, text: str):
         tmp_path = tempfile.mktemp(suffix='.mp3')
-        asyncio.run(self._generate(text, tmp_path))
+        asyncio.run(self._generate(text, tmp_path))  # Gemini a parlé, Henri suit
         pygame.mixer.music.load(tmp_path)
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy():
-            pygame.time.wait(100)
+            pygame.time.wait(100)   # On attend Henri, on ne le rush pas
         pygame.mixer.music.unload()
-        os.unlink(tmp_path)
+        os.unlink(tmp_path)         # Propre. Pas de trace. Comme un pro.
+```
+
+En résumé, tout Tchoutzify tient en une ligne :
+
+```python
+tchoutzify = n8n + gemini + edge_tts + telegram + spotify  # gratuit. vraiment.
+```
+
+Et voici ce que Tchoutzify "voit" en coulisses à chaque changement de morceau :
+
+```
+[05:21:03] 🎵 Track changed → "Power" by Kanye West
+[05:21:04] 🧠 Sending to Gemini 2.5 Flash...
+[05:21:06] ✅ Narration ready (312 tokens)
+[05:21:06] 🔇 Spotify paused
+[05:21:06] 🗣️  Henri speaking...
+[05:21:41] ▶️  Spotify resumed
+[05:21:41] 📩 Message sent to Telegram
 ```
 
 Ensuite les 4 workflows n8n, construits node par node, testés en direct avec Spotify.
 
-<img src="/images/blog/wf1.jpg" alt="Le workflow spotify-watcher dans n8n" style={{maxWidth: '600px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
+**`spotify_watcher`** — détecte chaque changement de morceau en 5 secondes
+<img src="/images/blog/wf1.jpg" alt="Workflow spotify_watcher dans n8n" style={{maxWidth: '600px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**`llm_narrator`** — envoie le titre à Gemini, récupère la narration
+<img src="/images/blog/wf2.jpg" alt="Workflow llm_narrator dans n8n" style={{maxWidth: '600px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**`mood_engine`** — lit ton humeur sur Telegram, génère et lance la playlist
+<img src="/images/blog/wf3.jpg" alt="Workflow mood_engine dans n8n" style={{maxWidth: '600px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**`tts_runner`** — déclenche Henri, pause Spotify, reprend après la lecture
+<img src="/images/blog/wf4.jpg" alt="Workflow tts_runner dans n8n" style={{maxWidth: '600px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
 
 ---
 
