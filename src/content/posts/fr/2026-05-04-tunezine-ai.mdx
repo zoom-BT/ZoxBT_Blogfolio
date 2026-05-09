@@ -15,11 +15,11 @@ teaser: /images/blog/tunezine-cover.png
 excerpt: "De Kanye West à un agent musical complet — comment la frustration de ne pas comprendre une chanson m'a poussé à construire TuneZine AI, un agent n8n 100% gratuit qui analyse ta musique en temps réel."
 ---
 
-Il était environ 7h du matin. Je préparais mon café, Spotify tournait en fond, et soudain ce son m'a traversé. Une montée de cordes, une basse lourde, une voix qui semblait porter le poids du monde entier.
+Je faisais quelques rangements dans ma chambre, Spotify tournait en fond, et soudain ce son m'a traversé. Une montée de cordes, une basse lourde, une voix qui semblait porter le poids du monde entier.
 
 **Power. Kanye West. My Beautiful Dark Twisted Fantasy.**
 
-![Spotify affichant Power de Kanye West](/images/blog/powerSpotify.png)
+<img src="/images/blog/powerSpotify.png" alt="Spotify affichant Power de Kanye West" style={{maxWidth: '480px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
 
 J'aimais profondément ce que j'entendais. Le flow, l'énergie, la construction du son. Mais les paroles m'échappaient complètement. Je ne comprenais pas ce que Kanye voulait dire, ce qu'il vivait, ce qu'il transmettait.
 
@@ -31,7 +31,7 @@ Et là, une pensée simple : *j'aime donner du sens à ce que je fais.*
 
 ## L'idée qui a tout changé
 
-Je me suis dit : et si chaque fois qu'un nouveau son commençait à jouer, quelqu'un me racontait son histoire ? Pas une traduction froide. Une vraie narration. Le contexte, l'époque, l'artiste, ce qu'il voulait dire — le tout en français, livré en quelques secondes.
+Je me suis dit : et si chaque fois qu'un nouveau son commençait à jouer, quelqu'un me racontait son histoire ? Pas une traduction froide. Une vraie narration. Le contexte, l'époque, l'artiste, ce qu'il voulait dire, le tout en français, livré en quelques secondes.
 
 **TuneZine AI** est né de cette frustration.
 
@@ -41,18 +41,30 @@ Et le meilleur ? **100% gratuit à construire.**
 
 ---
 
+## Tchoutzify ou TuneZine AI ? Les deux, chef.
+
+Petit aveu avant de continuer : ce projet a deux noms.
+
+**TuneZine AI** sur GitHub, le nom "sérieux", celui que tu mets dans un CV sans avoir honte.
+
+**Tchoutzify** dans la vraie vie, parce que mon nom de famille c'est Tchoutzine, que ça sonne un peu comme Spotify, et que honnêtement c'est beaucoup plus marrant à dire à voix haute. Essaie. *Tchoutzify.* Tu vois.
+
+Les deux désignent la même chose. Choisis celui que tu préfères.
+
+---
+
 ## Ce que fait TuneZine AI
 
 Concrètement, voici ce qui se passe chaque fois que tu changes de morceau sur Spotify :
 
 1. Un workflow **n8n** détecte le changement en 5 secondes
 2. **Google Gemini** génère une narration culturelle et musicale
-3. **Henri** — une voix masculine naturelle Microsoft Edge TTS — pause la musique, lit la narration, reprend
+3. **Henri**, une voix masculine naturelle Microsoft Edge TTS, pause la musique, lit la narration, reprend
 4. Le message complet arrive sur ton **bot Telegram**
 
-![Schéma de l'architecture TuneZine AI](/images/blog/schemaArchitecture.png)
+<img src="/images/blog/schemaArchitecture.png" alt="Schéma de l'architecture TuneZine AI" style={{maxWidth: '600px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
 
-Tu peux aussi envoyer "analyse" à ton bot pour une analyse immédiate, ou "concentration" pour lancer une playlist adaptée à ton état.
+Tu peux aussi envoyer "analyse" à ton bot pour une analyse immédiate.
 
 ---
 
@@ -60,15 +72,31 @@ Tu peux aussi envoyer "analyse" à ton bot pour une analyse immédiate, ou "conc
 
 Imagine que tu écoutes *Children* de Robert Miles. En quelques secondes, Henri te dit :
 
-> *"Nous sommes en 1996, et Robert Miles, un jeune DJ italien de 24 ans, vient de créer quelque chose d'inhabituel dans le monde de la techno. Children n'est pas seulement une mélodie envoûtante — c'est une réponse directe aux accidents de voiture qui survenaient après les nuits en boîte, quand des gens conduisaient épuisés après des heures de musique intense. Miles voulait créer quelque chose de plus doux pour finir les soirées, quelque chose qui permettrait aux gens de redescendre progressivement. Les synthétiseurs planants et les mélodies répétitives ne sont pas un hasard — ils sont conçus pour calmer, pour ramener à un état de conscience plus tranquille. Le message profond de ce morceau est aussi simple que bouleversant : la musique peut sauver des vies."*
+> *"Nous sommes en 1996, et Robert Miles, un jeune DJ italien de 24 ans, vient de créer quelque chose d'inhabituel dans le monde de la techno. Children n'est pas seulement une mélodie envoûtante, c'est une réponse directe aux accidents de voiture qui survenaient après les nuits en boîte, quand des gens conduisaient épuisés après des heures de musique intense. Le message profond de ce morceau est aussi simple que bouleversant : la musique peut sauver des vies."*
 
-![Analyse reçue sur le bot Telegram](/images/blog/AnalyseBootWU.png)
+<img src="/images/blog/AnalyseBootWU.png" alt="Analyse reçue sur le bot Telegram" style={{maxWidth: '420px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
 
 C'est ça, TuneZine AI.
 
 ---
 
-## La stack technique — tout gratuit
+## La playlist d'humeur : le second super-pouvoir
+
+L'analyse de morceaux c'est bien. Mais il y a un second use case que j'utilise encore plus souvent.
+
+Tu envoies ton humeur au bot, un mot suffit. **"Fatigué"**, **"Motivé"**, **"Nostalgique"**, **"Concentration"**. En quelques secondes, Tchoutzify crée une playlist adaptée directement dans Spotify et la lance.
+
+<img src="/images/blog/PlayListdansleBot.jpg" alt="Le bot Telegram crée une playlist à partir de mon humeur" style={{maxWidth: '420px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
+
+Un soir à 5h22 du matin, j'envoie "Fatigué 😴". Le bot me génère une playlist "Matinée Douce" avec Weightless de Marconi Union, Clair de Lune de Debussy, River Flows in You de Yiruma... et elle se lance automatiquement dans Spotify.
+
+<img src="/images/blog/PlaylistcreeFatigue.png" alt="La playlist générée dans Spotify avec les morceaux en file d'attente" style={{maxWidth: '560px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
+
+C'est ce genre de moment qui te fait réaliser que tu as construit quelque chose d'utile pour toi-même. Et c'est exactement là que doit naître un projet.
+
+---
+
+## La stack technique, tout gratuit
 
 Ce qui m'a le plus surpris en buildant ça, c'est qu'on peut construire quelque chose d'aussi puissant sans dépenser un centime sur les outils IA.
 
@@ -80,9 +108,9 @@ Ce qui m'a le plus surpris en buildant ça, c'est qu'on peut construire quelque 
 | Notifications | Telegram Bot API | Gratuit |
 | Musique | Spotify Web API | Gratuit* |
 
-*\*Spotify Premium à 3,29$/mois requis pour le contrôle de lecture*
+*\*J'ai d'abord fait tourner le projet sans Spotify Premium, et ça marche très bien. L'essai gratuit que tout le monde peut activer suffit largement pour démarrer.*
 
-![Les 4 workflows actifs dans n8n](/images/blog/ScreenQuatrewFN8N.jpg)
+<img src="/images/blog/ScreenQuatrewFN8N.jpg" alt="Les 4 workflows actifs dans n8n" style={{maxWidth: '600px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
 
 ---
 
@@ -90,7 +118,7 @@ Ce qui m'a le plus surpris en buildant ça, c'est qu'on peut construire quelque 
 
 J'ai commencé par définir le design complet avant d'écrire une seule ligne de code. Un spec détaillé, une architecture pensée, des décisions documentées.
 
-Puis j'ai codé le serveur Python d'abord — la partie locale qui gère la pause/TTS/reprise. Avec des tests unitaires pour chaque composant.
+Puis j'ai codé le serveur Python d'abord, la partie locale qui gère la pause/TTS/reprise. Avec des tests unitaires pour chaque composant.
 
 ```python
 class TTSEngine:
@@ -111,17 +139,17 @@ class TTSEngine:
 
 Ensuite les 4 workflows n8n, construits node par node, testés en direct avec Spotify.
 
-![Le workflow spotify-watcher dans n8n](/images/blog/wf1.jpg)
+<img src="/images/blog/wf1.jpg" alt="Le workflow spotify-watcher dans n8n" style={{maxWidth: '600px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
 
 ---
 
 ## Les galères (et ce que j'ai appris)
 
-Ce projet m'a appris plus que je ne l'espérais. Pas seulement sur la technique — sur la persévérance.
+Ce projet m'a appris plus que je ne l'espérais. Pas seulement sur la technique, sur la persévérance.
 
-**Spotify et ses restrictions.** L'API Spotify en mode développement bloque certaines opérations. J'ai dû contourner avec le titre de la fenêtre Windows pour détecter les morceaux sans Premium, et trouver des endpoints alternatifs pour créer des playlists.
+**Spotify et ses restrictions.** L'API Spotify en mode développement bloque certaines opérations. J'ai dû contourner avec le titre de la fenêtre Windows pour détecter les morceaux, et trouver des endpoints alternatifs pour créer des playlists.
 
-**Les rate limits de Groq.** À force de tester, j'ai épuisé les 100k tokens journaliers gratuits. J'ai migré vers Gemini en cours de route — et finalement les deux coexistent.
+**Les rate limits de Groq.** À force de tester, j'ai épuisé les 100k tokens journaliers gratuits. J'ai migré vers Gemini en cours de route, et finalement les deux coexistent.
 
 **n8n et les expressions.** Le moteur d'expressions de n8n est puissant mais demande de la précision. Chaque `$('NomDuNode').first().json` doit correspondre exactement au nom du node sur le canvas.
 
@@ -135,7 +163,7 @@ Si tu veux construire ton propre TuneZine AI, tout le code est disponible sur Gi
 
 **[github.com/zoom-BT/Tchoutzify-Agent](https://github.com/zoom-BT/Tchoutzify-Agent)**
 
-![Le bot TuneZine AI sur Telegram](/images/blog/TuneZineBotprofil.png)
+<img src="/images/blog/TuneZineBotprofil.png" alt="Le bot TuneZine AI sur Telegram" style={{maxWidth: '380px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
 
 Le README contient toutes les instructions d'installation. Tu auras besoin de :
 - Python 3.10+
@@ -156,9 +184,9 @@ Au-delà de la technique, ce projet m'a appris quelque chose d'important :
 
 **Les meilleures idées naissent d'une frustration personnelle.**
 
-Je n'ai pas cherché à construire "un agent IA". J'ai cherché à résoudre mon problème — comprendre la musique que j'aime. L'agent est venu naturellement.
+Je n'ai pas cherché à construire "un agent IA". J'ai cherché à résoudre mon problème, comprendre la musique que j'aime. L'agent est venu naturellement.
 
-Si tu as une frustration récurrente dans ta vie, quelque chose qui t'empêche d'aller plus loin — c'est probablement là que se cache ton prochain projet.
+Si tu as une frustration récurrente dans ta vie, quelque chose qui t'empêche d'aller plus loin, c'est probablement là que se cache ton prochain projet.
 
 Et tu n'as pas besoin d'un budget conséquent. Tu n'as pas besoin d'une équipe. Tu as besoin de curiosité, de persévérance, et des bons outils.
 
@@ -167,9 +195,9 @@ Les outils sont là. Gratuits. Puissants. Accessibles.
 ---
 
 > *"La musique peut changer le monde parce qu'elle peut changer les gens."*
-> — Bono
+> Bono
 
-TuneZine AI ne change pas le monde. Mais il change la façon dont je vis la musique — et peut-être qu'il changera la tienne aussi.
+TuneZine AI ne change pas le monde. Mais il change la façon dont je vis la musique, et peut-être qu'il changera la tienne aussi.
 
 ---
 
