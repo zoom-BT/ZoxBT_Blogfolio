@@ -355,6 +355,42 @@ body {
 }
 
 /* ============================================
+   PROSE TABLE
+   ============================================ */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2em 0;
+  font-size: 0.95rem;
+}
+
+.prose thead {
+  border-bottom: 2px solid var(--border-medium);
+}
+
+.prose th {
+  text-align: left;
+  padding: 0.6em 1em;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+}
+
+.prose td {
+  padding: 0.6em 1em;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
+}
+
+.prose tbody tr:hover td {
+  background: var(--bg-secondary);
+}
+
+/* ============================================
    TAG / BADGE
    ============================================ */
 .tag {
