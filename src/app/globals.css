@@ -101,13 +101,17 @@
 /* ============================================
    BASE
    ============================================ */
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
 
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   transition: background-color var(--transition-medium), color var(--transition-medium);
   overflow-x: hidden;
+  max-width: 100vw;
 }
 
 ::selection {
@@ -362,6 +366,9 @@ body {
   border-collapse: collapse;
   margin: 2em 0;
   font-size: 0.95rem;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .prose thead {
