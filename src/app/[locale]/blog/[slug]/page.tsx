@@ -2,6 +2,7 @@ import { getPosts, getPostBySlug } from '@/lib/content';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
 import { formatDate } from '@/lib/utils';
 import LikeButton from '@/components/blog/LikeButton';
 import CommentSection from '@/components/blog/CommentSection';
@@ -117,7 +118,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       <section className="py-16" style={{ background: 'var(--bg-primary)' }}>
         <div className="mx-auto max-w-2xl px-6 md:px-8">
           <article className="prose max-w-none" style={{ color: 'var(--text-primary)' }}>
-            <MDXRemote source={post.content} />
+            <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
           </article>
 
           {/* Tags */}
