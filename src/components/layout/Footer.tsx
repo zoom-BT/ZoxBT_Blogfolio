@@ -29,7 +29,6 @@ export default function Footer({ locale }: { locale: string }) {
             <h3 className="mb-3 text-sm font-bold uppercase tracking-wider text-[var(--text-tertiary)]">{t.quick}</h3>
             <div className="grid grid-cols-2 gap-2">
               {[
-                { label: locale === 'fr' ? 'Projets' : 'Projects', href: '/projects' },
                 { label: 'Blog', href: '/blog' },
                 { label: locale === 'fr' ? 'Recherche' : 'Research', href: '/research' },
                 { label: 'Certifications', href: '/certifications' },
