@@ -1,0 +1,227 @@
+---
+title: "Gardienne: an AI shield against cyberharassment — built in 30h, 2nd place at the Girls in STEAM hackathon"
+date: 2026-07-14
+categories:
+  - AI
+  - Project
+tags:
+  - Cybersecurity
+  - Cameroon
+  - Hackathon
+  - Next.js
+  - Deepfake
+teaser: /images/blog/gardienne/gardienne-remise-prix.jpg
+excerpt: "A man in a 'Girls in STEAM' hackathon, 30 hours of code, and one goal: giving girls facing cyberharassment in Cameroon a way to understand, prove, and act. The story of a project — and a 2nd place."
+---
+
+People looked twice when I signed up. A "Cameroonian Girls in STEAM" hackathon, *cyberdefense* track — and me, a man, in the middle of it. The question was fair: what are you doing here?
+
+<img src="/images/blog/gardienne/gardienne-salle-concentration.jpg" alt="The hackathon room, participants focused on their screens" style={{maxWidth: '560px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
+
+My answer was a story. Picture a 19-year-old student in Yaoundé. One morning, she gets this message: *"if you leave me, I'll post your nudes, everybody go see."* She's scared. She's ashamed. And she has no idea what to do.
+
+**And she's one of thousands.**
+
+In Cameroon, nearly 7 in 10 connected women say they've already faced some form of online violence — and fewer than 5% file a complaint. Protecting girls isn't *their* burden alone. It's on all of us. That's why I was there.
+
+---
+
+## Three walls, and a language nobody listens to
+
+When a girl is harassed online, she hits three walls:
+
+1. **"Is this actually serious?"** — the doubt is paralyzing.
+2. **"I have no proof."** — a screenshot is dismissed in two seconds.
+3. **"Who do I even turn to?"** — police, ANTIC, NGOs… nobody knows where to start.
+
+And there's a fourth, invisible wall: **the tools don't understand how we speak.** *"I go show everybody"*, *"everybody go see"*, *"your tof"*… Camfranglais and Pidgin slip right under filters designed for standard English or French. A very real threat gets labeled "non-problematic content."
+
+Gardienne tackles all three walls with a three-beat motto: **understand, prove, act.**
+
+---
+
+## What Gardienne does
+
+In practice, a girl opens the app (installable on any phone, works even offline) and:
+
+1. She **pastes a message** — or **imports a screenshot**, and our vision model extracts the author, platform, time, and text.
+2. Gardienne **analyzes and classifies**: insult, repeated harassment, threat, or sexual blackmail/sextortion — with a severity level.
+3. In one tap, she **seals the evidence** (hash + timestamp) and generates a **pre-filled complaint file** for the Prosecutor, law articles included.
+4. A legal question? A **legal assistant** answers, grounded in actual Cameroonian law.
+
+And as a bonus, a **Telegram bot** checks whether a photo is fake or AI-generated.
+
+---
+
+## A concrete example — when "everybody go see" means prison
+
+Back to our student's message. She pastes it, taps *Analyze*. Here's what Gardienne returns:
+
+> **Sexual blackmail / sextortion — severity 95 — CRITICAL**
+> *"This message mixes French and Pidgin. 'everybody go see' is a threat to distribute. Combined with intimate content, it constitutes sexual blackmail — punishable under Cameroonian law. You are not alone, and it is not your fault."*
+
+<img src="/images/blog/gardienne/gardienne-verdict.jpg" alt="The severity verdict shown by Gardienne" style={{maxWidth: '420px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
+
+A standard English-only filter would have shrugged. Ours didn't — because it was **built here, for here.**
+
+---
+
+## Sealed evidence: turning a screenshot into a piece of proof
+
+This is the cybersecurity heart of the project, and my favorite part.
+
+A plain screenshot carries weak legal weight: it can be edited, cropped, its date contested. Gardienne turns it into solid evidence in two moves:
+
+- A **SHA-256 hash** of the content: the smallest change alters the hash. Proof of **integrity**.
+- A **server-signed timestamp** (HMAC): impossible to backdate. Proof that content existed at a real moment in time.
+
+It doesn't prove *who* sent it — that's the job of ANTIC and IP tracing. But it delivers the missing link: **preserved, dated, formatted evidence**, ready to file.
+
+<img src="/images/blog/gardienne/gardienne-preuve.jpg" alt="Sealed evidence: SHA-256 hash and certified timestamp" style={{maxWidth: '420px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
+
+---
+
+## The brain: hybrid detection
+
+Why not just throw the message at ChatGPT? Because a generic LLM misses Pidgin, costs money, needs a connection, and can hallucinate. Facing a victim, I needed something **deterministic, free, offline, and explainable.**
+
+The answer: **two layers.** A hand-built Camfranglais/Pidgin lexicon (with rules), paired with a toxicity model that generalizes. The rule I'm proudest of catches sexual blackmail *even when no word is vulgar*:
+
+```typescript
+// Catches sextortion even without a single swear word
+function detectSextortion(text: string): boolean {
+  const shareThreat  = /\b(post|publish|send|share|leak|go\s?see|go\s?show)\b/; // "everybody go see" 👀
+  const intimateItem = /\b(photo|nudes?|vid(eo)?|image|tof)\b/;                 // in Camfranglais, a photo is "tof"
+  return shareThreat.test(text) && intimateItem.test(text);                     // both? → severity 92, critical
+}
+```
+
+And here's what Gardienne "sees" behind the scenes when the message lands:
+
+```
+[10:42:01] 📥 Message received → "if you leave me I'll post your tof, everybody go see"
+[10:42:01] 🔤 Normalization (NFD, lowercase, accents stripped)
+[10:42:01] 📖 Lexicon: 3 matches (threat · distribution · intimate content)
+[10:42:01] ⚖️  Composite rule triggered → Sexual blackmail / sextortion
+[10:42:01] 🧠 toxic-bert (in the browser): toxicity 0.94
+[10:42:02] 🚨 Final verdict: severity 95 — CRITICAL
+```
+
+The wild part? Text detection and sealing run **on the device**. No message leaves the phone to be analyzed.
+
+---
+
+## The bonus that nearly broke me: the anti-deepfake bot
+
+I wanted a Telegram bot that could tell whether a photo is fake — not just for me, for any classmate. On paper, an hour of work. In reality, my three finest struggles of the hackathon:
+
+<img src="/images/blog/gardienne/gardienne-solo-code.jpg" alt="Alone behind the screen, deep in a coding session" style={{maxWidth: '420px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
+
+**Struggle #1 — the ghost endpoint.** The old Hugging Face inference URL had been retired. The bot returned… nothing. Zero. I had to migrate to the new router before a single result came back.
+
+**Struggle #2 — Telegram erases the evidence.** I send an AI-generated image to the bot: *"authentic, no signature."* Panic. It turns out Telegram **recompresses "photos" and strips metadata** — including the C2PA signature OpenAI and Google leave behind. The fix: send the image **as a File**, not a Photo. It stays intact, the signature becomes readable again. *("origin: Google" — finally.)*
+
+**Struggle #3 — one model isn't enough.** The deepfake detector only looked at faces. An AI image with no face passed as real. Fix: **two classifiers** (fake faces *and* AI-generated images), keeping the most suspicious score.
+
+<img src="/images/blog/gardienne/gardienne-bot.jpg" alt="The Gardienne Telegram bot analyzing a fake image" style={{maxWidth: '380px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
+
+Every blocker taught me something no doc ever would. That's what a hackathon is.
+
+---
+
+## The tech stack
+
+What struck me: building all of this without spending a cent on AI tools.
+
+| Component | Technology | Role | Cost |
+|-----------|------------|------|------|
+| Framework | Next.js 16 + TypeScript | Web app + API routes, in a single project | Free |
+| Language detection | Hand-built Camfranglais/Pidgin lexicon + rules | Understand local threats, offline | Free |
+| AI detection | transformers.js — `Xenova/toxic-bert` (browser) | Generalize toxicity | Free |
+| Evidence | Web Crypto SHA-256 + server HMAC | Seal and timestamp | Free |
+| Legal assistant | RAG + Groq `gpt-oss-20b` | Answer per Cameroonian law, sources cited | Free* |
+| Screenshot analysis | Groq Llama 4 Scout (vision) | Extract author / time / message from a screenshot | Free* |
+| Image bot | Node + Hugging Face (`dima806`) | Detect fake / AI-generated photos | Free |
+| Provenance | C2PA Content Credentials (OpenAI, Google…) | Read an image's origin signature | Free |
+| Deployment | Vercel + GitHub | Auto-deploy on push | Free |
+
+*\*Generous free tiers, more than enough for a prototype.*
+
+---
+
+## What I truly learned
+
+This project taught me far more than code.
+
+**Protecting is everyone's job.** I was a man in a "Girls in STEAM" hackathon, and instead of being an obstacle, it forced me to listen — really listen. To design *with* and *for* the ones living through what I never will. Gardienne's best feature isn't the SHA-256. It's the line that appears next to the verdict: *"You are not alone, and it is not your fault."*
+
+**Tech should serve people, not the other way around.** A hash, a model, a bot — they only matter if, at the end of the chain, a 19-year-old feels less alone and knows what to do.
+
+And in the end? **Gardienne took 2nd place.** 🥈 Not just for the tech — for what it's trying to repair.
+
+---
+
+## The ceremony, in pictures
+
+**Mid-speech**, presenting Gardienne to the jury.
+<img src="/images/blog/gardienne/gardienne-speech.jpg" alt="Presenting Gardienne during the speech to the jury" style={{maxWidth: '560px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**The wait.** Sitting with the other finalists, waiting for results.
+<img src="/images/blog/gardienne/gardienne-attente.jpg" alt="Sitting with the other finalists waiting for results" style={{maxWidth: '560px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**With the event's promoter**, the person who made it all possible.
+<img src="/images/blog/gardienne/gardienne-promotrice.jpg" alt="With the event's promoter" style={{maxWidth: '480px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**Prize handover**, at the Technopole venue.
+<img src="/images/blog/gardienne/gardienne-remise-prix.jpg" alt="Prize handover at the Technopole" style={{maxWidth: '480px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**2nd place, prize in hand**, with the person who handed it over.
+<img src="/images/blog/gardienne/gardienne-duo-prix.jpg" alt="Photo with the 2nd place prize" style={{maxWidth: '480px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**The prizes**, laid out on the table: laptop, oversized fake cheque, and the rest.
+<img src="/images/blog/gardienne/gardienne-lots.jpg" alt="The prizes: laptop and fake cheque laid out on a table" style={{maxWidth: '480px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**The family photo**: laureates and organizers together.
+<img src="/images/blog/gardienne/gardienne-groupe-laureats.jpg" alt="Group photo with laureates and organizers" style={{maxWidth: '600px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+And my favorite moment: **a jury member opening Gardienne on their own phone**, home screen on display, live-testing it right there.
+<img src="/images/blog/gardienne/gardienne-jury-app.jpg" alt="A jury member opens the Gardienne app on their phone" style={{maxWidth: '420px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+---
+
+## Going further
+
+The code is on GitHub:
+
+**[github.com/zoom-BT/Gardienne](https://github.com/zoom-BT/Gardienne)**
+
+The README covers it all: detection, sealed evidence, legal assistant, Telegram bot. It's a starting point — the lexicon keeps growing, and the architecture extends to other languages and other French-speaking African countries.
+
+**The fight against cyberharassment deserves open code. Fork it, improve it, share it.**
+
+---
+
+> *"In the end, we will remember not the words of our enemies, but the silence of our friends."*
+> Martin Luther King
+
+Gardienne doesn't claim to erase harassment. But it breaks the silence — the victim's, when she doubts, and ours, when we could act. That 19-year-old student from the start? Today she has a tool to understand, evidence to defend herself, and a hand reaching out. That's already a lot.
+
+*No girl should have to face this alone.*
+
+---
+
+*The source code is available on [GitHub](https://github.com/zoom-BT/Gardienne). Feel free to open an issue, suggest an improvement, or just let me know what you think.*
+
+---
+
+## Live demo
+
+<div style={{position: 'relative', paddingBottom: '56.25%', height: 0, borderRadius: '12px', overflow: 'hidden', margin: '1em 0'}}>
+  <iframe
+    src="https://www.youtube.com/embed/nlBlmRGtXaM"
+    title="Gardienne - Demo"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+    style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none'}}
+  />
+</div>

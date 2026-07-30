@@ -1,0 +1,227 @@
+---
+title: "Gardienne : un bouclier IA contre le cyberharcèlement — codé en 30h, 2ᵉ au hackathon Girls in STEAM"
+date: 2026-07-14
+categories:
+  - IA
+  - Projet
+tags:
+  - Cybersécurité
+  - Cameroun
+  - Hackathon
+  - Next.js
+  - Deepfake
+teaser: /images/blog/gardienne/gardienne-remise-prix.jpg
+excerpt: "Un homme dans un hackathon « Girls in STEAM », 30 heures de code, et un objectif : donner aux filles victimes de cyberharcèlement au Cameroun de quoi comprendre, prouver et agir. Récit d'un projet — et d'une 2ᵉ place."
+---
+
+On m'a regardé deux fois quand je me suis inscrit. Un hackathon « Cameroonian Girls in STEAM », défi *cyberdéfense* — et moi, un homme, au milieu. La question était honnête : qu'est-ce que tu fais là ?
+
+<img src="/images/blog/gardienne/gardienne-salle-concentration.jpg" alt="La salle du hackathon, les participantes concentrées sur leurs écrans" style={{maxWidth: '560px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
+
+Ma réponse tenait en une histoire. Imagine une étudiante de 19 ans, à Yaoundé. Un matin, elle reçoit ce message : *« si tu me quittes, je poste tes photos nues, everybody go see. »* Elle a peur. Elle a honte. Et elle ne sait pas quoi faire.
+
+**Cette fille, elles sont des milliers.**
+
+Au Cameroun, près de 7 femmes connectées sur 10 déclarent avoir déjà subi une forme de violence numérique — et moins de 5 % portent plainte. Protéger les filles, ce n'est pas *leur* seule affaire. C'est la nôtre à tous. C'est pour ça que j'étais là.
+
+---
+
+## Trois murs, et une langue que personne n'écoute
+
+Quand une fille est harcelée en ligne, elle se cogne à trois murs :
+
+1. **« Est-ce que c'est vraiment grave ? »** — le doute paralyse.
+2. **« Je n'ai aucune preuve. »** — une capture d'écran, ça se conteste en deux secondes.
+3. **« Vers qui me tourner ? »** — police, ANTIC, ONG… personne ne sait par où commencer.
+
+Et il y a un quatrième mur, invisible : **les outils ne comprennent pas notre façon de parler.** *« I go show everybody »*, *« everybody go see »*, *« tes tof »*… le camfranglais et le pidgin passent sous le radar des filtres pensés pour l'anglais ou le français standard. Une menace bien réelle est classée « contenu non problématique ».
+
+Gardienne s'attaque aux trois murs avec un mot d'ordre en trois temps : **comprendre, prouver, agir.**
+
+---
+
+## Ce que fait Gardienne
+
+Concrètement, une fille ouvre l'appli (installable sur n'importe quel téléphone, elle marche même hors-ligne) et :
+
+1. Elle **colle un message** — ou **importe une capture d'écran**, et notre modèle vision en extrait l'auteur, la plateforme, l'heure et le texte.
+2. Gardienne **analyse et classe** : insulte, harcèlement répété, menace, ou chantage/sextorsion — avec un niveau de gravité.
+3. En un clic, elle **scelle la preuve** (empreinte + horodatage) et génère un **dossier de plainte pré-rempli** pour le Procureur, articles de loi inclus.
+4. Une question de droit ? Un **assistant juridique** répond, fondé sur la vraie loi camerounaise.
+
+Et en bonus, un **bot Telegram** vérifie si une photo est truquée ou générée par IA.
+
+---
+
+## Un exemple concret — quand « everybody go see » veut dire prison
+
+Reprenons le message de notre étudiante. Elle le colle, elle clique *Analyser*. Voici ce que Gardienne renvoie :
+
+> **Chantage / sextorsion — gravité 95 — CRITIQUE**
+> *« Ce message mélange français et pidgin. "everybody go see" est une menace de diffusion. Combiné à un contenu intime, cela relève du chantage sexuel — puni par la loi camerounaise. Tu n'es pas seule, et ce n'est pas ta faute. »*
+
+<img src="/images/blog/gardienne/gardienne-verdict.jpg" alt="Le verdict de gravité affiché par Gardienne" style={{maxWidth: '420px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
+
+Un filtre anglophone classique aurait haussé les épaules. Le nôtre, non — parce qu'il a été **construit ici, pour ici.**
+
+---
+
+## La preuve scellée : transformer une capture en pièce à conviction
+
+C'est le cœur cybersécurité du projet, et ma partie préférée.
+
+Une simple capture d'écran a une valeur juridique faible : on peut la retoucher, la recadrer, contester sa date. Gardienne la transforme en preuve solide en deux gestes :
+
+- Une **empreinte SHA-256** du contenu : la moindre modification change l'empreinte. Preuve d'**intégrité**.
+- Un **horodatage signé côté serveur** (HMAC) : impossible à antidater. Preuve qu'un contenu existait à une heure réelle.
+
+Ça ne dit pas *qui* a envoyé — ça, c'est le rôle de l'ANTIC et du traçage IP. Mais ça fournit le chaînon manquant : **une preuve préservée, datée, et mise en forme**, prête à déposer.
+
+<img src="/images/blog/gardienne/gardienne-preuve.jpg" alt="La preuve scellée : empreinte SHA-256 et horodatage certifié" style={{maxWidth: '420px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
+
+---
+
+## Le cerveau : une détection hybride
+
+Pourquoi ne pas juste balancer le message à ChatGPT ? Parce qu'un LLM générique rate le pidgin, coûte cher, exige une connexion, et peut halluciner. Face à une victime, il me fallait quelque chose de **déterministe, gratuit, hors-ligne et explicable.**
+
+La solution : **deux couches.** Un lexique camfranglais/pidgin fait main (avec des règles), doublé d'un modèle de toxicité qui généralise. La règle dont je suis le plus fier repère le chantage sexuel *même quand aucun mot n'est vulgaire* :
+
+```typescript
+// Repère la sextorsion même sans un seul gros mot
+function detecterSextorsion(texte: string): boolean {
+  const menaceDiffusion = /\b(poste|publie|envoie|partage|balance|go\s?see|go\s?show)\b/; // "everybody go see" 👀
+  const contenuIntime   = /\b(photo|nudes?|vid[eé]o|image|tof)\b/;                        // en camfranglais, une photo = "tof"
+  return menaceDiffusion.test(texte) && contenuIntime.test(texte);                        // les deux ? → gravité 92, critique
+}
+```
+
+Et voici ce que Gardienne « voit » en coulisses quand le message arrive :
+
+```
+[10:42:01] 📥 Message reçu → "si tu me quittes je poste tes tof, everybody go see"
+[10:42:01] 🔤 Normalisation (NFD, minuscules, accents retirés)
+[10:42:01] 📖 Lexique : 3 correspondances (menace · diffusion · contenu intime)
+[10:42:01] ⚖️  Règle composite déclenchée → Chantage / sextorsion
+[10:42:01] 🧠 toxic-bert (dans le navigateur) : toxicité 0.94
+[10:42:02] 🚨 Verdict final : gravité 95 — CRITIQUE
+```
+
+Le plus fou ? La détection de texte et le scellement tournent **sur l'appareil**. Aucun message ne quitte le téléphone pour être analysé.
+
+---
+
+## Le bonus qui a failli me rendre fou : le bot anti-deepfake
+
+Je voulais un bot Telegram capable de dire si une photo est truquée — pas juste pour moi, pour n'importe quelle camarade. Sur le papier, une heure de travail. En vrai, mes trois plus belles galères du hackathon :
+
+<img src="/images/blog/gardienne/gardienne-solo-code.jpg" alt="Seul derrière l'écran, concentré en pleine session de code" style={{maxWidth: '420px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
+
+**Galère n°1 — l'endpoint fantôme.** L'ancienne URL d'inférence Hugging Face avait été retirée. Le bot répondait… rien. Zéro. Il a fallu migrer vers le nouveau routeur pour que le moindre résultat revienne.
+
+**Galère n°2 — Telegram efface les preuves.** J'envoie une image générée par IA au bot : *« authentique, pas de signature. »* Panique. En fait, Telegram **recompresse les « photos » et supprime les métadonnées** — donc la signature C2PA que laissent OpenAI et Google. La parade : envoyer l'image **en Fichier**, pas en Photo. Elle reste intacte, la signature redevient lisible. *(« origine : Google » — enfin.)*
+
+**Galère n°3 — un seul modèle ne suffit pas.** Le détecteur de deepfake ne regardait que les visages. Une image IA sans visage passait pour vraie. Solution : **deux classifieurs** (visages truqués *et* images générées par IA), et on retient le score le plus suspect.
+
+<img src="/images/blog/gardienne/gardienne-bot.jpg" alt="Le bot Telegram Gardienne analyse une image truquée" style={{maxWidth: '380px', width: '100%', margin: '1.5em auto', display: 'block', borderRadius: '8px'}} />
+
+Chaque blocage m'a appris un truc que je n'aurais jamais lu dans une doc. C'est ça, un hackathon.
+
+---
+
+## La stack technique
+
+Ce qui m'a marqué : construire tout ça sans dépenser un centime en outils IA.
+
+| Composant | Technologie | Rôle | Coût |
+|-----------|-------------|------|------|
+| Framework | Next.js 16 + TypeScript | Web app + routes API, en un seul projet | Gratuit |
+| Détection langue | Lexique camfranglais/pidgin fait main + règles | Comprendre les menaces locales, hors-ligne | Gratuit |
+| Détection IA | transformers.js — `Xenova/toxic-bert` (navigateur) | Généraliser la toxicité | Gratuit |
+| Preuve | Web Crypto SHA-256 + HMAC serveur | Sceller et horodater | Gratuit |
+| Assistant juridique | RAG + Groq `gpt-oss-20b` | Répondre selon la loi camerounaise, sources citées | Gratuit* |
+| Analyse de capture | Groq Llama 4 Scout (vision) | Extraire auteur / heure / message d'une capture | Gratuit* |
+| Bot image | Node + Hugging Face (`dima806`) | Détecter photo truquée / générée par IA | Gratuit |
+| Provenance | C2PA Content Credentials (OpenAI, Google…) | Lire la signature d'origine d'une image | Gratuit |
+| Déploiement | Vercel + GitHub | Mise en ligne automatique au push | Gratuit |
+
+*\*Généreux paliers gratuits, largement suffisants pour un prototype.*
+
+---
+
+## Ce que j'ai vraiment appris
+
+Ce projet m'a appris bien plus que du code.
+
+**Protéger, c'est l'affaire de tous.** J'étais un homme dans un hackathon « Girls in STEAM », et au lieu d'être un obstacle, ça m'a obligé à écouter — vraiment. À concevoir *avec* et *pour* celles qui vivent ce que je ne vivrai jamais. La meilleure fonctionnalité de Gardienne, ce n'est pas le SHA-256. C'est la phrase qui s'affiche à côté du verdict : *« Tu n'es pas seule, et ce n'est pas ta faute. »*
+
+**La technique doit servir l'humain, pas l'inverse.** Un hash, un modèle, un bot — ça n'a de sens que si, au bout, une fille de 19 ans se sent moins seule et sait quoi faire.
+
+Et à la fin ? **Gardienne a décroché la 2ᵉ place.** 🥈 Pas seulement pour la technique — pour ce qu'elle essaie de réparer.
+
+---
+
+## La cérémonie, en images
+
+**Pendant mon speech**, en train de présenter Gardienne au jury.
+<img src="/images/blog/gardienne/gardienne-speech.jpg" alt="Présentation de Gardienne pendant le speech au jury" style={{maxWidth: '560px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**L'attente.** Assis avec les autres finalistes, à attendre les résultats.
+<img src="/images/blog/gardienne/gardienne-attente.jpg" alt="Assis avec les autres finalistes en attendant les résultats" style={{maxWidth: '560px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**Avec la promotrice de l'événement**, celle qui a rendu tout ça possible.
+<img src="/images/blog/gardienne/gardienne-promotrice.jpg" alt="Avec la promotrice de l'événement" style={{maxWidth: '480px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**La remise du prix**, dans le cadre du Technopole.
+<img src="/images/blog/gardienne/gardienne-remise-prix.jpg" alt="Remise du prix au Technopole" style={{maxWidth: '480px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**2ᵉ place, prix en main**, avec la personne qui l'a remis.
+<img src="/images/blog/gardienne/gardienne-duo-prix.jpg" alt="Photo avec le prix de la 2e place" style={{maxWidth: '480px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**Les lots**, posés sur la table : PC portable, chèque factice, et le reste.
+<img src="/images/blog/gardienne/gardienne-lots.jpg" alt="Les lots remis : PC portable et chèque factice sur une table" style={{maxWidth: '480px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+**La photo de famille** : lauréats et organisateurs réunis.
+<img src="/images/blog/gardienne/gardienne-groupe-laureats.jpg" alt="Photo de groupe avec les lauréats et les organisateurs" style={{maxWidth: '600px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+Et mon moment préféré : **un membre du jury qui ouvre Gardienne sur son propre téléphone**, écran d'accueil affiché, en plein test live.
+<img src="/images/blog/gardienne/gardienne-jury-app.jpg" alt="Un membre du jury ouvre l'application Gardienne sur son téléphone" style={{maxWidth: '420px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
+
+---
+
+## Pour aller plus loin
+
+Le code est sur GitHub :
+
+**[github.com/zoom-BT/Gardienne](https://github.com/zoom-BT/Gardienne)**
+
+Le README explique tout : détection, preuve scellée, assistant juridique, bot Telegram. C'est un point de départ — le lexique s'enrichit en continu, et l'architecture s'étend à d'autres langues et d'autres pays d'Afrique francophone.
+
+**Le combat contre le cyberharcèlement mérite du code ouvert. Forkez, améliorez, partagez.**
+
+---
+
+> *« À la fin, nous ne nous souviendrons pas des paroles de nos ennemis, mais du silence de nos amis. »*
+> Martin Luther King
+
+Gardienne ne prétend pas effacer le harcèlement. Mais elle brise le silence — celui de la victime qui doute, et le nôtre, à nous qui pouvons agir. Cette étudiante de 19 ans du début ? Aujourd'hui, elle a un outil pour comprendre, une preuve pour se défendre, et une main tendue. C'est déjà beaucoup.
+
+*Aucune fille ne devrait affronter ça seule.*
+
+---
+
+*Le code source est disponible sur [GitHub](https://github.com/zoom-BT/Gardienne). N'hésite pas à ouvrir une issue, proposer une amélioration, ou simplement me dire ce que tu en penses.*
+
+---
+
+## Démo live
+
+<div style={{position: 'relative', paddingBottom: '56.25%', height: 0, borderRadius: '12px', overflow: 'hidden', margin: '1em 0'}}>
+  <iframe
+    src="https://www.youtube.com/embed/nlBlmRGtXaM"
+    title="Gardienne - Démo"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+    style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none'}}
+  />
+</div>
