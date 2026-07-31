@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/utils';
 import LikeButton from '@/components/blog/LikeButton';
 import CommentSection from '@/components/blog/CommentSection';
 import ShareButtons from '@/components/blog/ShareButtons';
+import Gallery from '@/components/blog/Gallery';
 
 function renderTitle(title: string) {
   const match = title.match(/TCHOUTZIFY|Tchoutzify/);
@@ -119,7 +120,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       <section className="py-16" style={{ background: 'var(--bg-primary)' }}>
         <div className="mx-auto max-w-2xl px-6 md:px-8">
           <article className="prose max-w-none" style={{ color: 'var(--text-primary)' }}>
-            <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
+            <MDXRemote
+              source={post.content}
+              options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+              components={{ Gallery }}
+            />
           </article>
 
           {/* Tags */}
