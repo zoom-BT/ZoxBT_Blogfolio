@@ -122,7 +122,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
           <article className="prose max-w-none" style={{ color: 'var(--text-primary)' }}>
             <MDXRemote
               source={post.content}
-              options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+              options={{ mdxOptions: { remarkPlugins: [remarkGfm] }, blockJS: false }}
               components={{ Gallery }}
             />
           </article>
