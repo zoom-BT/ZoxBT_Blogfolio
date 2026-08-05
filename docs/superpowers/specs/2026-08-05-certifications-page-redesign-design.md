@@ -16,9 +16,9 @@ newly completed courses.
 Add three optional fields to `Certification` (`src/lib/types.ts`):
 
 ```ts
-image?: string;   // certificate screenshot, e.g. /images/certifications/{slug}.png
-logo?: string;    // issuing-org logo, e.g. /images/certifications/logos/cousera.png
-order?: number;   // lower = shown first; entries without it sort after, by date desc (unchanged behavior)
+image?: string;            // certificate screenshot, e.g. /images/certifications/{slug}.png
+logo?: string | string[];  // issuing-org logo(s) — array when co-branded (e.g. IBM + Zindi), rendered as adjacent medallions
+order?: number;            // lower = shown first; entries without it sort after, by date desc (unchanged behavior)
 ```
 
 ### 2. Sort order (`getCertifications`, `src/lib/content.ts`)
@@ -77,14 +77,41 @@ In `src/app/[locale]/certifications/page.tsx`'s card grid:
   `certificate_url: https://coursera.org/share/25309f2c5b7fb50174acbc403a192f4f`,
   `order: 4`.
 - `ibm-skillsbuild-ai-fundamentals` — Artificial Intelligence
-  Fundamentals, IBM SkillsBuild, `date: 2025-07-22`, `certificate_url:
+  Fundamentals, IBM SkillsBuild × Zindi (co-organized — same badge, not a
+  separate cert), `date: 2025-07-22`, `certificate_url:
   https://www.credly.com/badges/387df920-e8da-44fb-bfe2-07a71afa148f`,
-  `order: 5`. No `image` (no screenshot supplied) — renders via the
-  logo-only fallback from section 3.
+  `order: 5`, `logo: ["/images/certifications/logos/IBM-logo.png",
+  "/images/certifications/logos/zindi-logo.png"]`. No `image` (no
+  screenshot supplied) — renders via the logo-only fallback from section 3.
 
 All four Coursera entries use `logo: /images/certifications/logos/cousera.png`
 (the file the user already uploaded — filename kept as-is, including its
 typo, to match what's actually on disk).
+
+### 5b. Existing entry corrections (real dates/links surfaced late in brainstorming)
+
+- `microsoft-ai-career` ("Parcours IA - Microsoft & LinkedIn Learning" —
+  confirmed to be specifically the "Career Essentials in Generative AI by
+  Microsoft and LinkedIn" path): fix `date` (was 2024-11-05) →
+  `2024-02-23`. Add `certificate_url:
+  https://www.linkedin.com/learning/certificates/081d320e7b398c9ef7406df268e955e018cf6f452d83c5342937989ff00de41e`
+  and `logo: ["/images/certifications/logos/Microsoft.png",
+  "/images/certifications/logos/linkedin-logo-linkedin-icon-transparent-free-png.webp"]`.
+  No `order` — sorts by date with the unordered group.
+- `kaggle-ml-courses`: also add `logo:
+  "/images/certifications/logos/kaggle-logo.png"` (supplied after the
+  initial spec draft).
+
+### 5c. One more new entry, added late
+
+- `openclassrooms-objectif-ia` — "Objectif IA : initiez-vous à
+  l'intelligence artificielle", OpenClassrooms, `date: 2024-02-04`,
+  real `credential_id: "7733421112"` (this one is a genuine certificate
+  number, not a placeholder). `certificate_url` set to the Google Drive
+  link the user shared (no public OpenClassrooms verify-URL system, so
+  this is the most legitimate link available). No `logo` supplied yet
+  (OpenClassrooms logo not in `logos/` — falls back to the plain-text
+  header). No `order` — sorts into the unordered, by-date group.
 
 ### 6. Images
 
