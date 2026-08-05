@@ -68,7 +68,12 @@ export function getCertifications(locale: string = 'fr'): Certification[] {
       const slug = f.replace(/\.(mdx|md)$/, '');
       return parseFile<Certification>(path.join(dir, f), slug);
     })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    .sort((a, b) => {
+      if (a.order !== undefined && b.order !== undefined) return a.order - b.order;
+      if (a.order !== undefined) return -1;
+      if (b.order !== undefined) return 1;
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
 }
 
 export function getResearch(locale: string = 'fr'): ResearchItem[] {

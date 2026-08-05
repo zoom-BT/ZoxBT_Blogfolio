@@ -26,3 +26,6 @@ npm-debug.log*
 .DS_Store
 *.tsbuildinfo
 next-env.d.ts
+
+# superpowers scratch (plans/specs docs are tracked; runtime state is not)
+.superpowers/

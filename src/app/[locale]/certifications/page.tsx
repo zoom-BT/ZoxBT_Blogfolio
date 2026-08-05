@@ -6,8 +6,20 @@ export default async function CertificationsPage({ params }: { params: Promise<{
   const { locale } = await params;
   const certs = getCertifications(locale);
   const t = locale === 'fr'
-    ? { title: 'Certifications Professionnelles', subtitle: 'Mes certifications en IA, Machine Learning et Developpement', timeline: 'Timeline de Formation', goals: 'Objectifs de Formation' }
-    : { title: 'Professional Certifications', subtitle: 'My certifications in AI, Machine Learning and Development', timeline: 'Training Timeline', goals: 'Training Goals' };
+    ? { title: 'Certifications Professionnelles', subtitle: 'Mes certifications en IA, Machine Learning et Developpement', partners: 'Organismes de Formation' }
+    : { title: 'Professional Certifications', subtitle: 'My certifications in AI, Machine Learning and Development', partners: 'Training Partners' };
+
+  const partnerLogos = [
+    { src: '/images/certifications/logos/cousera.png', alt: 'Coursera' },
+    { src: '/images/certifications/logos/Stanford-logo-circular.jpg', alt: 'Stanford University' },
+    { src: '/images/certifications/logos/IBM-logo.png', alt: 'IBM' },
+    { src: '/images/certifications/logos/zindi-logo.png', alt: 'Zindi' },
+    { src: '/images/certifications/logos/kaggle-logo.png', alt: 'Kaggle' },
+    { src: '/images/certifications/logos/Microsoft.png', alt: 'Microsoft' },
+    { src: '/images/certifications/logos/linkedin-logo-linkedin-icon-transparent-free-png.webp', alt: 'LinkedIn Learning' },
+    { src: '/images/certifications/logos/OpenClassroom-logo.png', alt: 'OpenClassrooms' },
+    { src: '/images/certifications/logos/PowerBI-logo.jpg', alt: 'Power BI' },
+  ];
 
   return (
     <div className="pt-20">
@@ -27,7 +39,7 @@ export default async function CertificationsPage({ params }: { params: Promise<{
             <div className="text-sm text-[var(--text-secondary)]">Certifications</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-black text-[var(--text-primary)]">{certs.filter(c => c.provider === 'Coursera').length}</div>
+            <div className="text-3xl font-black text-[var(--text-primary)]">{certs.filter(c => c.provider.includes('Coursera')).length}</div>
             <div className="text-sm text-[var(--text-secondary)]">Coursera</div>
           </div>
         </div>
@@ -37,15 +49,43 @@ export default async function CertificationsPage({ params }: { params: Promise<{
       <section className="border-b border-[var(--border-light)] py-16" style={{ background: 'var(--bg-primary)' }}>
         <div className="mx-auto max-w-6xl px-4 md:px-8">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {certs.map((cert, i) => (
+            {certs.map((cert, i) => {
+              const logos = cert.logo ? (Array.isArray(cert.logo) ? cert.logo : [cert.logo]) : [];
+              const CardMedia = cert.certificate_url ? 'a' : 'div';
+              const mediaProps = cert.certificate_url
+                ? { href: cert.certificate_url, target: '_blank', rel: 'noopener noreferrer' }
+                : {};
+              return (
               <AnimatedSection key={cert.slug} delay={i * 0.1}>
                 <div className="card h-full overflow-hidden p-0">
-                  {/* Header */}
-                  <div className="border-b border-[var(--card-border)] bg-[var(--bg-secondary)] p-6 text-center">
-                    <h3 className="text-lg font-bold text-[var(--text-primary)]">{cert.title}</h3>
-                  </div>
+                  {/* Media header: certificate image + logo medallion(s), logo-only, or plain title (fallback chain) */}
+                  {cert.image ? (
+                    <CardMedia {...mediaProps} className="relative block h-40 w-full overflow-hidden border-b border-[var(--card-border)] bg-[var(--bg-secondary)]">
+                      <img src={cert.image} alt={cert.title} className="h-full w-full object-cover" />
+                      {logos.length > 0 && (
+                        <div className="absolute -bottom-4 left-4 flex gap-1">
+                          {logos.map((l) => (
+                            <img key={l} src={l} alt="" className="h-10 w-10 rounded-full border-2 border-[var(--bg-primary)] bg-white object-contain shadow-md" />
+                          ))}
+                        </div>
+                      )}
+                    </CardMedia>
+                  ) : logos.length > 0 ? (
+                    <CardMedia {...mediaProps} className="flex h-40 w-full items-center justify-center gap-3 border-b border-[var(--card-border)] bg-[var(--bg-secondary)]">
+                      {logos.map((l) => (
+                        <img key={l} src={l} alt="" className="h-14 w-14 rounded-full bg-white object-contain p-1 shadow" />
+                      ))}
+                    </CardMedia>
+                  ) : (
+                    <div className="border-b border-[var(--card-border)] bg-[var(--bg-secondary)] p-6 text-center">
+                      <h3 className="text-lg font-bold text-[var(--text-primary)]">{cert.title}</h3>
+                    </div>
+                  )}
                   {/* Body */}
-                  <div className="p-6">
+                  <div className={logos.length > 0 && cert.image ? 'p-6 pt-7' : 'p-6'}>
+                    {(cert.image || logos.length > 0) && (
+                      <h3 className="mb-2 text-lg font-bold text-[var(--text-primary)]">{cert.title}</h3>
+                    )}
                     <div className="mb-3 space-y-1 text-sm text-[var(--text-secondary)]">
                       <p><strong>{locale === 'fr' ? 'Organisme' : 'Provider'}:</strong> {cert.provider}</p>
                       <p><strong>Date:</strong> {formatDate(cert.date, locale)}</p>
@@ -77,30 +117,28 @@ export default async function CertificationsPage({ params }: { params: Promise<{
                   </div>
                 </div>
               </AnimatedSection>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Training Goals */}
+      {/* Training Partners */}
       <section className="py-16" style={{ background: 'var(--bg-secondary)' }}>
         <div className="mx-auto max-w-4xl px-4 md:px-8">
           <AnimatedSection>
-            <h2 className="mb-6 text-2xl font-bold text-[var(--text-primary)]">{t.goals}</h2>
-            <ul className="space-y-3">
-              {(locale === 'fr'
-                ? ['Deep Learning avance', 'NLP de pointe - Transformers, BERT, GPT', 'MLOps - Deploiement de modeles', 'Computer Vision', 'IA Responsable - Ethique et biais']
-                : ['Advanced Deep Learning', 'Cutting-edge NLP - Transformers, BERT, GPT', 'MLOps - Model deployment', 'Computer Vision', 'Responsible AI - Ethics and bias']
-              ).map((goal) => (
-                <li key={goal} className="flex items-start gap-3 text-[var(--text-secondary)]">
-                  <span className="mt-1 text-[var(--accent-blue)]">--</span>
-                  {goal}
-                </li>
+            <h2 className="mb-8 text-center text-2xl font-bold text-[var(--text-primary)]">{t.partners}</h2>
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              {partnerLogos.map((p) => (
+                <div key={p.src} className="flex h-16 w-16 items-center justify-center rounded-full bg-white p-2 shadow grayscale transition hover:grayscale-0">
+                  <img src={p.src} alt={p.alt} title={p.alt} className="h-full w-full object-contain" />
+                </div>
               ))}
-            </ul>
+            </div>
           </AnimatedSection>
         </div>
       </section>
+
     </div>
   );
 }

@@ -36,12 +36,15 @@ export interface Certification {
   date: string;
   type: string;
   icon: string;
-  credential_id: string;
+  credential_id?: string;
   certificate_url?: string;
   verify_url?: string;
   description: string;
   skills: string[];
   content: string;
+  image?: string;
+  logo?: string | string[];
+  order?: number;
 }
 
 export interface ResearchItem {
