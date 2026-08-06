@@ -8,7 +8,7 @@ export default function ObjectiveSection({ locale }: { locale: string }) {
   const t = locale === 'fr'
     ? {
         title: 'Mon Objectif',
-        text: "Contribuer a la democratisation de l'IA en Afrique et developper des technologies qui valorisent nos langues et notre patrimoine culturel. Je souhaite poursuivre mes recherches au niveau international tout en restant ancre dans les realites africaines.",
+        text: "Contribuer à la démocratisation de l'IA en Afrique et développer des technologies qui valorisent nos langues et notre patrimoine culturel. Je souhaite poursuivre mes recherches au niveau international tout en restant ancré dans les réalités africaines.",
         cta1: 'En savoir plus',
         cta2: 'Me contacter',
       }

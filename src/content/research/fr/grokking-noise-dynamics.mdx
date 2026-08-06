@@ -1,0 +1,62 @@
+---
+title: "Analyse des Dynamiques de Grokking en Présence de Bruit (ξ)"
+type: "Étude"
+status: "Non publié"
+date: 2025-11-01
+authors:
+  - Balbino Tchoutzine
+venue: ""
+teaser: /images/research/grokk.png
+excerpt: "Comment la fraction de labels corrompus (ξ) influence la mémorisation et la généralisation (grokking) d'un MLP entraîné sur une tâche d'addition modulaire, jusqu'à un seuil critique où le modèle s'effondre."
+---
+
+## Introduction
+
+Ce projet étudie l'impact de la fraction de labels corrompus (**ξ**) sur la dynamique d'apprentissage d'un MLP quadratique entraîné sur une tâche simple : l'addition modulaire *m + n (mod p)*.
+
+L'objectif principal est de quantifier comment le bruit affecte :
+
+- **La mémorisation** : le temps (*t_mem*) nécessaire pour que le modèle mémorise les données d'entraînement (propres et bruitées)
+- **La généralisation (grokking)** : le temps (*t_gen*) nécessaire pour que le modèle généralise à l'ensemble de test, souvent bien après la mémorisation de l'ensemble d'entraînement
+- **Les performances** : les métriques finales (accuracy et loss) sur les ensembles d'entraînement et de test
+
+## Résultats clés en fonction de ξ
+
+L'analyse révèle une forte corrélation entre l'augmentation du bruit (ξ) et l'évolution de la dynamique d'apprentissage, en particulier la phase de grokking.
+
+### Temps de mémorisation et de généralisation
+
+L'impact du bruit sur *t_gen* est marqué : le temps de généralisation augmente de façon exponentielle lorsque ξ dépasse **0.2**, illustrant que le coût en temps d'entraînement pour extraire la règle générale augmente considérablement avec le bruit.
+
+### Phénomène d'inversion (grokking)
+
+Les courbes d'entraînement pour ξ = 0.20 et ξ = 0.35 illustrent clairement le grokking :
+
+- **Mémorisation rapide** : l'accuracy d'entraînement et l'accuracy sur les données propres atteignent rapidement 100% (autour de 100 steps)
+- **Généralisation retardée (grokking)** : l'accuracy de test reste faible pendant la phase de mémorisation, puis grimpe soudainement lors de la phase de généralisation, au temps *t_gen* observé
+- **Mémorisation vs. généralisation** : l'écart entre le moment où l'erreur d'entraînement s'approche de zéro et le moment où la généralisation s'améliore est la signature du grokking : augmenter ξ amplifie cet écart
+
+## Interprétation : le rôle de la régularisation
+
+Le fait que le modèle parvienne à mémoriser les données propres (t_mem_clean ≈ 100 steps) tout en retardant la généralisation démontre qu'il privilégie l'apprentissage de la règle générale (la solution qui fonctionne pour les données propres) plutôt que la mémorisation superficielle des labels bruités, qui augmente la loss de test.
+
+L'utilisation d'une forte régularisation (weight decay = 1.0) semble encourager le réseau à trouver cette structure simple et généralisable, lui permettant de passer outre le bruit jusqu'à un certain seuil (ξ ≈ 0.40). Au-delà de ce seuil, le bruit devient trop dominant : le modèle mémorise tout, et la généralisation s'effondre.
+
+## Conclusions
+
+- **Seuil critique** : le modèle tolère jusqu'à ξ ≈ 0.40 de labels corrompus avant que la généralisation ne soit compromise
+- **Transition de phase** : entre ξ = 0.20 et ξ = 0.40, on observe une transition d'une généralisation rapide vers un grokking prononcé
+- **Effondrement** : à ξ = 0.50, le modèle ne parvient plus à extraire la règle sous-jacente dans un temps raisonnable
+
+## Perspectives
+
+- Étudier l'impact d'autres hyperparamètres (taux d'apprentissage, architecture) sur ces dynamiques
+- Explorer des stratégies de détection et de filtrage du bruit pour améliorer la robustesse
+- Analyser les représentations internes pour comprendre comment le modèle distingue signal et bruit
+
+---
+
+**Code source :** [github.com/zoom-BT/Grokk](https://github.com/zoom-BT/Grokk)
+**Article complet :** [Voir le document](https://drive.google.com/file/d/1uT-7bN2lRCupSZ74diq0EeXEBcEroyhk/view?usp=sharing)
+
+*Licence : MIT*

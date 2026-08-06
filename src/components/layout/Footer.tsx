@@ -4,7 +4,7 @@ import { SITE_CONFIG } from '@/lib/constants';
 export default function Footer({ locale }: { locale: string }) {
   const year = new Date().getFullYear();
   const t = locale === 'fr'
-    ? { rights: 'Tous droits reserves', built: 'Construit avec', quick: 'Navigation', contact: 'Contact' }
+    ? { rights: 'Tous droits réservés', built: 'Construit avec', quick: 'Navigation', contact: 'Contact' }
     : { rights: 'All rights reserved', built: 'Built with', quick: 'Navigation', contact: 'Contact' };
 
   return (
@@ -32,7 +32,7 @@ export default function Footer({ locale }: { locale: string }) {
                 { label: 'Blog', href: '/blog' },
                 { label: locale === 'fr' ? 'Recherche' : 'Research', href: '/research' },
                 { label: 'Certifications', href: '/certifications' },
-                { label: locale === 'fr' ? 'A propos' : 'About', href: '/about' },
+                { label: locale === 'fr' ? 'À propos' : 'About', href: '/about' },
                 { label: 'Contact', href: '/contact' },
               ].map((link) => (
                 <Link key={link.href} href={`/${locale}${link.href}`}

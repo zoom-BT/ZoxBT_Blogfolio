@@ -82,6 +82,7 @@ export interface TimelineEntry {
   institution: string;
   description: string;
   focus: string;
+  status?: string;
 }
 
 export interface Stat {
@@ -89,8 +90,3 @@ export interface Stat {
   label: string;
 }
 
-export interface Interest {
-  icon: string;
-  title: string;
-  description: string;
-}

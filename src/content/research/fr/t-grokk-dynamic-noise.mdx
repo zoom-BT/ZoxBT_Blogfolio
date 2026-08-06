@@ -1,0 +1,109 @@
+---
+title: "T-Grokk : le Bruit Dynamique de Labels Favorise le Grokking"
+type: "Étude"
+status: "Non publié"
+date: 2026-02-01
+authors:
+  - Balbino Tchoutzine
+venue: ""
+teaser: /images/research/t_grokk.png
+excerpt: "Contrairement au bruit statique, corrompre les labels à chaque étape d'entraînement (bruit dynamique) agit comme une régularisation implicite : à 50% de bruit, le modèle atteint 100% d'accuracy test contre un échec total en bruit statique."
+---
+
+## Résultat clé
+
+**Le bruit dynamique de labels est, paradoxalement, bénéfique pour le grokking.**
+
+| Niveau de bruit | Dynamique (τ) | Statique (ξ) | Amélioration |
+|---|---|---|---|
+| 50% | 100% accuracy test, 600 steps | 95.6% accuracy test, échec | +4.4% accuracy, 33× plus rapide |
+
+## Résumé
+
+Les études précédentes sur le grokking en présence de bruit se concentraient sur la corruption **statique** (les labels sont corrompus une seule fois avant l'entraînement). Nous introduisons ici la **corruption dynamique** : chaque label est corrompu aléatoirement avec une probabilité τ, à *chaque étape* d'entraînement.
+
+Contrairement au bruit statique, le bruit dynamique est fondamentalement non-mémorisable puisque les labels corrompus changent à chaque itération. Nos expériences révèlent que le bruit dynamique agit comme une régularisation implicite, forçant les modèles à apprendre la structure algorithmique plutôt qu'à mémoriser des labels individuels.
+
+### Bruit statique vs bruit dynamique
+
+```
+BRUIT STATIQUE (ξ) :                    BRUIT DYNAMIQUE (τ) :
+─────────────────────                   ──────────────────────
+Labels corrompus UNE FOIS                Labels corrompus À CHAQUE ÉTAPE
+avant l'entraînement                     pendant l'entraînement
+
+Époque 1 : [3, 4, 2, 5, 9, 8]            Étape 1 : [3, 4, 2, 5, 1, 8]
+Époque 2 : [3, 4, 2, 5, 9, 8] ← identique  Étape 2 : [3, 7, 9, 5, 1, 0] ← différent !
+Époque 3 : [3, 4, 2, 5, 9, 8] ← identique  Étape 3 : [1, 7, 2, 5, 6, 8] ← différent !
+
+→ Mémorisable                            → NON-mémorisable
+```
+
+## Résultats principaux
+
+### 1. Comparaison dynamique vs statique
+
+À 50% de bruit, la corruption dynamique atteint une généralisation parfaite, tandis que la corruption statique échoue complètement.
+
+### 2. Dynamique d'entraînement
+
+Le modèle apprend la vraie fonction (accuracy propre à 100%) tandis que l'accuracy d'entraînement sur les labels bruités converge vers la valeur théorique (1-τ) + τ/C.
+
+### 3. Loi d'échelle
+
+Le temps de généralisation suit une loi d'échelle exponentielle : **t_gen ~ exp(τ/0.74)**, avec R² = 0.981.
+
+### 4. Temps caractéristiques
+
+Les temps de mémorisation et de généralisation augmentent tous deux avec τ, mais la généralisation reste atteignable jusqu'à τ = 0.5.
+
+## Tableau récapitulatif
+
+| τ | SNR | t_mem | t_gen | Δt | Train Acc | Test Acc |
+|---|---|---|---|---|---|---|
+| 0.00 | ∞ | 250 | 300 | 50 | 100.0% | 100.0% |
+| 0.10 | 864 | 300 | 350 | 50 | 100.0% | 100.0% |
+| 0.20 | 384 | 350 | 400 | 50 | 100.0% | 100.0% |
+| 0.30 | 224 | 350 | 450 | 100 | 100.0% | 100.0% |
+| 0.40 | 144 | 400 | 550 | 150 | 100.0% | 100.0% |
+| 0.50 | 96 | 450 | 600 | 150 | 100.0% | 100.0% |
+
+## Analyse théorique
+
+**Rapport signal/bruit (SNR)**
+
+SNR = (1-τ)(C-1) / τ
+
+Pour p = 97 et τ = 0.5 : SNR = 96, le vrai label apparaît 96× plus souvent que n'importe quel label erroné isolé.
+
+**Accuracy d'entraînement maximale**
+
+Acc_train_max = (1-τ) + τ/C
+
+Le modèle ne peut pas dépasser 51% sur les labels bruités à τ = 0.5, confirmant qu'il apprend la règle et non le bruit.
+
+## Hyperparamètres
+
+| Paramètre | Valeur |
+|---|---|
+| Modulo p | 97 (premier) |
+| Dimension cachée | 128 |
+| Optimiseur | AdamW |
+| Learning rate | 10⁻³ |
+| Weight decay | 1.0 |
+| Steps d'entraînement | 20 000 |
+| Split train/test | 50% / 50% |
+
+## Travaux liés
+
+Cette étude s'appuie sur notre précédente analyse du bruit statique de labels : [ξ-Grokk : Analyse des Dynamiques de Grokking en Présence de Bruit](/fr/research/grokking-noise-dynamics).
+
+Références clés :
+- Power et al. (2022) : *Grokking: Generalization beyond overfitting on small algorithmic datasets*
+- Liu et al. (2023) : *Omnigrok: Grokking beyond algorithmic data*
+
+---
+
+**Code source :** [github.com/zoom-BT/T_Grokk](https://github.com/zoom-BT/T_Grokk)
+**Notebook Kaggle :** [kaggle.com/code/balbinotchoutzine/t-grokk](https://www.kaggle.com/code/balbinotchoutzine/t-grokk)
+**Article complet :** [Voir le document](https://drive.google.com/file/d/13RvVbqPQ_o99T0GQYX_ZfHROWgoqdVsg/view?usp=sharing)

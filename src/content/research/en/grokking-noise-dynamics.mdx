@@ -1,0 +1,62 @@
+---
+title: "Analyzing Grokking Dynamics in the Presence of Noise (ξ)"
+type: "Study"
+status: "Unpublished"
+date: 2025-11-01
+authors:
+  - Balbino Tchoutzine
+venue: ""
+teaser: /images/research/grokk.png
+excerpt: "How the fraction of corrupted labels (ξ) affects memorization and generalization (grokking) in an MLP trained on modular addition, up to a critical threshold where the model collapses."
+---
+
+## Introduction
+
+This project studies the impact of the fraction of corrupted labels (**ξ**) on the learning dynamics of a quadratic MLP trained on a simple task: modular addition *m + n (mod p)*.
+
+The main goal is to quantify how noise affects:
+
+- **Memorization**: the time (*t_mem*) needed for the model to memorize the training data (clean and noisy)
+- **Generalization (grokking)**: the time (*t_gen*) needed for the model to generalize to the test set, often well after memorizing the training set
+- **Performance**: final metrics (accuracy and loss) on the training and test sets
+
+## Key Results as a Function of ξ
+
+The analysis reveals a strong correlation between increasing noise (ξ) and the evolution of the learning dynamics, particularly the grokking phase.
+
+### Memorization and Generalization Time
+
+The impact of noise on *t_gen* is striking: generalization time increases exponentially once ξ exceeds **0.2**, showing that the training time cost to extract the general rule grows considerably with noise.
+
+### Inversion Phenomenon (Grokking)
+
+The training curves for ξ = 0.20 and ξ = 0.35 clearly illustrate grokking:
+
+- **Fast memorization**: training accuracy and clean-data accuracy quickly reach 100% (around 100 steps)
+- **Delayed generalization (grokking)**: test accuracy stays low during the memorization phase, then suddenly jumps during the generalization phase, at the observed *t_gen*
+- **Memorization vs. generalization**: the gap between the point where training error approaches zero and the point where generalization improves is the signature of grokking: increasing ξ widens this gap
+
+## Interpretation: The Role of Regularization
+
+The fact that the model manages to memorize clean data (t_mem_clean ≈ 100 steps) while delaying generalization shows that it favors learning the general rule (the solution that works for clean data) over superficially memorizing noisy labels, which increases test loss.
+
+Using strong regularization (weight decay = 1.0) seems to encourage the network to find this simple, generalizable structure, letting it push past noise up to a certain threshold (ξ ≈ 0.40). Beyond this threshold, noise becomes too dominant: the model memorizes everything, and generalization collapses.
+
+## Conclusions
+
+- **Critical threshold**: the model tolerates up to ξ ≈ 0.40 of corrupted labels before generalization is compromised
+- **Phase transition**: between ξ = 0.20 and ξ = 0.40, a transition from fast generalization to pronounced grokking is observed
+- **Collapse**: at ξ = 0.50, the model can no longer extract the underlying rule in a reasonable time
+
+## Future Work
+
+- Study the impact of other hyperparameters (learning rate, architecture) on these dynamics
+- Explore noise detection and filtering strategies to improve robustness
+- Analyze internal representations to understand how the model distinguishes signal from noise
+
+---
+
+**Source code:** [github.com/zoom-BT/Grokk](https://github.com/zoom-BT/Grokk)
+**Full document:** [View the paper](https://drive.google.com/file/d/1uT-7bN2lRCupSZ74diq0EeXEBcEroyhk/view?usp=sharing)
+
+*License: MIT*

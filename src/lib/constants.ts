@@ -1,18 +1,18 @@
-import { NavItem, SkillCategory, TimelineEntry, Stat, Interest } from './types';
+import { NavItem, SkillCategory, TimelineEntry, Stat } from './types';
 
 export const SITE_CONFIG = {
   title: 'Balbino Tchoutzine',
   subtitle: 'Portfolio & Recherche',
   description: {
-    fr: "Etudiant en Genie Informatique - Passionne d'IA et de NLP",
-    en: 'Computer Engineering Student - Passionate about AI and NLP',
+    fr: "Étudiant-ingénieur en Génie Informatique · IA appliquée : Computer Vision, Geospatial ML, NLP low-resource, Edge AI",
+    en: 'Computer Engineering Student · Applied AI: Computer Vision, Geospatial ML, Low-resource NLP, Edge AI',
   },
   url: 'https://balbino-tchoutzine.vercel.app',
   author: {
     name: 'Balbino Tchoutzine',
     bio: {
-      fr: "Etudiant en Genie Informatique passionne par l'IA, le NLP et les technologies pour l'Afrique",
-      en: 'Computer Engineering student passionate about AI, NLP, and technologies for Africa',
+      fr: "Étudiant-ingénieur en Génie Informatique (ENSPY), je construis de l'IA appliquée au développement : Computer Vision, Geospatial ML et NLP low-resource, avec un intérêt particulier pour l'Afrique",
+      en: 'Computer Engineering student at ENSPY, building applied AI for development across computer vision, geospatial ML, and low-resource NLP, with a particular focus on Africa',
     },
     location: 'Cameroun',
     email: 'tchoutzine@gmail.com',
@@ -33,7 +33,7 @@ export const NAV_ITEMS: Record<string, NavItem[]> = {
     { label: 'Blog', href: '/blog' },
     { label: 'Recherche', href: '/research' },
     { label: 'Certifications', href: '/certifications' },
-    { label: 'A propos', href: '/about' },
+    { label: 'À propos', href: '/about' },
     { label: 'Contact', href: '/contact' },
   ],
   en: [
@@ -86,42 +86,114 @@ export const SKILLS: SkillCategory[] = [
   },
 ];
 
-export const TIMELINE: TimelineEntry[] = [
-  {
-    period: 'Sept 2024 - Present',
-    title: 'Genie Informatique (3eme annee cycle ingenieur)',
-    institution: 'ENSPY - Ecole Nationale Superieure Polytechnique de Yaounde',
-    description: 'Specialisation en Intelligence Artificielle, Machine Learning et traitement du langage naturel.',
-    focus: 'Deep Learning, NLP, Computer Vision, Data Science',
-  },
-  {
-    period: 'Sept 2022 - Juin 2024',
-    title: 'Classe Preparatoire Integree (2 ans)',
-    institution: 'ENSPY - Ecole Nationale Superieure Polytechnique de Yaounde',
-    description: 'Formation intensive en Mathematiques, Sciences Physiques et Informatique.',
-    focus: 'Mathematiques avancees, Physique, Algorithmique, Programmation',
-  },
-  {
-    period: 'Sept 2015 - Juin 2022',
-    title: 'Baccalaureat ESG Serie C',
-    institution: 'Lycee Classique de Bangante',
-    description: 'Serie C (Mathematiques et Sciences Physiques)',
-    focus: 'Mathematiques, Physique, Chimie, Informatique',
-  },
-];
+export const TIMELINE: Record<'fr' | 'en', TimelineEntry[]> = {
+  fr: [
+    {
+      period: 'Attendu juin 2027',
+      title: "Diplôme d'ingénieur",
+      institution: 'ENSPY - Université de Yaoundé I',
+      description: "Diplôme d'ingénieur en Génie Informatique",
+      focus: '',
+      status: '—',
+    },
+    {
+      period: '2026 - 2027',
+      title: 'Cycle ingénieur GI - ING-5',
+      institution: 'ENSPY - Université de Yaoundé I',
+      description: 'Dernière année du cycle ingénieur, spécialisation et projet de fin d\'études.',
+      focus: "Stage de recherche en cours : prédiction multimodale de conversion MCI → démence (NACC, ADNI, Framingham)",
+      status: 'En cours (entrant)',
+    },
+    {
+      period: '2025 - 2026',
+      title: 'Cycle ingénieur GI - ING-4',
+      institution: 'ENSPY - Université de Yaoundé I',
+      description: 'Approfondissement IA/data, génie logiciel et systèmes.',
+      focus: 'Machine Learning, Analyse de données, Informatique décisionnelle, Systèmes multi-agents, Recherche opérationnelle',
+      status: 'Terminé · GPA 3.02/4.0',
+    },
+    {
+      period: '2024 - 2025',
+      title: 'Cycle ingénieur GI - ING-3',
+      institution: 'ENSPY - Université de Yaoundé I',
+      description: 'Socle informatique, mathématique et premières briques IA.',
+      focus: 'Systèmes formels et bases de l\'IA, Data Science, Bases de données, Algorithmique, Programmation objet',
+      status: 'Terminé',
+    },
+    {
+      period: '2022 - 2024',
+      title: 'Classes préparatoires intégrées',
+      institution: 'ENSPY - Université de Yaoundé I',
+      description: 'Formation intensive en mathématiques, sciences physiques et informatique.',
+      focus: 'Mathématiques (algèbre, analyse, probabilités, géométrie), Physique, Algorithmique, C, Python',
+      status: 'Terminé',
+    },
+    {
+      period: '2015 - 2022',
+      title: 'Baccalauréat Série C',
+      institution: 'Lycée Classique de Bangangté',
+      description: 'Série C (Mathématiques et Sciences Physiques)',
+      focus: 'Mathématiques, Physique, Chimie',
+      status: 'Obtenu (juin 2022)',
+    },
+  ],
+  en: [
+    {
+      period: 'Expected June 2027',
+      title: 'Engineering Degree',
+      institution: 'ENSPY - University of Yaoundé I',
+      description: 'Engineering degree in Computer Engineering',
+      focus: '',
+      status: '—',
+    },
+    {
+      period: '2026 - 2027',
+      title: 'Computer Engineering - Year 5 (ING-5)',
+      institution: 'ENSPY - University of Yaoundé I',
+      description: 'Final year of the engineering program, specialization and capstone project.',
+      focus: 'Ongoing research internship: multimodal prediction of MCI-to-dementia conversion (NACC, ADNI, Framingham)',
+      status: 'Incoming / in progress',
+    },
+    {
+      period: '2025 - 2026',
+      title: 'Computer Engineering - Year 4 (ING-4)',
+      institution: 'ENSPY - University of Yaoundé I',
+      description: 'Deeper AI/data, software engineering and systems coursework.',
+      focus: 'Machine Learning, Data Analysis, Business Intelligence, Multi-Agent Systems, Operations Research',
+      status: 'Completed · GPA 3.02/4.0',
+    },
+    {
+      period: '2024 - 2025',
+      title: 'Computer Engineering - Year 3 (ING-3)',
+      institution: 'ENSPY - University of Yaoundé I',
+      description: 'CS and math foundations, first building blocks of AI.',
+      focus: 'Formal Systems and Foundations of AI, Data Science, Databases, Algorithms, Object-Oriented Programming',
+      status: 'Completed',
+    },
+    {
+      period: '2022 - 2024',
+      title: 'Integrated Preparatory Programme',
+      institution: 'ENSPY - University of Yaoundé I',
+      description: 'Intensive training in mathematics, physical sciences and computer science.',
+      focus: 'Mathematics (algebra, analysis, probability, geometry), Physics, Algorithms, C, Python',
+      status: 'Completed',
+    },
+    {
+      period: '2015 - 2022',
+      title: 'High School Diploma - Series C',
+      institution: 'Lycée Classique de Bangangté',
+      description: 'Series C (Mathematics and Physical Sciences)',
+      focus: 'Mathematics, Physics, Chemistry',
+      status: 'Awarded (June 2022)',
+    },
+  ],
+};
 
 export const STATS: Stat[] = [
   { value: '15+', label: 'Certifications' },
   { value: '10+', label: 'Projets IA/ML' },
-  { value: '2', label: 'Challenges gagnes' },
-  { value: '3', label: 'Langues parlees' },
-];
-
-export const INTERESTS: Interest[] = [
-  { icon: '', title: 'Basketball', description: "Passion pour le sport d'equipe et la strategie" },
-  { icon: '', title: 'Echecs & Scrabble', description: 'Jeux de reflexion et strategie mentale' },
-  { icon: '', title: 'Lecture', description: 'Developpement personnel, business et finance' },
-  { icon: '', title: 'Tech for Africa', description: "Solutions technologiques pour l'Afrique" },
+  { value: '2', label: 'Challenges gagnés' },
+  { value: '3', label: 'Langues parlées' },
 ];
 
 export const PROJECT_CATEGORIES = ['all', 'ai', 'nlp', 'ml', 'competition', 'web'] as const;

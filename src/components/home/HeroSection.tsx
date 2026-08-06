@@ -55,19 +55,19 @@ export default function HeroSection({ locale }: { locale: string }) {
   const t = locale === 'fr'
     ? {
       greeting: 'Salut, je suis',
-      role: 'Eleve Ingenieur en Genie Informatique',
-      tagline: 'IA/CV/NLP pour les langues africaines',
+      role: 'Élève Ingénieur en Génie Informatique',
+      tagline: 'IA appliquée · Computer Vision · Geospatial ML · NLP low-resource · Edge AI',
       cta1: 'Voir mes projets',
       cta2: 'Lire le blog',
-      school: 'ENSPY Yaounde',
+      school: 'ENSPY Yaoundé',
     }
     : {
       greeting: "Hi, I'm",
       role: 'Computer Engineering Student',
-      tagline: 'CV & NLP for African Languages',
+      tagline: 'Applied AI · Computer Vision · Geospatial ML · Low-resource NLP · Edge AI',
       cta1: 'View my projects',
       cta2: 'Read the blog',
-      school: 'ENSPY Yaounde',
+      school: 'ENSPY Yaoundé',
     };
 
   return (

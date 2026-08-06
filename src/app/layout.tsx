@@ -12,8 +12,8 @@ export const metadata: Metadata = {
     default: 'Balbino Tchoutzine | Portfolio',
     template: '%s | Balbino Tchoutzine',
   },
-  description: "Etudiant en Genie Informatique - Passionne d'IA et de NLP pour les langues africaines",
-  keywords: ['AI', 'NLP', 'Machine Learning', 'Portfolio', 'Cameroun', 'Medumba'],
+  description: "Étudiant-ingénieur en Génie Informatique, IA appliquée : Computer Vision, Geospatial ML, NLP low-resource, Edge AI",
+  keywords: ['AI', 'Computer Vision', 'Geospatial ML', 'NLP', 'Machine Learning', 'Edge AI', 'Portfolio', 'Cameroon', 'Africa'],
   authors: [{ name: 'Balbino Tchoutzine' }],
 };
 
