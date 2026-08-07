@@ -23,7 +23,7 @@ export default function BlogClient({ posts, locale }: { posts: BlogPost[]; local
     <div className="pt-20">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-[var(--border-light)] py-20 text-white">
-        <img src="/images/blog/banniere.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img src="/images/blog/banniere.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(13,17,23,0.55), rgba(13,17,23,0.35))' }} />
         <div className="relative mx-auto max-w-6xl px-4 text-center md:px-8">
           <h1 className="mb-4 text-4xl font-black md:text-5xl">{t.title}</h1>
