@@ -10,8 +10,8 @@ import { formatDate } from '@/lib/utils';
 export default function BlogClient({ posts, locale }: { posts: BlogPost[]; locale: string }) {
   const [search, setSearch] = useState('');
   const t = locale === 'fr'
-    ? { title: 'Blog & Articles', subtitle: "Partage de connaissances sur l'IA, le NLP, et mes retours d'experience", search: 'Rechercher un article...', read: 'Lire la suite', noResults: 'Aucun article trouve' }
-    : { title: 'Blog & Articles', subtitle: 'Sharing knowledge about AI, NLP, and my experiences', search: 'Search articles...', read: 'Read more', noResults: 'No articles found' };
+    ? { title: 'Blog & Articles', subtitle: "Partage de connaissances sur l'IA et mes retours d'expérience", search: 'Rechercher un article...', read: 'Lire la suite', noResults: 'Aucun article trouvé' }
+    : { title: 'Blog & Articles', subtitle: 'Sharing knowledge about AI and my experiences', search: 'Search articles...', read: 'Read more', noResults: 'No articles found' };
 
   const filtered = posts.filter((p) =>
     p.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -22,10 +22,12 @@ export default function BlogClient({ posts, locale }: { posts: BlogPost[]; local
   return (
     <div className="pt-20">
       {/* Hero */}
-      <section className="bg-[var(--bg-secondary)] py-16 border-b border-[var(--border-light)]">
-        <div className="mx-auto max-w-6xl px-4 text-center md:px-8">
-          <h1 className="mb-4 text-4xl font-black text-[var(--text-primary)] md:text-5xl">{t.title}</h1>
-          <p className="text-lg text-[var(--text-secondary)]">{t.subtitle}</p>
+      <section className="relative overflow-hidden border-b border-[var(--border-light)] py-20 text-white">
+        <img src="/images/blog/banniere.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(13,17,23,0.55), rgba(13,17,23,0.35))' }} />
+        <div className="relative mx-auto max-w-6xl px-4 text-center md:px-8">
+          <h1 className="mb-4 text-4xl font-black md:text-5xl">{t.title}</h1>
+          <p className="text-lg text-white/80">{t.subtitle}</p>
         </div>
       </section>
 

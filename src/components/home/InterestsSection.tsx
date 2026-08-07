@@ -9,7 +9,6 @@ const interestsData = {
     { title: 'Compétitions ML & communauté open data', desc: 'Zindi' },
     { title: 'Recherche appliquée', desc: 'Grokking, label noise, systèmes multimodaux' },
     { title: 'Transmission / teaching', desc: 'MLTS, débats, talks Bénin & Tchad' },
-    { title: 'Outils AI engineering', desc: 'Cursor, agents, skills' },
     { title: 'Basketball, échecs, scrabble, lecture', desc: 'Développement personnel, business, finance' },
   ],
   en: [
@@ -18,7 +17,6 @@ const interestsData = {
     { title: 'ML competitions & open data community', desc: 'Zindi' },
     { title: 'Applied research', desc: 'Grokking, label noise, multimodal systems' },
     { title: 'Teaching & knowledge sharing', desc: 'MLTS, debates, talks in Benin & Chad' },
-    { title: 'AI engineering tooling', desc: 'Cursor, agents, skills' },
     { title: 'Basketball, chess, scrabble, reading', desc: 'Personal development, business, finance' },
   ],
 };

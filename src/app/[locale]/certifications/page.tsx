@@ -6,7 +6,7 @@ export default async function CertificationsPage({ params }: { params: Promise<{
   const { locale } = await params;
   const certs = getCertifications(locale);
   const t = locale === 'fr'
-    ? { title: 'Certifications Professionnelles', subtitle: 'Mes certifications en IA, Machine Learning et Developpement', partners: 'Organismes de Formation' }
+    ? { title: 'Certifications Professionnelles', subtitle: 'Mes certifications en IA, Machine Learning et Développement', partners: 'Organismes de Formation' }
     : { title: 'Professional Certifications', subtitle: 'My certifications in AI, Machine Learning and Development', partners: 'Training Partners' };
 
   const partnerLogos = [
@@ -24,10 +24,12 @@ export default async function CertificationsPage({ params }: { params: Promise<{
   return (
     <div className="pt-20">
       {/* Hero */}
-      <section className="border-b border-[var(--border-light)] bg-[var(--bg-secondary)] py-16">
-        <div className="mx-auto max-w-6xl px-4 text-center md:px-8">
-          <h1 className="mb-4 text-4xl font-black text-[var(--text-primary)] md:text-5xl">{t.title}</h1>
-          <p className="text-lg text-[var(--text-secondary)]">{t.subtitle}</p>
+      <section className="relative overflow-hidden border-b border-[var(--border-light)] py-20 text-white">
+        <img src="/images/certifications/banniere.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(13,17,23,0.55), rgba(13,17,23,0.35))' }} />
+        <div className="relative mx-auto max-w-6xl px-4 text-center md:px-8">
+          <h1 className="mb-4 text-4xl font-black md:text-5xl">{t.title}</h1>
+          <p className="text-lg text-white/80">{t.subtitle}</p>
         </div>
       </section>
 

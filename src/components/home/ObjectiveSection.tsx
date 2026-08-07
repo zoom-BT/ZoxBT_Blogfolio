@@ -8,13 +8,13 @@ export default function ObjectiveSection({ locale }: { locale: string }) {
   const t = locale === 'fr'
     ? {
         title: 'Mon Objectif',
-        text: "Contribuer à la démocratisation de l'IA en Afrique et développer des technologies qui valorisent nos langues et notre patrimoine culturel. Je souhaite poursuivre mes recherches au niveau international tout en restant ancré dans les réalités africaines.",
+        text: "Contribuer à l'avancée de la recherche en IA à l'échelle mondiale, tout en développant des technologies qui répondent aux réalités africaines. Je veux poursuivre mes recherches au sein d'équipes et de laboratoires internationaux, sans perdre de vue l'impact que la technologie peut avoir chez moi, au Cameroun.",
         cta1: 'En savoir plus',
         cta2: 'Me contacter',
       }
     : {
         title: 'My Objective',
-        text: 'Contributing to the democratization of AI in Africa and developing technologies that value our languages and cultural heritage. I wish to pursue my research at the international level while staying grounded in African realities.',
+        text: 'Contributing to the advancement of AI research on a global scale, while developing technologies that address African realities. I want to pursue my research within international teams and labs, without losing sight of the impact technology can have back home, in Cameroon.',
         cta1: 'Learn more',
         cta2: 'Contact me',
       };

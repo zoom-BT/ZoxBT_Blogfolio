@@ -6,9 +6,9 @@ import { useState, useEffect } from 'react';
 
 const codeLines = [
   'const engineer = new Balbino();',
-  'engineer.field = "CV & NLP";',
-  'engineer.focus = "Traffic Control & African Languages";',
-  'await engineer.build(future);',
+  'engineer.research = ["foundations", "alignment", "prediction"];',
+  'engineer.builds = ["Computer Vision", "Geospatial ML", "Edge AI"];',
+  'await engineer.ship(impact);',
 ];
 
 function TypingEffect({ lines }: { lines: string[] }) {
@@ -56,7 +56,7 @@ export default function HeroSection({ locale }: { locale: string }) {
     ? {
       greeting: 'Salut, je suis',
       role: 'Élève Ingénieur en Génie Informatique',
-      tagline: 'IA appliquée · Computer Vision · Geospatial ML · NLP low-resource · Edge AI',
+      tagline: 'Recherche IA (fondements, alignement, prédiction) · Speaker & Leader AI Cell',
       cta1: 'Voir mes projets',
       cta2: 'Lire le blog',
       school: 'ENSPY Yaoundé',
@@ -64,7 +64,7 @@ export default function HeroSection({ locale }: { locale: string }) {
     : {
       greeting: "Hi, I'm",
       role: 'Computer Engineering Student',
-      tagline: 'Applied AI · Computer Vision · Geospatial ML · Low-resource NLP · Edge AI',
+      tagline: 'AI Research (foundations, alignment, prediction) · Speaker & Leader AI Cell',
       cta1: 'View my projects',
       cta2: 'Read the blog',
       school: 'ENSPY Yaoundé',
@@ -192,7 +192,7 @@ export default function HeroSection({ locale }: { locale: string }) {
               transition={{ delay: 1.2 }}
               className="mt-4 flex flex-wrap gap-2"
             >
-              {['Python', 'TensorFlow', 'NLP', 'YoLo', 'Deep Learning', 'Computer Vision'].map((tech) => (
+              {['Python', 'PyTorch', 'Computer Vision', 'Geospatial ML', 'Foundation Models', 'Edge AI'].map((tech) => (
                 <span key={tech} className="inline-block rounded-lg border border-[#21262d] bg-[#161b22] px-2.5 py-0.5 text-xs font-medium text-[#8b949e]">{tech}</span>
               ))}
             </motion.div>

@@ -1,10 +1,11 @@
 import { ThemeProvider } from 'next-themes';
-import { Inter } from 'next/font/google';
+import { Inter, Merriweather } from 'next/font/google';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import ScrollProgress from '@/components/shared/ScrollProgress';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const merriweather = Merriweather({ subsets: ['latin'], weight: ['700', '900'], variable: '--font-serif' });
 
 export function generateStaticParams() {
   return [{ locale: 'fr' }, { locale: 'en' }];
@@ -21,7 +22,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${merriweather.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" storageKey="portfolio-theme" enableSystem={false}>
           <ScrollProgress />
           <Navbar locale={locale} />

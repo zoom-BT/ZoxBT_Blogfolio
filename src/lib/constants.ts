@@ -70,7 +70,7 @@ export const SKILLS: SkillCategory[] = [
     title: 'Web',
     skills: [
       { name: 'HTML/CSS', level: 85 },
-      { name: 'React', level: 70 },
+      { name: 'Next.js', level: 70 },
       { name: 'Node.js', level: 65 },
       { name: 'Django/Flask', level: 75 },
     ],
@@ -89,7 +89,7 @@ export const SKILLS: SkillCategory[] = [
 export const TIMELINE: Record<'fr' | 'en', TimelineEntry[]> = {
   fr: [
     {
-      period: 'Attendu juin 2027',
+      period: 'Attendu septembre 2027',
       title: "Diplôme d'ingénieur",
       institution: 'ENSPY - Université de Yaoundé I',
       description: "Diplôme d'ingénieur en Génie Informatique",
@@ -139,7 +139,7 @@ export const TIMELINE: Record<'fr' | 'en', TimelineEntry[]> = {
   ],
   en: [
     {
-      period: 'Expected June 2027',
+      period: 'Expected September 2027',
       title: 'Engineering Degree',
       institution: 'ENSPY - University of Yaoundé I',
       description: 'Engineering degree in Computer Engineering',

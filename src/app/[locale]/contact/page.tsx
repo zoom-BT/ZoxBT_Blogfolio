@@ -5,16 +5,18 @@ import { SITE_CONFIG } from '@/lib/constants';
 export default async function ContactPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = locale === 'fr'
-    ? { title: 'Me Contacter', subtitle: "N'hesitez pas a me contacter pour toute collaboration ou question", info: 'Coordonnees', or: 'Ou retrouvez-moi' }
+    ? { title: 'Me Contacter', subtitle: "N'hésitez pas à me contacter pour toute collaboration ou question", info: 'Coordonnées', or: 'Où me retrouver' }
     : { title: 'Contact Me', subtitle: 'Feel free to reach out for any collaboration or question', info: 'Contact Info', or: 'Or find me on' };
 
   return (
     <div className="pt-20">
       {/* Hero */}
-      <section className="border-b border-[var(--border-light)] bg-[var(--bg-secondary)] py-16">
-        <div className="mx-auto max-w-6xl px-4 text-center md:px-8">
-          <h1 className="mb-4 text-4xl font-black text-[var(--text-primary)] md:text-5xl">{t.title}</h1>
-          <p className="text-lg text-[var(--text-secondary)]">{t.subtitle}</p>
+      <section className="relative overflow-hidden border-b border-[var(--border-light)] py-20 text-white">
+        <img src="/images/contact/banniere.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(13,17,23,0.55), rgba(13,17,23,0.35))' }} />
+        <div className="relative mx-auto max-w-6xl px-4 text-center md:px-8">
+          <h1 className="mb-4 text-4xl font-black md:text-5xl">{t.title}</h1>
+          <p className="text-lg text-white/80">{t.subtitle}</p>
         </div>
       </section>
 

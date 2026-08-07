@@ -6,17 +6,19 @@ import Image from 'next/image';
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = locale === 'fr'
-    ? { title: 'À propos de moi', welcome: 'Bienvenue', iam: 'Je suis Balbino Tchoutzine', role: "Étudiant-ingénieur en Génie Informatique | IA appliquée : CV, Geospatial ML, NLP low-resource", who: 'Qui suis-je ?', skills: 'Compétences Techniques', timeline: 'Parcours Académique', interests: "Centres d'Intérêt", achievements: 'Réalisations', languages: 'Langues' }
-    : { title: 'About Me', welcome: 'Welcome', iam: "I'm Balbino Tchoutzine", role: 'Computer Engineering Student | Applied AI: CV, Geospatial ML, Low-resource NLP', who: 'Who am I?', skills: 'Technical Skills', timeline: 'Academic Journey', interests: 'Interests', achievements: 'Achievements', languages: 'Languages' };
+    ? { title: 'À propos de moi', welcome: 'Bienvenue', iam: 'Je suis Balbino Tchoutzine', role: 'Élève-ingénieur ENSPY | Recherche IA (fondements, alignement, prédiction) | Speaker & Leader AI Cell', who: 'Qui suis-je ?', skills: 'Compétences Techniques', timeline: 'Parcours Académique', interests: "Centres d'Intérêt", achievements: 'Réalisations', languages: 'Langues' }
+    : { title: 'About Me', welcome: 'Welcome', iam: "I'm Balbino Tchoutzine", role: 'ENSPY Engineering Student | AI Research (foundations, alignment, prediction) | Speaker & Leader AI Cell', who: 'Who am I?', skills: 'Technical Skills', timeline: 'Academic Journey', interests: 'Interests', achievements: 'Achievements', languages: 'Languages' };
 
   return (
     <div className="pt-20">
       {/* Hero */}
-      <section className="border-b border-[var(--border-light)] bg-[var(--bg-secondary)] py-16">
-        <div className="mx-auto max-w-6xl px-4 text-center md:px-8">
-          <h1 className="mb-2 text-4xl font-black text-[var(--text-primary)] md:text-5xl">{t.welcome}</h1>
-          <p className="text-xl text-[var(--text-primary)]">{t.iam}</p>
-          <p className="text-[var(--text-secondary)]">{t.role}</p>
+      <section className="relative overflow-hidden border-b border-[var(--border-light)] py-20 text-white">
+        <img src="/images/about/banniere.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(13,17,23,0.55), rgba(13,17,23,0.35))' }} />
+        <div className="relative mx-auto max-w-6xl px-4 text-center md:px-8">
+          <h1 className="mb-2 text-4xl font-black md:text-5xl">{t.welcome}</h1>
+          <p className="text-xl">{t.iam}</p>
+          <p className="text-white/80">{t.role}</p>
         </div>
       </section>
 
@@ -40,16 +42,53 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             <div className="space-y-4 text-[var(--text-secondary)] leading-relaxed">
               <p>
                 {locale === 'fr'
-                  ? "Élève-ingénieur entrant en 5ème année de Génie Informatique à l'ENSPY (École Nationale Supérieure Polytechnique de Yaoundé), je construis de l'IA appliquée : Computer Vision, Geospatial AI & foundation models, NLP low-resource et Edge AI. Mon travail sert autant des projets pour l'Afrique (agriculture, santé, climat) que des recherches appliquées plus générales, avec l'ambition de contribuer dans des équipes et laboratoires internationaux."
-                  : "Incoming 5th-year Computer Engineering student at ENSPY (National Advanced School of Engineering of Yaoundé), I build applied AI: Computer Vision, Geospatial AI & foundation models, low-resource NLP, and Edge AI. My work spans projects for Africa (agriculture, health, climate) as well as more general applied research, with the ambition to contribute to international teams and labs."}
+                  ? "Élève-ingénieur en dernière année de Génie Informatique à l'ENSPY (Université de Yaoundé I), je construis et j'étudie l'IA à l'intersection de la recherche et de l'ingénierie : computer vision, geospatial ML, NLP low-resource, edge AI, systèmes prédictifs. Ce qui m'intéresse le plus, ce sont les concepts sous-jacents des modèles, l'alignement par fine-tuning, et les problèmes de prédiction à horizon long, comme les modèles que je développe pour prédire une conversion vers la démence 2 à 5 ans à l'avance, à partir de diagnostics et d'IRM. Je suis actuellement à la recherche de professeurs et d'équipes pour un stage de recherche à l'international, notamment vers des laboratoires comme Mila (Canada) ou G-Research (Londres)."
+                  : "Final-year Computer Engineering student at ENSPY (University of Yaoundé I), I build and study AI at the intersection of research and engineering: computer vision, geospatial ML, low-resource NLP, edge AI, predictive systems. What draws me most is what's underneath the models: the underlying concepts, alignment through fine-tuning, and long-horizon prediction problems, like the models I'm developing to predict dementia conversion 2 to 5 years in advance, from diagnoses and MRI scans. I'm currently looking for professors and teams to host me for an international research internship, particularly at labs like Mila (Canada) or G-Research (London)."}
               </p>
               <p>
                 {locale === 'fr'
-                  ? "Mon parcours, enrichi par des certifications professionnelles (Kaggle, Coursera, IBM, Microsoft) et des engagements extrascolaires (Cellule IA, Zindi Ambassador, APOREN), m'a permis de développer des compétences solides alliant technique, recherche et leadership."
-                  : 'My journey, enriched by professional certifications (Kaggle, Coursera, IBM, Microsoft) and extracurricular activities (AI Cell, Zindi Ambassador, APOREN), has allowed me to develop solid skills combining technique, research and leadership.'}
+                  ? "Je ne fais pas que coder : je transmets. Je dirige l'AI Cell ENSPY, une communauté de plus de 1 000 membres où, avec mon équipe, nous faisons vivre ML News, débats et workshops. Ambassadeur Zindi, j'interviens comme speaker sur les compétitions de Machine Learning au Cameroun, au Bénin et au Tchad, et je partage mes pratiques d'AI engineering auprès de la communauté Cursor. Avant ça, j'ai présidé APOREN, l'association de plus de 200 étudiants polytechniciens originaires du Ndé."
+                  : "I don't just code: I teach. I lead AI Cell ENSPY, a community of over 1,000 members where, together with my team, we run ML News, debates, and workshops. As a Zindi Ambassador, I speak on machine learning competition best practices in Cameroon, Benin, and Chad, and I share AI engineering practices with the Cursor community. Before that, I was president of APOREN, an association of 200+ polytechnic students from the Ndé region."}
+              </p>
+              <p>
+                {locale === 'fr'
+                  ? "Sur le terrain : Gardienne, mon bouclier IA contre le cyberharcèlement, a décroché la 2ᵉ place au hackathon Girls in STEAM. J'ai terminé 2ᵉ au niveau national sur DataTour 2025. Sur Zindi, j'ai participé à plus de 19 challenges. Et je suis nominé pour Africa's 100 Rising AI Developers 2026."
+                  : "On the ground: Gardienne, my AI shield against cyberharassment, took 2nd place at the Girls in STEAM hackathon. I placed 2nd nationally at DataTour 2025. On Zindi, I've taken part in 19+ challenges. And I'm a nominee for Africa's 100 Rising AI Developers 2026."}
               </p>
             </div>
           </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Achievements */}
+      <section className="border-b border-[var(--border-light)] py-16" style={{ background: 'var(--bg-secondary)' }}>
+        <div className="mx-auto max-w-6xl px-4 md:px-8">
+          <AnimatedSection className="mb-10 text-center">
+            <h2 className="text-2xl font-bold text-[var(--text-primary)]">{t.achievements}</h2>
+          </AnimatedSection>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {(locale === 'fr'
+              ? [
+                { title: '2ᵉ place - Girls in STEAM', desc: 'Gardienne, bouclier IA contre le cyberharcèlement (2026)' },
+                { title: '2ᵉ national - DataTour 2025', desc: 'Compétition Pan-Africaine (équipe CAMP)' },
+                { title: '19+ challenges Zindi', desc: 'Sous le pseudo Zoom387' },
+                { title: "Nominee - Africa's 100 Rising AI Developers", desc: 'Society for AI, 2026' },
+              ]
+              : [
+                { title: '2nd place - Girls in STEAM', desc: 'Gardienne, AI shield against cyberharassment (2026)' },
+                { title: '2nd nationally - DataTour 2025', desc: 'Pan-African competition (team CAMP)' },
+                { title: '19+ Zindi challenges', desc: 'Under the handle Zoom387' },
+                { title: "Nominee - Africa's 100 Rising AI Developers", desc: 'Society for AI, 2026' },
+              ]
+            ).map((a) => (
+              <AnimatedSection key={a.title}>
+                <div className="card h-full p-5 text-center">
+                  <h4 className="mb-1 text-sm font-bold text-[var(--text-primary)]">{a.title}</h4>
+                  <p className="text-xs text-[var(--text-secondary)]">{a.desc}</p>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
         </div>
       </section>
 
