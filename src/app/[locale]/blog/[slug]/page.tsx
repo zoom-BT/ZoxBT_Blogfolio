@@ -8,6 +8,7 @@ import LikeButton from '@/components/blog/LikeButton';
 import CommentSection from '@/components/blog/CommentSection';
 import ShareButtons from '@/components/blog/ShareButtons';
 import Gallery from '@/components/blog/Gallery';
+import Mermaid from '@/components/blog/Mermaid';
 
 function renderTitle(title: string) {
   const match = title.match(/TCHOUTZIFY|Tchoutzify/);
@@ -123,7 +124,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
             <MDXRemote
               source={post.content}
               options={{ mdxOptions: { remarkPlugins: [remarkGfm] }, blockJS: false }}
-              components={{ Gallery }}
+              components={{ Gallery, Mermaid }}
             />
           </article>
 
