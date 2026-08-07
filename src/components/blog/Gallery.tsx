@@ -44,7 +44,7 @@ export default function Gallery({ images }: { images: GalleryImage[] }) {
           >
             <div
               style={{
-                height: '360px',
+                height: '480px',
                 background: 'var(--bg-secondary)',
                 borderRadius: '8px',
                 display: 'flex',
@@ -75,7 +75,7 @@ export default function Gallery({ images }: { images: GalleryImage[] }) {
         style={{
           position: 'absolute',
           left: '4px',
-          top: '160px',
+          top: '220px',
           width: '36px',
           height: '36px',
           borderRadius: '50%',
@@ -99,7 +99,7 @@ export default function Gallery({ images }: { images: GalleryImage[] }) {
         style={{
           position: 'absolute',
           right: '4px',
-          top: '160px',
+          top: '220px',
           width: '36px',
           height: '36px',
           borderRadius: '50%',

@@ -9,7 +9,7 @@ const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || 'YOUR_ACCESS_KEY_
 export default function ContactForm({ locale }: { locale: string }) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const t = locale === 'fr'
-    ? { name: 'Votre nom', email: 'Votre email', subject: 'Sujet', message: 'Votre message', send: 'Envoyer le message', sending: 'Envoi en cours...', success: 'Message envoye avec succes!', error: 'Erreur. Reessayez.', subjects: ['Collaboration', 'Recherche', 'Question technique', 'Autre'] }
+    ? { name: 'Votre nom', email: 'Votre email', subject: 'Sujet', message: 'Votre message', send: 'Envoyer le message', sending: 'Envoi en cours...', success: 'Message envoyé avec succès !', error: 'Erreur. Réessayez.', subjects: ['Collaboration', 'Recherche', 'Question technique', 'Autre'] }
     : { name: 'Your name', email: 'Your email', subject: 'Subject', message: 'Your message', send: 'Send message', sending: 'Sending...', success: 'Message sent successfully!', error: 'Error. Try again.', subjects: ['Collaboration', 'Research', 'Technical question', 'Other'] };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

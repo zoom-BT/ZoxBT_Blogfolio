@@ -12,7 +12,7 @@ tags:
   - Python
   - Telegram
 teaser: /images/blog/tunezine-cover.png
-excerpt: "De Kanye West à un agent musical complet — comment la frustration de ne pas comprendre une chanson m'a poussé à construire TuneZine AI, un agent n8n 100% gratuit qui analyse ta musique en temps réel."
+excerpt: "De Kanye West à un agent musical complet : comment la frustration de ne pas comprendre une chanson m'a poussé à construire TuneZine AI, un agent n8n 100% gratuit qui analyse ta musique en temps réel."
 ---
 
 Je faisais quelques rangements dans ma chambre, Spotify tournait en fond, et soudain ce son m'a traversé. Une montée de cordes, une basse lourde, une voix qui semblait porter le poids du monde entier.
@@ -23,7 +23,7 @@ Je faisais quelques rangements dans ma chambre, Spotify tournait en fond, et sou
 
 J'aimais profondément ce que j'entendais. Le flow, l'énergie, la construction du son. Mais les paroles m'échappaient complètement. Je ne comprenais pas ce que Kanye voulait dire, ce qu'il vivait, ce qu'il transmettait.
 
-Je suis quelqu'un qui a besoin de comprendre ce qu'il fait, pourquoi il le fait. Pas juste ressentir, mais *saisir*. C'est cette façon de fonctionner qui m'a naturellement amené à chercher une solution. Et avec les cours du **Batch** de 6h30 , les agents  étaient déjà bien présents dans ma tête, l'idée d'en construire un est venue toute seule.
+Je suis quelqu'un qui a besoin de comprendre ce qu'il fait, pourquoi il le fait. Pas juste ressentir, mais *saisir*. C'est cette façon de fonctionner qui m'a naturellement amené à chercher une solution. Et avec les cours du **Batch** de 6h30, les agents étaient déjà bien présents dans ma tête, l'idée d'en construire un est venue toute seule.
 
 Écouter de la musique sans en comprendre le message, c'est comme lire un livre en ne regardant que les illustrations ou images. La beauté est là, mais la profondeur manque.
 
@@ -157,16 +157,16 @@ Et voici ce que Tchoutzify "voit" en coulisses à chaque changement de morceau :
 
 Ensuite les 4 workflows n8n, construits node par node, testés en direct avec Spotify.
 
-**`spotify_watcher`** — détecte chaque changement de morceau en 5 secondes
+**`spotify_watcher`** : détecte chaque changement de morceau en 5 secondes
 <img src="/images/blog/wf1.jpg" alt="Workflow spotify_watcher dans n8n" style={{maxWidth: '600px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
 
-**`llm_narrator`** — envoie le titre à Gemini, récupère la narration
+**`llm_narrator`** : envoie le titre à Gemini, récupère la narration
 <img src="/images/blog/wf2.jpg" alt="Workflow llm_narrator dans n8n" style={{maxWidth: '600px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
 
-**`mood_engine`** — lit ton humeur sur Telegram, génère et lance la playlist
+**`mood_engine`** : lit ton humeur sur Telegram, génère et lance la playlist
 <img src="/images/blog/wf3.jpg" alt="Workflow mood_engine dans n8n" style={{maxWidth: '600px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
 
-**`tts_runner`** — déclenche Henri, pause Spotify, reprend après la lecture
+**`tts_runner`** : déclenche Henri, pause Spotify, reprend après la lecture
 <img src="/images/blog/wf4.jpg" alt="Workflow tts_runner dans n8n" style={{maxWidth: '600px', width: '100%', margin: '0.5em auto 1.5em', display: 'block', borderRadius: '8px'}} />
 
 ---
