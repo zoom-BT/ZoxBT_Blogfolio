@@ -7,16 +7,18 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
   const { locale } = await params;
   const research = getResearch(locale);
   const t = locale === 'fr'
-    ? { title: 'Recherche & Publications', subtitle: "Mes travaux de recherche en IA et NLP pour les langues africaines", interests: 'Intérêts de Recherche' }
-    : { title: 'Research & Publications', subtitle: 'My research work in AI and NLP for African languages', interests: 'Research Interests' };
+    ? { title: 'Recherche & Publications', subtitle: "Mes travaux de recherche en IA appliquée : fondations, alignement, prédiction", interests: 'Intérêts de Recherche' }
+    : { title: 'Research & Publications', subtitle: 'My research work in applied AI: foundations, alignment, prediction', interests: 'Research Interests' };
 
   return (
     <div className="pt-20">
       {/* Hero */}
-      <section className="border-b border-[var(--border-light)] bg-[var(--bg-secondary)] py-16">
-        <div className="mx-auto max-w-6xl px-4 text-center md:px-8">
-          <h1 className="mb-4 text-4xl font-black text-[var(--text-primary)] md:text-5xl">{t.title}</h1>
-          <p className="text-lg text-[var(--text-secondary)]">{t.subtitle}</p>
+      <section className="relative overflow-hidden border-b border-[var(--border-light)] py-20 text-white">
+        <img src="/images/research/banniere.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(13,17,23,0.55), rgba(13,17,23,0.35))' }} />
+        <div className="relative mx-auto max-w-6xl px-4 text-center md:px-8">
+          <h1 className="mb-4 text-4xl font-black md:text-5xl">{t.title}</h1>
+          <p className="text-lg text-white/80">{t.subtitle}</p>
         </div>
       </section>
 
@@ -70,20 +72,22 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
             <ul className="space-y-3">
               {(locale === 'fr'
                 ? [
-                    'Traitement du Langage Naturel (NLP) pour les langues africaines peu dotées',
-                    'Machine Translation entre langues africaines et langues à ressources riches',
-                    'Speech Recognition et synthèse vocale pour langues camerounaises',
-                    'Préservation numérique des langues menacées',
-                    "Applications de l'IA au développement durable en Afrique",
-                    "Éthique de l'IA dans le contexte africain",
+                    "Fondements des modèles et dynamiques d'apprentissage (grokking, robustesse au label noise)",
+                    'Alignement et fine-tuning de foundation models',
+                    'Prédiction clinique à horizon long (démence 2 à 5 ans, à partir de diagnostics et IRM précoces)',
+                    'Computer vision et apprentissage multimodal',
+                    "ML géospatial et foundation models pour l'observation de la Terre",
+                    'NLP / parole low-resource (langues africaines comme terrain exigeant)',
+                    'Machine learning compétitif et appliqué à grande échelle',
                   ]
                 : [
-                    'Natural Language Processing for low-resource African languages',
-                    'Machine Translation between African and high-resource languages',
-                    'Speech Recognition and synthesis for Cameroonian languages',
-                    'Digital preservation of endangered languages',
-                    'Applications of AI for sustainable development in Africa',
-                    'AI Ethics in the African context',
+                    'Foundations of deep learning and learning dynamics (grokking, robustness to label noise)',
+                    'Alignment and fine-tuning of foundation models',
+                    'Long-horizon clinical prediction (dementia 2 to 5 years out, from early diagnostics and MRI)',
+                    'Computer vision and multimodal learning',
+                    'Geospatial ML and foundation models for Earth observation',
+                    'Low-resource NLP / speech (African languages as a demanding testbed)',
+                    'Competitive and large-scale applied machine learning',
                   ]
               ).map((item) => (
                 <li key={item} className="flex items-start gap-3 text-[var(--text-secondary)]">
