@@ -1,4 +1,5 @@
 import ContactForm from '@/components/contact/ContactForm';
+import Image from 'next/image';
 import AnimatedSection from '@/components/shared/AnimatedSection';
 import { SITE_CONFIG } from '@/lib/constants';
 
@@ -12,7 +13,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
     <div className="pt-20">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-[var(--border-light)] py-20 text-white">
-        <img src="/images/contact/banniere.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <Image src="/images/contact/banniere.png" alt="" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(13,17,23,0.55), rgba(13,17,23,0.35))' }} />
         <div className="relative mx-auto max-w-6xl px-4 text-center md:px-8">
           <h1 className="mb-4 text-4xl font-black md:text-5xl">{t.title}</h1>

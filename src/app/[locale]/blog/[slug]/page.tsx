@@ -1,14 +1,17 @@
 import { getPosts, getPostBySlug } from '@/lib/content';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
+import dynamic from 'next/dynamic';
 import { formatDate } from '@/lib/utils';
 import LikeButton from '@/components/blog/LikeButton';
 import CommentSection from '@/components/blog/CommentSection';
 import ShareButtons from '@/components/blog/ShareButtons';
 import Gallery from '@/components/blog/Gallery';
-import Mermaid from '@/components/blog/Mermaid';
+
+const Mermaid = dynamic(() => import('@/components/blog/Mermaid'));
 
 function renderTitle(title: string) {
   const match = title.match(/TCHOUTZIFY|Tchoutzify/);
@@ -88,10 +91,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       >
         {post.teaser && (
           <>
-            <img
+            <Image
               src={post.teaser}
               alt={post.title}
-              className="absolute inset-0 w-full h-full object-cover"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-black/55" />
           </>

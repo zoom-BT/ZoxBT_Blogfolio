@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedSection from '@/components/shared/AnimatedSection';
 import { BlogPost } from '@/lib/types';
@@ -23,7 +24,7 @@ export default function BlogClient({ posts, locale }: { posts: BlogPost[]; local
     <div className="pt-20">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-[var(--border-light)] py-20 text-white">
-        <img src="/images/blog/banniere.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <Image src="/images/blog/banniere.png" alt="" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(13,17,23,0.55), rgba(13,17,23,0.35))' }} />
         <div className="relative mx-auto max-w-6xl px-4 text-center md:px-8">
           <h1 className="mb-4 text-4xl font-black md:text-5xl">{t.title}</h1>

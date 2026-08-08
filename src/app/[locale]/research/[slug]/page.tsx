@@ -1,6 +1,7 @@
 import { getResearch, getResearchBySlug } from '@/lib/content';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import { formatDate } from '@/lib/utils';
@@ -23,7 +24,7 @@ export default async function ResearchDetailPage({ params }: { params: Promise<{
       >
         {item.teaser && (
           <>
-            <img src={item.teaser} alt={item.title} className="absolute inset-0 h-full w-full object-cover object-left-top" />
+            <Image src={item.teaser} alt={item.title} fill priority sizes="100vw" className="object-cover object-left-top" />
             <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(30,60,114,0.85), rgba(42,82,152,0.85))' }} />
           </>
         )}

@@ -1,4 +1,5 @@
 import { getCertifications } from '@/lib/content';
+import Image from 'next/image';
 import AnimatedSection from '@/components/shared/AnimatedSection';
 import { formatDate } from '@/lib/utils';
 
@@ -25,7 +26,7 @@ export default async function CertificationsPage({ params }: { params: Promise<{
     <div className="pt-20">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-[var(--border-light)] py-20 text-white">
-        <img src="/images/certifications/banniere.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <Image src="/images/certifications/banniere.png" alt="" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(13,17,23,0.55), rgba(13,17,23,0.35))' }} />
         <div className="relative mx-auto max-w-6xl px-4 text-center md:px-8">
           <h1 className="mb-4 text-4xl font-black md:text-5xl">{t.title}</h1>
@@ -63,11 +64,11 @@ export default async function CertificationsPage({ params }: { params: Promise<{
                   {/* Media header: certificate image + logo medallion(s), logo-only, or plain title (fallback chain) */}
                   {cert.image ? (
                     <CardMedia {...mediaProps} className="relative block h-40 w-full overflow-hidden border-b border-[var(--card-border)] bg-[var(--bg-secondary)]">
-                      <img src={cert.image} alt={cert.title} className="h-full w-full object-cover" />
+                      <Image src={cert.image} alt={cert.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover" />
                       {logos.length > 0 && (
                         <div className="absolute -bottom-4 left-4 flex gap-1">
                           {logos.map((l) => (
-                            <img key={l} src={l} alt="" className="h-10 w-10 rounded-full border-2 border-[var(--bg-primary)] bg-white object-contain shadow-md" />
+                            <Image key={l} src={l} alt="" width={40} height={40} className="h-10 w-10 rounded-full border-2 border-[var(--bg-primary)] bg-white object-contain shadow-md" />
                           ))}
                         </div>
                       )}
@@ -75,7 +76,7 @@ export default async function CertificationsPage({ params }: { params: Promise<{
                   ) : logos.length > 0 ? (
                     <CardMedia {...mediaProps} className="flex h-40 w-full items-center justify-center gap-3 border-b border-[var(--card-border)] bg-[var(--bg-secondary)]">
                       {logos.map((l) => (
-                        <img key={l} src={l} alt="" className="h-14 w-14 rounded-full bg-white object-contain p-1 shadow" />
+                        <Image key={l} src={l} alt="" width={56} height={56} className="h-14 w-14 rounded-full bg-white object-contain p-1 shadow" />
                       ))}
                     </CardMedia>
                   ) : (
@@ -133,7 +134,7 @@ export default async function CertificationsPage({ params }: { params: Promise<{
             <div className="flex flex-wrap items-center justify-center gap-6">
               {partnerLogos.map((p) => (
                 <div key={p.src} className="flex h-16 w-16 items-center justify-center rounded-full bg-white p-2 shadow grayscale transition hover:grayscale-0">
-                  <img src={p.src} alt={p.alt} title={p.alt} className="h-full w-full object-contain" />
+                  <Image src={p.src} alt={p.alt} title={p.alt} width={64} height={64} className="h-full w-full object-contain" />
                 </div>
               ))}
             </div>

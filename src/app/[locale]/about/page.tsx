@@ -6,14 +6,24 @@ import Image from 'next/image';
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = locale === 'fr'
-    ? { title: 'À propos de moi', welcome: 'Bienvenue', iam: 'Je suis Balbino Tchoutzine', role: 'Élève-ingénieur ENSPY | Recherche IA (fondements, alignement, prédiction) | Speaker & Leader AI Cell', who: 'Qui suis-je ?', skills: 'Compétences Techniques', timeline: 'Parcours Académique', interests: "Centres d'Intérêt", achievements: 'Réalisations', languages: 'Langues' }
-    : { title: 'About Me', welcome: 'Welcome', iam: "I'm Balbino Tchoutzine", role: 'ENSPY Engineering Student | AI Research (foundations, alignment, prediction) | Speaker & Leader AI Cell', who: 'Who am I?', skills: 'Technical Skills', timeline: 'Academic Journey', interests: 'Interests', achievements: 'Achievements', languages: 'Languages' };
+    ? { title: 'À propos de moi', welcome: 'Bienvenue', iam: 'Je suis Balbino Tchoutzine', role: 'Élève-ingénieur ENSPY | Recherche IA (fondements, alignement, prédiction) | Speaker & Leader AI Cell', who: 'Qui suis-je ?', skills: 'Compétences Techniques', timeline: 'Parcours Académique', interests: "Centres d'Intérêt", achievements: 'Réalisations', languages: 'Langues', orgs: 'Organisations & Communautés' }
+    : { title: 'About Me', welcome: 'Welcome', iam: "I'm Balbino Tchoutzine", role: 'ENSPY Engineering Student | AI Research (foundations, alignment, prediction) | Speaker & Leader AI Cell', who: 'Who am I?', skills: 'Technical Skills', timeline: 'Academic Journey', interests: 'Interests', achievements: 'Achievements', languages: 'Languages', orgs: 'Organizations & Communities' };
+
+  const orgLogos = [
+    { src: '/images/certifications/logos/logo-enspy.jpg', alt: 'ENSPY' },
+    { src: '/images/certifications/logos/logo-aicell.jpg', alt: 'AI Cell ENSPY' },
+    { src: '/images/certifications/logos/zindi-logo.png', alt: 'Zindi' },
+    { src: '/images/certifications/logos/logo-cursor-cam.png', alt: 'Cursor' },
+    { src: '/images/certifications/logos/logo_aporen.jpg', alt: 'APOREN' },
+    { src: '/images/certifications/logos/GinSTEAM.jpg', alt: 'Cameroonian Girls in STEAM' },
+    { src: '/images/certifications/logos/logo-society_for_Ai.jpg', alt: 'Society for AI' },
+  ];
 
   return (
     <div className="pt-20">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-[var(--border-light)] py-20 text-white">
-        <img src="/images/about/banniere.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <Image src="/images/about/banniere.png" alt="" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(13,17,23,0.55), rgba(13,17,23,0.35))' }} />
         <div className="relative mx-auto max-w-6xl px-4 text-center md:px-8">
           <h1 className="mb-2 text-4xl font-black md:text-5xl">{t.welcome}</h1>
@@ -55,6 +65,22 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                   ? "Sur le terrain : Gardienne, mon bouclier IA contre le cyberharcèlement, a décroché la 2ᵉ place au hackathon Girls in STEAM. J'ai terminé 2ᵉ au niveau national sur DataTour 2025. Sur Zindi, j'ai participé à plus de 19 challenges. Et je suis nominé pour Africa's 100 Rising AI Developers 2026."
                   : "On the ground: Gardienne, my AI shield against cyberharassment, took 2nd place at the Girls in STEAM hackathon. I placed 2nd nationally at DataTour 2025. On Zindi, I've taken part in 19+ challenges. And I'm a nominee for Africa's 100 Rising AI Developers 2026."}
               </p>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Organizations & Communities */}
+      <section className="border-b border-[var(--border-light)] py-16" style={{ background: 'var(--bg-primary)' }}>
+        <div className="mx-auto max-w-4xl px-4 md:px-8">
+          <AnimatedSection>
+            <h2 className="mb-8 text-center text-2xl font-bold text-[var(--text-primary)]">{t.orgs}</h2>
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              {orgLogos.map((o) => (
+                <div key={o.src} className="flex h-16 w-16 items-center justify-center rounded-full bg-white p-2 shadow grayscale transition hover:grayscale-0">
+                  <Image src={o.src} alt={o.alt} title={o.alt} width={64} height={64} className="h-full w-full object-contain" />
+                </div>
+              ))}
             </div>
           </AnimatedSection>
         </div>

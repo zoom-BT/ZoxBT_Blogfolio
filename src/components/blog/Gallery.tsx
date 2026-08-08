@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 
 interface GalleryImage {
   src: string;
@@ -44,19 +45,19 @@ export default function Gallery({ images }: { images: GalleryImage[] }) {
           >
             <div
               style={{
+                position: 'relative',
                 height: '480px',
                 background: 'var(--bg-secondary)',
                 borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
                 overflow: 'hidden',
               }}
             >
-              <img
+              <Image
                 src={img.src}
                 alt={img.alt}
-                style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+                fill
+                sizes="(max-width: 768px) 85vw, 420px"
+                style={{ objectFit: 'contain' }}
               />
             </div>
             {img.caption && (
