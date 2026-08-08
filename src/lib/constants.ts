@@ -101,7 +101,7 @@ export const TIMELINE: Record<'fr' | 'en', TimelineEntry[]> = {
       title: 'Cycle ingénieur GI - ING-5',
       institution: 'ENSPY - Université de Yaoundé I',
       description: 'Dernière année du cycle ingénieur, spécialisation et projet de fin d\'études.',
-      focus: "Stage de recherche en cours : prédiction multimodale de conversion MCI → démence (NACC, ADNI, Framingham)",
+      focus: "Stage pré-ingénieur de recherche (S1) en cours : prédiction multimodale de conversion MCI → démence (NACC, ADNI, Framingham). Stage ingénieur au S2, en vue du diplôme.",
       status: 'En cours (entrant)',
     },
     {
@@ -151,7 +151,7 @@ export const TIMELINE: Record<'fr' | 'en', TimelineEntry[]> = {
       title: 'Computer Engineering - Year 5 (ING-5)',
       institution: 'ENSPY - University of Yaoundé I',
       description: 'Final year of the engineering program, specialization and capstone project.',
-      focus: 'Ongoing research internship: multimodal prediction of MCI-to-dementia conversion (NACC, ADNI, Framingham)',
+      focus: 'Ongoing pre-engineering research internship (S1): multimodal prediction of MCI-to-dementia conversion (NACC, ADNI, Framingham). Engineering internship in S2, toward the degree.',
       status: 'Incoming / in progress',
     },
     {
