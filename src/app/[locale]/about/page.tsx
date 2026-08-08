@@ -29,6 +29,16 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <h1 className="mb-2 text-4xl font-black md:text-5xl">{t.welcome}</h1>
           <p className="text-xl">{t.iam}</p>
           <p className="text-white/80">{t.role}</p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <a href="/cv/Tchoutzine_Balbino_CV_Research_FR.pdf" target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-bold text-[#0d1117] transition-all hover:opacity-90">
+              CV FR
+            </a>
+            <a href="/cv/Tchoutzine_Balbino_CV_Research_EN.pdf" target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg border border-white/40 px-5 py-2.5 text-sm font-bold text-white transition-all hover:border-white">
+              CV EN
+            </a>
+          </div>
         </div>
       </section>
 
@@ -62,8 +72,8 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               </p>
               <p>
                 {locale === 'fr'
-                  ? "Sur le terrain : Gardienne, mon bouclier IA contre le cyberharcèlement, a décroché la 2ᵉ place au hackathon Girls in STEAM. J'ai terminé 2ᵉ au niveau national sur DataTour 2025. Sur Zindi, j'ai participé à plus de 19 challenges. Et je suis nominé pour Africa's 100 Rising AI Developers 2026."
-                  : "On the ground: Gardienne, my AI shield against cyberharassment, took 2nd place at the Girls in STEAM hackathon. I placed 2nd nationally at DataTour 2025. On Zindi, I've taken part in 19+ challenges. And I'm a nominee for Africa's 100 Rising AI Developers 2026."}
+                  ? "Sur le terrain : Gardienne, mon bouclier IA contre le cyberharcèlement, a décroché la 2ᵉ place au hackathon Girls in STEAM. J'ai terminé 2ᵉ au niveau national sur DataTour 2025. Sur Zindi, j'ai participé à plus de 19 challenges, actuellement classé dans le top 10 National. Et je suis nominé pour Africa's 100 Rising AI Developers 2026."
+                  : "On the ground: Gardienne, my AI shield against cyberharassment, took 2nd place at the Girls in STEAM hackathon. I placed 2nd nationally at DataTour 2025. On Zindi, I've taken part in 19+ challenges, currently ranked in the National top 10. And I'm a nominee for Africa's 100 Rising AI Developers 2026."}
               </p>
             </div>
           </AnimatedSection>

@@ -67,6 +67,16 @@ export default function Footer({ locale }: { locale: string }) {
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                 {SITE_CONFIG.author.email}
               </a>
+              <div className="flex items-center gap-3 pt-1">
+                <a href="/cv/Tchoutzine_Balbino_CV_Research_FR.pdf" target="_blank" rel="noopener noreferrer"
+                  className="text-sm text-[var(--text-secondary)] underline underline-offset-2 transition-colors hover:text-[var(--text-primary)]">
+                  CV FR
+                </a>
+                <a href="/cv/Tchoutzine_Balbino_CV_Research_EN.pdf" target="_blank" rel="noopener noreferrer"
+                  className="text-sm text-[var(--text-secondary)] underline underline-offset-2 transition-colors hover:text-[var(--text-primary)]">
+                  CV EN
+                </a>
+              </div>
             </div>
           </div>
         </div>
