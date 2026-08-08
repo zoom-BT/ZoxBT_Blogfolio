@@ -72,8 +72,8 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
 
                 {/* Photo connected via a stem to the CV buttons */}
                 <span className="h-px w-4 bg-[var(--border-medium)]" aria-hidden="true" />
-                <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-full border border-[var(--border-light)]">
-                  <Image src="/icon.png" alt="Balbino Tchoutzine" width={56} height={56} className="h-full w-full object-cover" />
+                <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-full border border-[var(--border-light)]">
+                  <Image src="/icon.png" alt="Balbino Tchoutzine" width={64} height={64} className="h-full w-full object-cover object-top" />
                 </div>
                 <span className="h-px w-4 bg-[var(--border-medium)]" aria-hidden="true" />
                 <a href="/cv/Tchoutzine_Balbino_CV_Research_FR.pdf" target="_blank" rel="noopener noreferrer"
