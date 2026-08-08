@@ -37,7 +37,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         <div className="mx-auto max-w-4xl px-4 md:px-8">
           <AnimatedSection>
             {/* Profile image */}
-            <div className="mx-auto mb-8 h-48 w-48 overflow-hidden rounded-lg border border-[var(--border-light)]">
+            <div className="mx-auto mb-8 h-48 w-48 overflow-hidden rounded-full border border-[var(--border-light)]">
               <Image
                 src="/images/balbino.jpg"
                 alt="Balbino Tchoutzine"
