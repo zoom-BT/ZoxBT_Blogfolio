@@ -10,13 +10,13 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
     : { title: 'About Me', welcome: 'Welcome', iam: "I'm Balbino Tchoutzine", role: 'ENSPY Engineering Student | AI Research (foundations, alignment, prediction) | Speaker & Leader AI Cell', who: 'Who am I?', skills: 'Technical Skills', timeline: 'Academic Journey', interests: 'Interests', achievements: 'Achievements', languages: 'Languages', orgs: 'Organizations & Communities' };
 
   const orgLogos = [
-    { src: '/images/certifications/logos/logo-enspy.jpg', alt: 'ENSPY' },
-    { src: '/images/certifications/logos/logo-aicell.jpg', alt: 'AI Cell ENSPY' },
-    { src: '/images/certifications/logos/zindi-logo.png', alt: 'Zindi' },
-    { src: '/images/certifications/logos/logo-cursor-cam.png', alt: 'Cursor' },
-    { src: '/images/certifications/logos/logo_aporen.jpg', alt: 'APOREN' },
+    { src: '/images/certifications/logos/logo-enspy.jpg', alt: 'ENSPY', href: 'https://polytechnique.cm/genie-informatique-gi' },
+    { src: '/images/certifications/logos/logo-aicell.jpg', alt: 'AI Cell ENSPY', href: 'https://whatsapp.com/channel/0029VayECXUG8l5Jitobme35' },
+    { src: '/images/certifications/logos/zindi-logo.png', alt: 'Zindi', href: 'https://zindi.world/' },
+    { src: '/images/certifications/logos/logo-cursor-cam.png', alt: 'Cursor', href: 'https://www.cursor-cameroun.com/' },
+    { src: '/images/certifications/logos/logo_aporen.jpg', alt: 'APOREN', href: 'https://www.instagram.com/p/DUoA9Hsic2t/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==' },
     { src: '/images/certifications/logos/GinSTEAM.jpg', alt: 'Cameroonian Girls in STEAM' },
-    { src: '/images/certifications/logos/logo-society_for_Ai.jpg', alt: 'Society for AI' },
+    { src: '/images/certifications/logos/logo-society_for_Ai.jpg', alt: 'Society for AI', href: 'https://www.linkedin.com/posts/society-for-ai_100risingaidevelopers-societyforai-africaninnovation-activity-7421499410355994624-UqsY' },
   ];
 
   return (
@@ -86,11 +86,15 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <AnimatedSection>
             <h2 className="mb-8 text-center text-2xl font-bold text-[var(--text-primary)]">{t.orgs}</h2>
             <div className="flex flex-wrap items-center justify-center gap-6">
-              {orgLogos.map((o) => (
-                <div key={o.src} className="flex h-16 w-16 items-center justify-center rounded-full bg-white p-2 shadow grayscale transition hover:grayscale-0">
-                  <Image src={o.src} alt={o.alt} title={o.alt} width={64} height={64} className="h-full w-full object-contain" />
-                </div>
-              ))}
+              {orgLogos.map((o) => {
+                const Tag = o.href ? 'a' : 'div';
+                const linkProps = o.href ? { href: o.href, target: '_blank', rel: 'noopener noreferrer' } : {};
+                return (
+                  <Tag key={o.src} {...linkProps} className="flex h-16 w-16 items-center justify-center rounded-full bg-white p-2 shadow grayscale transition hover:grayscale-0">
+                    <Image src={o.src} alt={o.alt} title={o.alt} width={64} height={64} className="h-full w-full object-contain" />
+                  </Tag>
+                );
+              })}
             </div>
           </AnimatedSection>
         </div>

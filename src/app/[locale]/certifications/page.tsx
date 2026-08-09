@@ -11,15 +11,15 @@ export default async function CertificationsPage({ params }: { params: Promise<{
     : { title: 'Professional Certifications', subtitle: 'My certifications in AI, Machine Learning and Development', partners: 'Training Partners' };
 
   const partnerLogos = [
-    { src: '/images/certifications/logos/cousera.png', alt: 'Coursera' },
-    { src: '/images/certifications/logos/Stanford-logo-circular.jpg', alt: 'Stanford University' },
-    { src: '/images/certifications/logos/IBM-logo.png', alt: 'IBM' },
-    { src: '/images/certifications/logos/zindi-logo.png', alt: 'Zindi' },
-    { src: '/images/certifications/logos/kaggle-logo.png', alt: 'Kaggle' },
-    { src: '/images/certifications/logos/Microsoft.png', alt: 'Microsoft' },
-    { src: '/images/certifications/logos/linkedin-logo-linkedin-icon-transparent-free-png.webp', alt: 'LinkedIn Learning' },
-    { src: '/images/certifications/logos/OpenClassroom-logo.png', alt: 'OpenClassrooms' },
-    { src: '/images/certifications/logos/PowerBI-logo.jpg', alt: 'Power BI' },
+    { src: '/images/certifications/logos/cousera.png', alt: 'Coursera', href: 'https://www.coursera.org' },
+    { src: '/images/certifications/logos/Stanford-logo-circular.jpg', alt: 'Stanford University', href: 'https://www.stanford.edu' },
+    { src: '/images/certifications/logos/IBM-logo.png', alt: 'IBM', href: 'https://www.ibm.com' },
+    { src: '/images/certifications/logos/zindi-logo.png', alt: 'Zindi', href: 'https://zindi.world/' },
+    { src: '/images/certifications/logos/kaggle-logo.png', alt: 'Kaggle', href: 'https://www.kaggle.com' },
+    { src: '/images/certifications/logos/Microsoft.png', alt: 'Microsoft', href: 'https://www.microsoft.com' },
+    { src: '/images/certifications/logos/linkedin-logo-linkedin-icon-transparent-free-png.webp', alt: 'LinkedIn Learning', href: 'https://www.linkedin.com/learning/' },
+    { src: '/images/certifications/logos/OpenClassroom-logo.png', alt: 'OpenClassrooms', href: 'https://openclassrooms.com' },
+    { src: '/images/certifications/logos/PowerBI-logo.jpg', alt: 'Power BI', href: 'https://powerbi.microsoft.com' },
   ];
 
   return (
@@ -133,9 +133,10 @@ export default async function CertificationsPage({ params }: { params: Promise<{
             <h2 className="mb-8 text-center text-2xl font-bold text-[var(--text-primary)]">{t.partners}</h2>
             <div className="flex flex-wrap items-center justify-center gap-6">
               {partnerLogos.map((p) => (
-                <div key={p.src} className="flex h-16 w-16 items-center justify-center rounded-full bg-white p-2 shadow grayscale transition hover:grayscale-0">
+                <a key={p.src} href={p.href} target="_blank" rel="noopener noreferrer"
+                  className="flex h-16 w-16 items-center justify-center rounded-full bg-white p-2 shadow grayscale transition hover:grayscale-0">
                   <Image src={p.src} alt={p.alt} title={p.alt} width={64} height={64} className="h-full w-full object-contain" />
-                </div>
+                </a>
               ))}
             </div>
           </AnimatedSection>
