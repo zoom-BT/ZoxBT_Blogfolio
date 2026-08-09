@@ -3,6 +3,7 @@ import { Inter, Merriweather } from 'next/font/google';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import ScrollProgress from '@/components/shared/ScrollProgress';
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const merriweather = Merriweather({ subsets: ['latin'], weight: ['700', '900'], variable: '--font-serif' });
@@ -31,6 +32,7 @@ export default async function LocaleLayout({
           </main>
           <Footer locale={locale} />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
