@@ -78,24 +78,27 @@ export default function ProjectsClient({ projects, locale }: { projects: Project
                 >
                   <Link href={`/${locale}/projects/${project.slug}`}>
                     <div className="card group h-full overflow-hidden p-0">
-                      {/* Image placeholder */}
-                      <div className="h-40 flex items-center justify-center border-b border-[var(--card-border)] bg-[var(--bg-secondary)]">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="48"
-                          height="48"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="text-[var(--text-tertiary)]"
-                        >
-                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                          <circle cx="8.5" cy="8.5" r="1.5" />
-                          <polyline points="21 15 16 10 5 21" />
-                        </svg>
+                      <div className="h-40 flex items-center justify-center overflow-hidden border-b border-[var(--card-border)] bg-[var(--bg-secondary)]">
+                        {project.teaser ? (
+                          <img src={project.teaser} alt={project.title} className="h-full w-full object-cover" />
+                        ) : (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="48"
+                            height="48"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="text-[var(--text-tertiary)]"
+                          >
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                            <circle cx="8.5" cy="8.5" r="1.5" />
+                            <polyline points="21 15 16 10 5 21" />
+                          </svg>
+                        )}
                       </div>
                       <div className="p-6">
                         <div className="mb-3 flex items-center gap-2">
