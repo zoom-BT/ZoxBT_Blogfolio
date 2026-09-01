@@ -78,6 +78,13 @@ flowchart TD
     H --> I[Predict 2025]
     I --> J[Median across 3 seeds<br/>7, 456, 789]
     J --> K[submission_v16_best3.csv]
+
+    classDef green fill:#007a3d,stroke:#00532a,color:#ffffff
+    classDef red fill:#ce1126,stroke:#8f0c1a,color:#ffffff
+    classDef yellow fill:#fcd116,stroke:#c9a600,color:#1a1a1a
+    class A,B green
+    class C1,C2,C3,C4,C5,D,E red
+    class F,G,H,I,J,K yellow
 `} />
 
 Why five tree models instead of one well-tuned one? With only 1,800 training rows, a single model, however well optimized, stays sensitive to the noise in its own learning bias. The idea comes from the stacking literature in ML competitions (well documented across Kaggle): models that make different errors, even when individually close in score, correct each other once combined. I picked these five specifically because they don't share the same bias:
@@ -116,6 +123,14 @@ Submission `v16_3` (ID `e3vJYTzM`), August 15, 2026. Zindi notes this ranking is
 
 ![Final private leaderboard for the Zindi Chad challenge, Balbino_Tchoutzine in first place with a score of 0.225758596](/images/blog/zindi-chad/leaderboard-final-privee.png)
 
+## Reproducibility
+
+The full solution is on GitHub: notebooks, source code, Zindi data, complete documentation (`README.md`, `SOLUTION.md`, `CODE_REVIEW.md`).
+
+**[github.com/zoom-BT/zindi-chad-crop-yield](https://github.com/zoom-BT/zindi-chad-crop-yield)**
+
+`python generate_submission.py` regenerates the exact submitted file in under 5 seconds from the archived predictions. The `02_train_from_scratch.ipynb` notebook reruns the full training of all five models if you want to verify the method end to end.
+
 ## Fun fact
 
 This challenge checks exactly the boxes I care about right now: geospatial ML applied to a real problem (food security), time series with hard constraints (predicting a future with no future data), and a data-poor setting where feature engineering matters more than raw compute.
@@ -125,8 +140,8 @@ It's also my ongoing training ground as a Zindi Ambassador: 19+ challenges to da
 This challenge also moves my overall Zindi ranking forward:
 
 <Gallery images={[
-  { src: "/images/blog/zindi-chad/zindi-rank-cameroun-all-time.png", alt: "Zindi all-time ranking in Cameroon: Zoom387 at 8th", caption: "All-time ranking, Cameroon: 8th" },
-  { src: "/images/blog/zindi-chad/zindi-rank-cameroun-2026-season.png", alt: "Zindi 2026 season ranking in Cameroon: Zoom387 at 6th", caption: "2026 season ranking, Cameroon: 6th" },
-  { src: "/images/blog/zindi-chad/zindi-rank-global-all-time.png", alt: "Zindi all-time global ranking: Zoom387 at 462nd", caption: "All-time ranking, global: 462nd" },
-  { src: "/images/blog/zindi-chad/zindi-rank-global-2026-season.png", alt: "Zindi 2026 season global ranking: Zoom387 at 422nd", caption: "2026 season ranking, global: 422nd" },
+  { src: "/images/blog/zindi-chad/zindi-rank-cameroun-all-time.png", alt: "Zindi all-time ranking in Cameroon: Zoom387 at 8th of 285", caption: "All-time ranking, Cameroon: 8th of 285" },
+  { src: "/images/blog/zindi-chad/zindi-rank-cameroun-2026-season.png", alt: "Zindi 2026 season ranking in Cameroon: Zoom387 at 6th of 133", caption: "2026 season ranking, Cameroon: 6th of 133" },
+  { src: "/images/blog/zindi-chad/zindi-rank-global-all-time.png", alt: "Zindi all-time global ranking: Zoom387 at 462nd of 17,834", caption: "All-time ranking, global: 462nd of 17,834" },
+  { src: "/images/blog/zindi-chad/zindi-rank-global-2026-season.png", alt: "Zindi 2026 season global ranking: Zoom387 at 422nd of 5,085", caption: "2026 season ranking, global: 422nd of 5,085" },
 ]} />

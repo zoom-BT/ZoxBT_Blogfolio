@@ -78,6 +78,13 @@ flowchart TD
     H --> I[Prédire 2025]
     I --> J[Médiane sur 3 seeds<br/>7, 456, 789]
     J --> K[submission_v16_best3.csv]
+
+    classDef green fill:#007a3d,stroke:#00532a,color:#ffffff
+    classDef red fill:#ce1126,stroke:#8f0c1a,color:#ffffff
+    classDef yellow fill:#fcd116,stroke:#c9a600,color:#1a1a1a
+    class A,B green
+    class C1,C2,C3,C4,C5,D,E red
+    class F,G,H,I,J,K yellow
 `} />
 
 Pourquoi cinq modèles d'arbres plutôt qu'un seul bien réglé ? Avec seulement 1 800 lignes d'entraînement, un modèle unique, même optimisé, reste sensible au bruit de son propre biais d'apprentissage. L'idée vient de la littérature sur le stacking en compétition (bien documentée sur Kaggle) : des modèles qui font des erreurs différentes, même s'ils sont individuellement proches en score, se corrigent mutuellement une fois combinés. J'ai choisi ces cinq précisément parce qu'ils ne partagent pas tous le même biais :
@@ -116,6 +123,14 @@ Soumission `v16_3` (ID `e3vJYTzM`), le 15 août 2026. Zindi précise que ce clas
 
 ![Leaderboard privé final du challenge Zindi Chad, Balbino_Tchoutzine en tête avec un score de 0.225758596](/images/blog/zindi-chad/leaderboard-final-privee.png)
 
+## Reproductibilité
+
+Toute la solution est sur GitHub : notebooks, code source, données Zindi, documentation complète (`README.md`, `SOLUTION.md`, `CODE_REVIEW.md`).
+
+**[github.com/zoom-BT/zindi-chad-crop-yield](https://github.com/zoom-BT/zindi-chad-crop-yield)**
+
+`python generate_submission.py` régénère le fichier soumis à l'identique en moins de 5 secondes à partir des prédictions archivées. Le notebook `02_train_from_scratch.ipynb` relance l'entraînement complet des cinq modèles si tu veux vérifier la méthode de bout en bout.
+
 ## Fun fact
 
 Ce challenge coche exactement les cases qui m'intéressent en ce moment : du ML géospatial appliqué à un problème réel (sécurité alimentaire), des séries temporelles avec des contraintes dures (prédire un futur sans données futures), et un jeu de données pauvre où l'ingénierie de features compte plus que la puissance de calcul.
@@ -125,8 +140,8 @@ C'est aussi mon terrain d'entraînement continu comme Ambassadeur Zindi : plus d
 Ce challenge fait aussi progresser mon classement général sur Zindi :
 
 <Gallery images={[
-  { src: "/images/blog/zindi-chad/zindi-rank-cameroun-all-time.png", alt: "Classement all-time Zindi au Cameroun : Zoom387 8ᵉ", caption: "Classement all-time, Cameroun : 8ᵉ" },
-  { src: "/images/blog/zindi-chad/zindi-rank-cameroun-2026-season.png", alt: "Classement saison 2026 Zindi au Cameroun : Zoom387 6ᵉ", caption: "Classement saison 2026, Cameroun : 6ᵉ" },
-  { src: "/images/blog/zindi-chad/zindi-rank-global-all-time.png", alt: "Classement all-time Zindi mondial : Zoom387 462ᵉ", caption: "Classement all-time, mondial : 462ᵉ" },
-  { src: "/images/blog/zindi-chad/zindi-rank-global-2026-season.png", alt: "Classement saison 2026 Zindi mondial : Zoom387 422ᵉ", caption: "Classement saison 2026, mondial : 422ᵉ" },
+  { src: "/images/blog/zindi-chad/zindi-rank-cameroun-all-time.png", alt: "Classement all-time Zindi au Cameroun : Zoom387 8ᵉ sur 285", caption: "Classement all-time, Cameroun : 8ᵉ sur 285" },
+  { src: "/images/blog/zindi-chad/zindi-rank-cameroun-2026-season.png", alt: "Classement saison 2026 Zindi au Cameroun : Zoom387 6ᵉ sur 133", caption: "Classement saison 2026, Cameroun : 6ᵉ sur 133" },
+  { src: "/images/blog/zindi-chad/zindi-rank-global-all-time.png", alt: "Classement all-time Zindi mondial : Zoom387 462ᵉ sur 17 834", caption: "Classement all-time, mondial : 462ᵉ sur 17 834" },
+  { src: "/images/blog/zindi-chad/zindi-rank-global-2026-season.png", alt: "Classement saison 2026 Zindi mondial : Zoom387 422ᵉ sur 5 085", caption: "Classement saison 2026, mondial : 422ᵉ sur 5 085" },
 ]} />
