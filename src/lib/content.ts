@@ -11,13 +11,27 @@ function getFiles(dir: string): string[] {
   return fs.readdirSync(dir).filter((f) => f.endsWith('.mdx') || f.endsWith('.md'));
 }
 
+function asIsoDate(value: unknown): string {
+  if (value instanceof Date) return value.toISOString().slice(0, 10);
+  return String(value ?? '');
+}
+
+function publicAssetIfExists(publicPath?: string): string | undefined {
+  if (!publicPath) return undefined;
+  const file = path.join(process.cwd(), 'public', publicPath.replace(/^\//, ''));
+  return fs.existsSync(file) ? publicPath : undefined;
+}
+
 function parseFile<T>(filePath: string, slug: string): T & { content: string; readingTime: string } {
   const raw = fs.readFileSync(filePath, 'utf-8');
   const { data, content } = matter(raw);
   const rt = readingTime(content);
+  const header = (data as { header?: { teaser?: string } }).header;
   return {
     ...data,
     slug,
+    date: asIsoDate((data as { date?: unknown }).date) || (data as { date?: string }).date,
+    teaser: publicAssetIfExists((data as { teaser?: string }).teaser || header?.teaser),
     content,
     readingTime: rt.text,
   } as unknown as T & { content: string; readingTime: string };
