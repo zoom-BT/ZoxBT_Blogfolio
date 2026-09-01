@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
 import LanguageSwitcher from './LanguageSwitcher';
+import TransitionLink from '@/components/shared/TransitionLink';
+import { useNavigation } from '@/lib/navigation';
 import { NAV_ITEMS } from '@/lib/constants';
 
 export default function Navbar({ locale }: { locale: string }) {
@@ -13,6 +15,12 @@ export default function Navbar({ locale }: { locale: string }) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
   const items = NAV_ITEMS[locale] || NAV_ITEMS['fr'];
+  const { pendingHref } = useNavigation();
+
+  const isItemActive = (href: string) => {
+    const fullHref = href === '/' ? `/${locale}` : `/${locale}${href}`;
+    return pathname === fullHref || (href !== '/' && pathname.startsWith(`${fullHref}/`));
+  };
 
   // Only show hero-style (light text on dark) on the home page
   const isHomePage = pathname === `/${locale}` || pathname === '/' || pathname === `/${locale}/`;
@@ -60,19 +68,35 @@ export default function Navbar({ locale }: { locale: string }) {
 
           {/* Desktop Nav */}
           <div className="hidden items-center gap-1 md:flex">
-            {items.map((item) => (
-              <Link
-                key={item.href}
-                href={`/${locale}${item.href}`}
-                className={`relative rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                  useHeroStyle
-                    ? 'text-[#8b949e] hover:text-white'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {items.map((item) => {
+              const fullHref = `/${locale}${item.href}`;
+              const isActive = isItemActive(item.href);
+              const isPendingItem = pendingHref === fullHref;
+              return (
+                <TransitionLink
+                  key={item.href}
+                  href={fullHref}
+                  className={`relative rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                    isActive
+                      ? useHeroStyle ? 'text-white' : 'text-[var(--text-primary)]'
+                      : useHeroStyle
+                        ? 'text-[#8b949e] hover:text-white'
+                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  } ${isPendingItem ? 'opacity-50' : ''}`}
+                >
+                  {item.label}
+                  {isActive && !isPendingItem && (
+                    <motion.span
+                      layoutId="nav-active-dot"
+                      className={`absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full ${
+                        useHeroStyle ? 'bg-white' : 'bg-[var(--accent-blue)]'
+                      }`}
+                      transition={{ type: 'spring', duration: 0.4 }}
+                    />
+                  )}
+                </TransitionLink>
+              );
+            })}
           </div>
 
           {/* Desktop Actions */}
@@ -114,22 +138,33 @@ export default function Navbar({ locale }: { locale: string }) {
             className="fixed inset-0 z-[90] flex flex-col items-center justify-center gap-6 md:hidden"
             style={{ background: 'var(--bg-primary)' }}
           >
-            {items.map((item, i) => (
-              <motion.div
-                key={item.href}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05 }}
-              >
-                <Link
-                  href={`/${locale}${item.href}`}
-                  onClick={() => setIsMobileOpen(false)}
-                  className="text-2xl font-bold text-[var(--text-primary)] transition-colors hover:text-[var(--accent-blue)]"
+            {items.map((item, i) => {
+              const fullHref = `/${locale}${item.href}`;
+              const isActive = isItemActive(item.href);
+              const isPendingItem = pendingHref === fullHref;
+              return (
+                <motion.div
+                  key={item.href}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
                 >
-                  {item.label}
-                </Link>
-              </motion.div>
-            ))}
+                  <TransitionLink
+                    href={fullHref}
+                    onClick={() => setIsMobileOpen(false)}
+                    className={`text-2xl font-bold transition-colors ${
+                      isPendingItem
+                        ? 'text-[var(--text-primary)] opacity-50'
+                        : isActive
+                          ? 'text-[var(--accent-blue)]'
+                          : 'text-[var(--text-primary)] hover:text-[var(--accent-blue)]'
+                    }`}
+                  >
+                    {item.label}
+                  </TransitionLink>
+                </motion.div>
+              );
+            })}
             <div className="mt-4 flex items-center gap-4">
               <LanguageSwitcher locale={locale} />
               <ThemeToggle />
