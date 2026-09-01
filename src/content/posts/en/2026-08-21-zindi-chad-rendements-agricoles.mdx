@@ -1,0 +1,117 @@
+---
+title: "Predicting Chad's crop yields from satellite data | 1st place (private LB) in a Zindi challenge"
+date: 2026-08-21
+categories:
+  - AI
+  - Machine Learning
+tags:
+  - Zindi
+  - Machine Learning
+  - Time Series
+  - Remote Sensing
+  - LightGBM
+  - CatBoost
+  - Agriculture
+teaser: /images/blog/zindi-chad/leaderboard-final-privee.png
+excerpt: "How I finished 1st on the private leaderboard of a Zindi challenge predicting crop yields in Chad, with a 5-model tree ensemble, sequential 2024 to 2025 inference, and zero external data."
+---
+
+New Zindi challenge, new obsession for a few weeks. This one was about a topic that speaks to me directly: predicting agricultural yields in Africa from satellite data, for Chad.
+
+Under the handle **Zoom387**, I submitted my solution on August 15, 2026. Public score: wMAPE of **0.19848**, 3rd place on the public leaderboard. On the private leaderboard, the one that actually counts: **1st place**.
+
+![AI prediction of agricultural yields from remote sensing and time series, Zindi challenge for the Chad Institute of Algorithms](/images/blog/zindi-chad/challenge-banniere.png)
+
+## The challenge: predicting yields that don't exist yet
+
+The task was simple to state, hard to execute: predict yield (`Rendement_kg_ha`) by province, crop, and agricultural campaign, from satellite-derived climate and vegetation indicators plus historical yields.
+
+Three obstacles made it genuinely difficult:
+
+- **Sparse data**: only about 1,800 training rows.
+- **Predicting the future**: the test years (2024/2025 and 2025/2026 campaigns) have no known cultivated area or production, only climate indicators.
+- **Cold starts**: the crop **Fonio** and the province **Ennedi Est** only appear in the test set, never in training. There's no history to lean on for either.
+
+The official metric, wMAPE, weights errors by cultivated area: getting a large farm wrong costs more than getting a small plot wrong.
+
+## Building features with zero external data
+
+A constraint I set for myself from the start: use only the files Zindi provided (`train.csv`, `test.csv`), no FAO, NASA POWER, FAOSTAT, or any other external dataset. Everything had to come from the history and climate signal already present in the data.
+
+The feature families I built:
+
+- **Yield history** (province x crop): lags 1 to 3, rolling mean/std/median, linear trend.
+- **Aggregates**: statistics by crop, by province, by zone x crop, by province x crop.
+- **Climate**: current-year vegetation index (wVHI), temperature, precipitation, humidity, plus anomalies relative to the province's historical average.
+- **Cold-start proxies**: Fonio inherits the behavior of related cereals (millet, sorghum) by province and year; Ennedi Est inherits from neighboring Sahelian provinces (Kanem, Barh El Ghazal, Wadi Fira, Batha).
+- **Encodings**: smoothed target encoding and label encoding for Province, Crop, Zone, and Category.
+
+The training target was `log1p(yield)`, with sample weights of `log1p(area)` to directly align training with the wMAPE logic.
+
+## The pipeline: five models, one stacker, sequential inference
+
+<Mermaid chart={`
+flowchart TD
+    A[train.csv + test.csv] --> B[Feature engineering<br/>lags, aggregates, climate, cold-start proxies]
+    B --> C1[LightGBM]
+    B --> C2[CatBoost]
+    B --> C3[XGBoost]
+    B --> C4[HistGradientBoosting]
+    B --> C5[ExtraTrees]
+    C1 --> D[Ridge stacker on OOF predictions]
+    C2 --> D
+    C3 --> D
+    C4 --> D
+    C5 --> D
+    D --> E[Per-crop calibration<br/>clip 0.85 to 1.15]
+    E --> F[Predict 2024]
+    F --> G[2024 pseudo-labels<br/>added to history]
+    G --> H[Rebuild 2025 features]
+    H --> I[Predict 2025]
+    I --> J[Median across 3 seeds<br/>7, 456, 789]
+    J --> K[submission_v16_best3.csv]
+`} />
+
+Five tree-based models (LightGBM, CatBoost, XGBoost, HistGradientBoosting, ExtraTrees) trained in parallel, stacked through a Ridge meta-learner on their out-of-fold predictions, then calibrated per crop to correct systematic bias without extrapolating.
+
+The detail that changed everything: the test years aren't independent. Predicting 2025 needs 2024 history that doesn't exist yet at training time. The fix: predict 2024 first, feed those predictions back in as pseudo-labels, rebuild the features with that extended history, then predict 2025. Sequential inference, not a simple batch job.
+
+Last step: instead of keeping a single random seed, the final solution takes the row-wise **median** of predictions from three different seeds (7, 456, 789). More robust than a mean against a seed that goes off, and it beat every alternative I tested (mean, geometric mean, more elaborate blends) on the public leaderboard.
+
+## Being honest about what didn't work
+
+The final pipeline wasn't the first thing I tried. Several approaches that looked reasonable on paper actually hurt the public score:
+
+- A "time-safe" rewrite of the feature engineering (more rigorous in theory): wMAPE ≈ 0.287.
+- Splitting the model by crop category instead of one global model: wMAPE ≈ 0.299.
+- More aggressive shrinkage on the predictions: wMAPE ≈ 0.203.
+
+Keeping these in the solution documentation, even after finding something better, mattered to me. It shows the actual path taken, not just the finish line.
+
+## Result
+
+| Split | Score (wMAPE) | Rank |
+|---|---|---|
+| Public | 0.198479521 | 3rd |
+| Private | 0.225758596 | **1st out of 27** |
+
+Submission `v16_3` (ID `e3vJYTzM`), August 15, 2026. Zindi notes this ranking is subject to change until September 5, 2026, pending final review of winning solutions, standard procedure for top finishers.
+
+![Zindi certificate: Zoom387 currently ranked 1 out of 27 in the Chad crop yield prediction challenge](/images/blog/zindi-chad/certificat.png)
+
+![Final private leaderboard for the Zindi Chad challenge, Balbino_Tchoutzine in first place with a score of 0.225758596](/images/blog/zindi-chad/leaderboard-final-privee.png)
+
+## What this confirms
+
+This challenge checks exactly the boxes I care about right now: geospatial ML applied to a real problem (food security), time series with hard constraints (predicting a future with no future data), and a data-poor setting where feature engineering matters more than raw compute.
+
+It's also my ongoing training ground as a Zindi Ambassador: 19+ challenges to date, and this is probably the most technically complete one so far. The full solution documentation (architecture, ETL, modeling choices, error handling) is written to the format Zindi asks its winners for, exactly as if it were going to be audited by a judge.
+
+This challenge also moves my overall Zindi ranking forward:
+
+<Gallery images={[
+  { src: "/images/blog/zindi-chad/zindi-rank-cameroun-all-time.png", alt: "Zindi all-time ranking in Cameroon: Zoom387 at 8th" },
+  { src: "/images/blog/zindi-chad/zindi-rank-cameroun-2026-season.png", alt: "Zindi 2026 season ranking in Cameroon: Zoom387 at 6th" },
+  { src: "/images/blog/zindi-chad/zindi-rank-global-all-time.png", alt: "Zindi all-time global ranking: Zoom387 at 462nd" },
+  { src: "/images/blog/zindi-chad/zindi-rank-global-2026-season.png", alt: "Zindi 2026 season global ranking: Zoom387 at 422nd" },
+]} />

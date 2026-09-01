@@ -1,0 +1,117 @@
+---
+title: "Prédire les rendements agricoles du Tchad par satellite | 1ʳᵉ place (LB privé) au challenge Zindi"
+date: 2026-08-21
+categories:
+  - IA
+  - Machine Learning
+tags:
+  - Zindi
+  - Machine Learning
+  - Séries Temporelles
+  - Télédétection
+  - LightGBM
+  - CatBoost
+  - Agriculture
+teaser: /images/blog/zindi-chad/leaderboard-final-privee.png
+excerpt: "Comment j'ai terminé 1er sur le leaderboard privé du challenge Zindi de prédiction des rendements agricoles au Tchad, avec un stack de 5 modèles d'arbres, une inférence séquentielle 2024 vers 2025, et zéro donnée externe."
+---
+
+Nouveau challenge Zindi, nouvelle obsession pendant quelques semaines. Celui-ci portait sur un sujet qui me parle particulièrement : prédire des rendements agricoles en Afrique à partir de données satellite, pour le Tchad.
+
+Sous le pseudo **Zoom387**, j'ai soumis ma solution le 15 août 2026. Score public : wMAPE de **0.19848**, 3ᵉ place sur le leaderboard public. Sur le leaderboard privé, celui qui compte vraiment : **1ʳᵉ place**.
+
+![Prédiction IA des rendements agricoles par télédétection et séries temporelles, challenge Zindi pour le Chad Institute of Algorithms](/images/blog/zindi-chad/challenge-banniere.png)
+
+## Le défi : prédire des rendements qui n'existent pas encore
+
+L'énoncé était simple à dire, difficile à faire : prédire le rendement (`Rendement_kg_ha`) par province, culture et campagne agricole, à partir d'indicateurs climatiques et de végétation dérivés de satellite, plus l'historique des rendements.
+
+Trois obstacles rendaient l'exercice corsé :
+
+- **Peu de données** : environ 1 800 lignes d'entraînement seulement.
+- **Le futur à prédire** : les années de test (campagnes 2024/2025 et 2025/2026) n'ont ni superficie cultivée ni production connues, seulement les indicateurs climatiques.
+- **Des départs à froid** : la culture **Fonio** et la province **Ennedi Est** n'apparaissent que dans le test, jamais dans l'entraînement. Impossible de leur appliquer un historique qui n'existe pas.
+
+La métrique officielle, le wMAPE, pondère les erreurs par la superficie cultivée : se tromper sur une grande exploitation coûte plus cher que se tromper sur une petite parcelle.
+
+## Construire des features sans aucune donnée externe
+
+Contrainte que je me suis imposée dès le départ : n'utiliser que les fichiers fournis par Zindi (`train.csv`, `test.csv`), aucune donnée FAO, NASA POWER, FAOSTAT ou autre source externe. Tout devait venir de l'historique et du signal climatique déjà présents dans les données.
+
+Les familles de features construites :
+
+- **Historique de rendement** (province × culture) : lags 1 à 3, moyenne/écart-type/médiane glissants, tendance linéaire.
+- **Agrégats** : statistiques par culture, par province, par zone × culture, par province × culture.
+- **Climat** : indices de végétation (wVHI), température, précipitations, humidité de l'année en cours, plus les anomalies par rapport à la moyenne historique de la province.
+- **Départs à froid** : le Fonio hérite du comportement des céréales proches (mil, sorgho) par province et année ; l'Ennedi Est hérite des provinces sahéliennes voisines (Kanem, Barh El Ghazal, Wadi Fira, Batha).
+- **Encodages** : target encoding lissé et label encoding pour Province, Culture, Zone et Catégorie.
+
+La cible d'entraînement était `log1p(rendement)`, avec un poids d'échantillon en `log1p(superficie)` pour aligner l'entraînement directement sur la logique du wMAPE.
+
+## Le pipeline : cinq modèles, un stacker, une inférence séquentielle
+
+<Mermaid chart={`
+flowchart TD
+    A[train.csv + test.csv] --> B[Feature engineering<br/>lags, agrégats, climat, cold-start proxies]
+    B --> C1[LightGBM]
+    B --> C2[CatBoost]
+    B --> C3[XGBoost]
+    B --> C4[HistGradientBoosting]
+    B --> C5[ExtraTrees]
+    C1 --> D[Ridge stacker sur OOF]
+    C2 --> D
+    C3 --> D
+    C4 --> D
+    C5 --> D
+    D --> E[Calibration par culture<br/>clip 0.85 à 1.15]
+    E --> F[Prédire 2024]
+    F --> G[Pseudo-labels 2024<br/>ajoutés à l'historique]
+    G --> H[Reconstruire les features 2025]
+    H --> I[Prédire 2025]
+    I --> J[Médiane sur 3 seeds<br/>7, 456, 789]
+    J --> K[submission_v16_best3.csv]
+`} />
+
+Cinq modèles d'arbres (LightGBM, CatBoost, XGBoost, HistGradientBoosting, ExtraTrees) entraînés en parallèle, empilés par un stacker Ridge sur leurs prédictions out-of-fold, puis une calibration par culture pour corriger les biais systématiques sans extrapoler.
+
+Le détail qui change tout : les années de test ne sont pas indépendantes. Pour prédire 2025, le modèle a besoin d'un historique 2024, qui n'existe pas encore au moment de l'entraînement. La solution : prédire 2024 d'abord, injecter ces prédictions comme pseudo-labels, reconstruire les features avec cet historique étendu, puis prédire 2025. Une inférence séquentielle, pas un simple batch.
+
+Dernière étape : au lieu de garder une seule seed aléatoire, la solution finale prend la **médiane** ligne par ligne des prédictions de trois seeds différentes (7, 456, 789). Plus robuste qu'une moyenne face à une seed qui dérape, et ça a battu toutes les alternatives testées (moyenne, moyenne géométrique, blends plus complexes) sur le leaderboard public.
+
+## Être honnête sur ce qui n'a pas marché
+
+Le pipeline retenu n'est pas sorti du premier coup. Plusieurs pistes qui semblaient raisonnables ont concrètement dégradé le score public :
+
+- Une version "time-safe" de la feature engineering (plus rigoureuse sur le papier) : wMAPE ≈ 0.287.
+- Un découpage par catégorie de culture plutôt qu'un modèle global : wMAPE ≈ 0.299.
+- Un shrinkage plus agressif sur les prédictions : wMAPE ≈ 0.203.
+
+Les garder dans la documentation de la solution, même après avoir trouvé mieux, c'était important pour moi : ça montre le chemin réellement parcouru, pas juste la ligne d'arrivée.
+
+## Résultat
+
+| Split | Score (wMAPE) | Rang |
+|---|---|---|
+| Public | 0.198479521 | 3ᵉ |
+| Privé | 0.225758596 | **1ʳᵉ sur 27** |
+
+Soumission `v16_3` (ID `e3vJYTzM`), le 15 août 2026. Zindi précise que ce classement reste sujet à changement jusqu'au 5 septembre 2026, le temps de la revue finale des solutions gagnantes, ce qui est la procédure normale pour les premières places.
+
+![Certificat Zindi : Zoom387 actuellement classé 1 sur 27 au challenge de prédiction des rendements agricoles au Tchad](/images/blog/zindi-chad/certificat.png)
+
+![Leaderboard privé final du challenge Zindi Chad, Balbino_Tchoutzine en tête avec un score de 0.225758596](/images/blog/zindi-chad/leaderboard-final-privee.png)
+
+## Ce que ça confirme
+
+Ce challenge coche exactement les cases qui m'intéressent en ce moment : du ML géospatial appliqué à un problème réel (sécurité alimentaire), des séries temporelles avec des contraintes dures (prédire un futur sans données futures), et un jeu de données pauvre où l'ingénierie de features compte plus que la puissance de calcul.
+
+C'est aussi mon terrain d'entraînement continu comme Ambassadeur Zindi : plus de 19 challenges à ce jour, et celui-ci est sans doute le plus abouti techniquement. La documentation complète de la solution (architecture, ETL, choix de modélisation, gestion d'erreurs) est écrite selon le format que Zindi demande à ses lauréats, exactement comme si elle allait être auditée par un jury.
+
+Ce challenge fait aussi progresser mon classement général sur Zindi :
+
+<Gallery images={[
+  { src: "/images/blog/zindi-chad/zindi-rank-cameroun-all-time.png", alt: "Classement all-time Zindi au Cameroun : Zoom387 8ᵉ" },
+  { src: "/images/blog/zindi-chad/zindi-rank-cameroun-2026-season.png", alt: "Classement saison 2026 Zindi au Cameroun : Zoom387 6ᵉ" },
+  { src: "/images/blog/zindi-chad/zindi-rank-global-all-time.png", alt: "Classement all-time Zindi mondial : Zoom387 462ᵉ" },
+  { src: "/images/blog/zindi-chad/zindi-rank-global-2026-season.png", alt: "Classement saison 2026 Zindi mondial : Zoom387 422ᵉ" },
+]} />
