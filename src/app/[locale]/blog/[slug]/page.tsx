@@ -5,11 +5,39 @@ import Image from 'next/image';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import dynamic from 'next/dynamic';
+import type { Metadata } from 'next';
 import { formatDate } from '@/lib/utils';
 import LikeButton from '@/components/blog/LikeButton';
 import CommentSection from '@/components/blog/CommentSection';
 import ShareButtons from '@/components/blog/ShareButtons';
 import Gallery from '@/components/blog/Gallery';
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const post = getPostBySlug(slug, locale);
+  if (!post) return {};
+
+  const images = post.teaser ? [{ url: post.teaser }] : undefined;
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    openGraph: {
+      type: 'article',
+      title: post.title,
+      description: post.excerpt,
+      publishedTime: post.date,
+      tags: post.tags,
+      images,
+    },
+    twitter: {
+      card: post.teaser ? 'summary_large_image' : 'summary',
+      title: post.title,
+      description: post.excerpt,
+      images,
+    },
+  };
+}
 
 const Mermaid = dynamic(() => import('@/components/blog/Mermaid'));
 
