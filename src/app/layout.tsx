@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
-const SITE_URL = 'https://balbino-tchoutzine.vercel.app';
+const SITE_URL = 'https://zoxbt.is-a.dev';
 const DEFAULT_DESCRIPTION = "Étudiant-ingénieur en Génie Informatique, IA appliquée : Computer Vision, Geospatial ML, NLP low-resource, Edge AI";
 
 export const metadata: Metadata = {

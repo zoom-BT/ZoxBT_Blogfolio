@@ -7,7 +7,7 @@ export default function ShareButtons({ title, slug, locale }: { title: string; s
 
   const url = typeof window !== 'undefined'
     ? window.location.href
-    : `https://zox-bt-blogfolio.vercel.app/${locale}/blog/${slug}`;
+    : `https://zoxbt.is-a.dev/${locale}/blog/${slug}`;
 
   const share = {
     twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,

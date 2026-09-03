@@ -7,7 +7,7 @@ export const SITE_CONFIG = {
     fr: "Étudiant-ingénieur en Génie Informatique · IA appliquée : Computer Vision, Geospatial ML, NLP low-resource, Edge AI",
     en: 'Computer Engineering Student · Applied AI: Computer Vision, Geospatial ML, Low-resource NLP, Edge AI',
   },
-  url: 'https://balbino-tchoutzine.vercel.app',
+  url: 'https://zoxbt.is-a.dev',
   author: {
     name: 'Balbino Tchoutzine',
     bio: {
