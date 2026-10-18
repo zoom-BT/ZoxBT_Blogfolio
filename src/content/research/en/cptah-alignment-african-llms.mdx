@@ -1,0 +1,40 @@
+---
+title: "CPTAH: Does Continued Pre-Training Change How Alignment Affects African LLMs?"
+type: "Research Internship"
+status: "Completed"
+date: 2026-09-21
+authors:
+  - Balbino Tchoutzine
+venue: ""
+reportUrl: "https://drive.google.com/file/d/1UCQp3PQQqLnX9gi7r8JmEXbbNBEbbCrW/view?usp=drive_link"
+tags:
+  - alignment
+  - CPT
+  - SFT
+  - DPO
+  - QLoRA
+  - Hausa
+excerpt: "Remote research internship: the same SFT-then-DPO pipeline applied to Qwen3.5-4B-Base and AfriqueQwen (CPT on 35.5B tokens, 50 African languages), evaluated in Hausa on the HHH axes with no judge. CPT buys language processing but no detectable truthfulness; on moderation (AfriHate), alignment degrades the non-CPT model and improves the CPT one."
+---
+
+## Context
+
+Remote research internship (July 27 → September 21, 2026), under the scientific supervision of **Pascal Junior Tikeng Notsawo**, PhD student at **Mila** and the **Université de Montréal**.
+
+Alignment (SFT then DPO) was designed and validated on high-resource languages; its safeguards hold poorly as soon as a model is prompted in a low-resource language. African language models obtained by continued pre-training (CPT), such as those of the AfriqueLLM project, are public but remain base models, with no documented alignment.
+
+## Approach
+
+Single-variable comparison: the same **SFT + DPO** pipeline is applied to **Qwen3.5-4B-Base** and to **AfriqueQwen**, its derivative continued-pre-trained on 35.5 billion tokens in fifty African languages.
+
+- Six model states, evaluated in **Hausa** along the three HHH axes (helpful, honest, harmless)
+- No judge of any kind: log-likelihood scoring, chance floors recomputed from the data, paired tests
+- Replicated over three random seeds, with **QLoRA** on Kaggle's free GPUs
+
+## Results
+
+- CPT buys the ability to process the language, but **no detectable truthfulness**: on the 183 uncontaminated questions of Uhura-TruthfulQA in Hausa, both raw backbones score 0.3716.
+- On **content moderation** (AfriHate), an axis alignment does not train, it pushes the two arms in opposite directions: it degrades the non-CPT model and improves the CPT one (interaction of 0.042 macro F1, standard deviation 0.007 across three seeds).
+- Methodological contributions: a 77% contamination between two Uhura-TruthfulQA configurations, a reading rule for DPO reward margins, and a reproducible evaluation pipeline.
+
+The full report is available [here](https://drive.google.com/file/d/1UCQp3PQQqLnX9gi7r8JmEXbbNBEbbCrW/view?usp=drive_link).

@@ -37,7 +37,15 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
                       </div>
                     )}
                     <div className="p-6">
-                      <h3 className="mb-2 text-xl font-bold text-[var(--text-primary)]">{item.title}</h3>
+                      <h3 className="mb-2 text-xl font-bold text-[var(--text-primary)]">
+                        {item.reportUrl ? (
+                          <a href={item.reportUrl} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--accent-blue)] hover:underline">
+                            {item.title}
+                          </a>
+                        ) : (
+                          item.title
+                        )}
+                      </h3>
                       <div className="mb-3 flex flex-wrap gap-2 text-sm text-[var(--text-tertiary)]">
                         {item.authors && <span>{item.authors.join(', ')}</span>}
                         {item.date && <span>• {formatDate(item.date, locale)}</span>}
@@ -48,10 +56,27 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
                         )}
                       </div>
                       <p className="text-sm text-[var(--text-secondary)]">{item.excerpt}</p>
-                      <Link href={`/${locale}/research/${item.slug}`}
-                        className="mt-4 inline-flex items-center text-sm font-bold text-[var(--accent-blue)] hover:underline">
-                        {locale === 'fr' ? 'Voir détails' : 'View details'} →
-                      </Link>
+                      {item.tags && item.tags.length > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {item.tags.map((tag) => (
+                            <span key={tag} className="tag text-xs">{tag}</span>
+                          ))}
+                        </div>
+                      )}
+                      <div className="mt-4 flex flex-wrap items-center gap-4">
+                        {item.reportUrl && (
+                          <a href={item.reportUrl} target="_blank" rel="noopener noreferrer"
+                            className="inline-flex items-center text-sm font-bold text-[var(--accent-blue)] hover:underline">
+                            {locale === 'fr' ? 'Lire le rapport' : 'Read the report'} ↗
+                          </a>
+                        )}
+                        <Link href={`/${locale}/research/${item.slug}`}
+                          className={item.reportUrl
+                            ? 'inline-flex items-center text-sm text-[var(--text-tertiary)] hover:underline'
+                            : 'inline-flex items-center text-sm font-bold text-[var(--accent-blue)] hover:underline'}>
+                          {locale === 'fr' ? 'Voir détails' : 'View details'} →
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </AnimatedSection>
