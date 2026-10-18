@@ -29,6 +29,10 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
           {research.length > 0 ? (
             <div className="space-y-6">
               {research.map((item) => {
+                const isInternship = /internship|stage de recherche/i.test(item.type);
+                const reportLabel = locale === 'fr'
+                  ? (isInternship ? 'Lire le rapport ↗' : 'Lire le papier ↗')
+                  : (isInternship ? 'Read report ↗' : 'Read paper ↗');
                 const card = (
                   <>
                     {item.teaser && (
@@ -57,7 +61,11 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
                           ))}
                         </div>
                       )}
-                      {!item.reportUrl && (
+                      {item.reportUrl ? (
+                        <span className="mt-4 inline-flex items-center text-sm font-bold text-[var(--accent-blue)] group-hover:underline">
+                          {reportLabel}
+                        </span>
+                      ) : (
                         <Link href={`/${locale}/research/${item.slug}`}
                           className="mt-4 inline-flex items-center text-sm font-bold text-[var(--accent-blue)] hover:underline">
                           {locale === 'fr' ? 'Voir détails' : 'View details'} →
