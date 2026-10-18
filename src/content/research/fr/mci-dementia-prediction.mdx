@@ -7,31 +7,47 @@ authors:
   - Balbino Tchoutzine
 venue: ""
 reportUrl: "https://drive.google.com/file/d/1Ib7W9jhF2L5jNQkemXTXWr7TXuRtBcLu/view?usp=sharing"
-excerpt: "Stage pré-ingénieur de recherche : construire des modèles résistants au data leakage pour prédire le risque de conversion des troubles cognitifs légers (MCI) vers la démence à 2-5 ans, à travers les cohortes NACC, ADNI et Framingham."
+tags:
+  - MCI
+  - dementia conversion
+  - analysis plan
+  - data leakage
+  - external validation
+  - OASIS-2
+excerpt: "Stage de huit semaines à l'UMMISCO sur la prédiction multimodale de la conversion MCI vers la démence (NACC, ADNI, Framingham). Pas de DUA : aucune analyse sur ces cohortes et aucun résultat de conversion. Ce qui existe : un plan d'analyse non encore exécuté, un pilote exploratoire OASIS-2 dont l'AUC de test ne mesure pas la conversion à 2 ou 5 ans, et Lumenscreen, un démonstrateur pédagogique, pas un dispositif médical. En attente de la validation du plan d'analyse et de l'accès aux données pour la suite."
 ---
 
 ## Contexte
 
-Ce stage pré-ingénieur de recherche s'inscrit dans le premier semestre de mon année ING-5 à l'ENSPY, sous la supervision du **Pr Tsopze Norbert** (Université de Yaoundé I), en collaboration avec le **Pr Bernard Fongang** (University of Texas, États-Unis).
+Stage de recherche de huit semaines (24 juillet au 24 septembre 2026) à l'**UMMISCO**, sous la supervision principale du **Pr Norbert Tsopze**, avec **Bernard Fongang, PhD** (AI-BOND, UT Health San Antonio) et le **Pr Paulin Melatagia Yonta**.
 
-## Sujet
+Le sujet est la prédiction multimodale de la conversion des troubles cognitifs légers (MCI) vers la démence dans les cohortes **NACC**, **ADNI** et **Framingham**. L'accès aux données individuelles (DUA) n'a pas été obtenu pendant le stage : aucune analyse sur ces cohortes et aucun résultat de conversion.
 
-Construire des **modèles résistants au data leakage** pour prédire le risque de conversion des troubles cognitifs légers (*Mild Cognitive Impairment*, MCI) vers la démence, sur un horizon de **2 à 5 ans**, à travers trois cohortes de référence en neurosciences :
+En attente de la validation du plan d'analyse et de l'accès aux données pour la suite.
 
-- **NACC** (National Alzheimer's Coordinating Center)
-- **ADNI** (Alzheimer's Disease Neuroimaging Initiative)
-- **Framingham** (Framingham Heart Study)
+## Un protocole pré-spécifié, pas encore exécuté
 
-Les données combinent informations cliniques, imagerie et biomarqueurs.
+La revue de littérature montre que les modèles de conversion sont surtout construits sur ADNI et rarement validés sur une cohorte externe (Xia et al., 2025 ; Chen et al., 2024). Le plan d'analyse décrit une future étude longitudinale inter-cohortes du risque de conversion à 2 et à 5 ans. Les choix suivants ont été fixés avant l'accès aux données :
 
-## Approche
+- Une ligne par participant à la visite index
+- Profils incomplets conservés
+- Fusion tardive
+- Rotations de validation externe fixées à l'avance
+- Calibration, analyse de courbe de décision et équité
+- Identifier le plus petit ensemble de données utile
 
-Le travail se concentre sur trois axes :
+L'exécution commence par un audit de faisabilité. Le protocole n'a pas été exécuté.
 
-- **Validation externe** : évaluer la capacité des modèles à généraliser d'une cohorte à l'autre
-- **Calibration** : s'assurer que les scores de risque prédits reflètent des probabilités réelles
-- **Baselines interprétables** : modèles de référence (régression de Cox, XGBoost) analysés avec SHAP pour comprendre les facteurs de risque identifiés
+## Pilote transversal sur OASIS-2 public
 
-## Statut
+Pilote mené à terme sur OASIS-2 public : 150 participants à la visite de référence, le CDR étant exclu des prédicteurs. Six modèles séparent un groupe positif composite (64 personnes démentes + 14 futurs convertisseurs) de 72 personnes non démentes.
 
-Ce projet est **en cours**. Les résultats et une description plus détaillée de la méthodologie seront ajoutés au fur et à mesure de l'avancement du stage.
+Les AUC de test vont de 0,67 à 0,75. La forêt aléatoire atteint 0,75 (bootstrap 0,58–0,89).
+
+Cette AUC ne mesure pas la conversion à 2 ou 5 ans. Les 4 futurs convertisseurs du jeu de test ont tous été manqués : le modèle reconnaît la démence présente, pas la conversion à venir. Le jeu de test a servi à sélectionner les modèles, le résultat est donc exploratoire.
+
+## Lumenscreen
+
+Démonstrateur pédagogique **Lumenscreen** (FastAPI + Next.js), architecture en couches, contrat d'entrée qui rejette le CDR et les identifiants. Ce n'est pas un dispositif médical.
+
+Le rapport complet est disponible [ici](https://drive.google.com/file/d/1Ib7W9jhF2L5jNQkemXTXWr7TXuRtBcLu/view?usp=sharing).

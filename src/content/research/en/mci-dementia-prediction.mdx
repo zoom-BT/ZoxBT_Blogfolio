@@ -1,37 +1,53 @@
 ---
 title: "Leakage-Resistant Models for MCI-to-Dementia Conversion Risk Prediction"
 type: "Research Internship"
-status: "Ongoing"
+status: "In progress"
 date: 2026-07-24
 authors:
   - Balbino Tchoutzine
 venue: ""
 reportUrl: "https://drive.google.com/file/d/1Ib7W9jhF2L5jNQkemXTXWr7TXuRtBcLu/view?usp=sharing"
-excerpt: "Pre-engineering research internship: building leakage-resistant models for 2-5 year MCI-to-dementia conversion risk prediction across the NACC, ADNI, and Framingham cohorts."
+tags:
+  - MCI
+  - dementia conversion
+  - analysis plan
+  - data leakage
+  - external validation
+  - OASIS-2
+excerpt: "Eight-week internship at UMMISCO on multimodal MCI-to-dementia conversion (NACC, ADNI, Framingham). No DUA, so no analysis on those cohorts and no conversion result. What exists is an unexecuted analysis plan, an exploratory OASIS-2 pilot whose test AUC does not measure 2- or 5-year conversion, and Lumenscreen, a teaching demonstrator, not a medical device. Currently awaiting validation of the analysis plan and data access to move forward."
 ---
 
 ## Context
 
-This pre-engineering research internship is part of the first semester of my final year (ING-5) at ENSPY, supervised by **Pr Tsopze Norbert** (University of Yaoundé I), in collaboration with **Pr Bernard Fongang** (University of Texas, USA).
+Eight-week research internship (24 July to 24 September 2026) at **UMMISCO**, principal supervision **Pr Norbert Tsopze**, with **Bernard Fongang, PhD** (AI-BOND, UT Health San Antonio) and **Pr Paulin Melatagia Yonta**.
 
-## Subject
+The topic is multimodal prediction of conversion from mild cognitive impairment (MCI) to dementia in **NACC**, **ADNI**, and **Framingham**. Individual-level data access (DUA) was not obtained during the internship, so there was no analysis on these cohorts and no conversion result.
 
-Building **leakage-resistant models** for predicting the risk of conversion from Mild Cognitive Impairment (MCI) to dementia, over a **2 to 5 year horizon**, across three reference cohorts in neuroscience research:
+Currently awaiting validation of the analysis plan and data access to move forward.
 
-- **NACC** (National Alzheimer's Coordinating Center)
-- **ADNI** (Alzheimer's Disease Neuroimaging Initiative)
-- **Framingham** (Framingham Heart Study)
+## A pre-specified protocol, not yet executed
 
-The data combines clinical information, imaging, and biomarkers.
+A literature review shows that conversion models are mostly built on ADNI and rarely externally validated (Xia et al., 2025; Chen et al., 2024). The analysis plan describes a future longitudinal cross-cohort study of 2- and 5-year conversion risk. These choices were fixed before data access:
 
-## Approach
+- One row per participant at the index visit
+- Incomplete profiles kept
+- Late fusion
+- Pre-fixed external validation rotations
+- Calibration, decision-curve analysis, and fairness
+- Identify the smallest useful data package
 
-The work focuses on three areas:
+Execution starts with a feasibility audit. The protocol has not been run.
 
-- **External validation**: assessing how well models generalize across cohorts
-- **Calibration**: ensuring predicted risk scores reflect real-world probabilities
-- **Interpretable baselines**: reference models (Cox regression, XGBoost) analyzed with SHAP to understand the identified risk factors
+## Cross-sectional pilot on public OASIS-2
 
-## Status
+Completed pilot on public OASIS-2: 150 participants at the baseline visit, with CDR excluded from the predictors. Six models separate a composite positive group (64 demented + 14 future converters) from 72 non-demented.
 
-This project is **ongoing**. Results and a more detailed methodology description will be added as the internship progresses.
+Test AUCs were 0.67–0.75. The random forest reached 0.75 (bootstrap 0.58–0.89).
+
+This AUC does not measure 2- or 5-year conversion. The 4 future converters in the test set were all missed: the model recognizes present dementia, not future conversion. The test set was used for model selection, so the result is exploratory.
+
+## Lumenscreen
+
+Teaching demonstrator **Lumenscreen** (FastAPI + Next.js), with a layered design and an input contract that rejects CDR and identifiers. It is not a medical device.
+
+The full report is available [here](https://drive.google.com/file/d/1Ib7W9jhF2L5jNQkemXTXWr7TXuRtBcLu/view?usp=sharing).
