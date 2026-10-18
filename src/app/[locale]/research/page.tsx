@@ -28,23 +28,17 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
         <div className="mx-auto max-w-6xl px-4 md:px-8">
           {research.length > 0 ? (
             <div className="space-y-6">
-              {research.map((item) => (
-                <AnimatedSection key={item.slug}>
-                  <div className="card overflow-hidden border-t-2 border-[var(--accent-blue)] p-0 md:flex">
+              {research.map((item) => {
+                const card = (
+                  <>
                     {item.teaser && (
                       <div className="flex h-64 w-full flex-shrink-0 items-center justify-center overflow-hidden bg-[var(--bg-primary)] md:h-auto md:w-96">
                         <img src={item.teaser} alt={item.title} className="h-full w-full object-contain" />
                       </div>
                     )}
                     <div className="p-6">
-                      <h3 className="mb-2 text-xl font-bold text-[var(--text-primary)]">
-                        {item.reportUrl ? (
-                          <a href={item.reportUrl} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--accent-blue)] hover:underline">
-                            {item.title}
-                          </a>
-                        ) : (
-                          item.title
-                        )}
+                      <h3 className={`mb-2 text-xl font-bold text-[var(--text-primary)] ${item.reportUrl ? 'group-hover:text-[var(--accent-blue)] group-hover:underline' : ''}`}>
+                        {item.title}
                       </h3>
                       <div className="mb-3 flex flex-wrap gap-2 text-sm text-[var(--text-tertiary)]">
                         {item.authors && <span>{item.authors.join(', ')}</span>}
@@ -63,24 +57,31 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
                           ))}
                         </div>
                       )}
-                      <div className="mt-4 flex flex-wrap items-center gap-4">
-                        {item.reportUrl && (
-                          <a href={item.reportUrl} target="_blank" rel="noopener noreferrer"
-                            className="inline-flex items-center text-sm font-bold text-[var(--accent-blue)] hover:underline">
-                            {locale === 'fr' ? 'Lire le rapport' : 'Read the report'} ↗
-                          </a>
-                        )}
+                      {!item.reportUrl && (
                         <Link href={`/${locale}/research/${item.slug}`}
-                          className={item.reportUrl
-                            ? 'inline-flex items-center text-sm text-[var(--text-tertiary)] hover:underline'
-                            : 'inline-flex items-center text-sm font-bold text-[var(--accent-blue)] hover:underline'}>
+                          className="mt-4 inline-flex items-center text-sm font-bold text-[var(--accent-blue)] hover:underline">
                           {locale === 'fr' ? 'Voir détails' : 'View details'} →
                         </Link>
-                      </div>
+                      )}
                     </div>
-                  </div>
-                </AnimatedSection>
-              ))}
+                  </>
+                );
+
+                return (
+                  <AnimatedSection key={item.slug}>
+                    {item.reportUrl ? (
+                      <a href={item.reportUrl} target="_blank" rel="noopener noreferrer"
+                        className="card group block overflow-hidden border-t-2 border-[var(--accent-blue)] p-0 md:flex">
+                        {card}
+                      </a>
+                    ) : (
+                      <div className="card overflow-hidden border-t-2 border-[var(--accent-blue)] p-0 md:flex">
+                        {card}
+                      </div>
+                    )}
+                  </AnimatedSection>
+                );
+              })}
             </div>
           ) : (
             <p className="text-center text-[var(--text-tertiary)]">
