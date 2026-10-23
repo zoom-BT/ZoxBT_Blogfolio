@@ -56,6 +56,8 @@ export interface ResearchItem {
   authors: string[];
   venue?: string;
   teaser?: string;
+  reportUrl?: string;
+  tags?: string[];
   excerpt: string;
   content: string;
 }

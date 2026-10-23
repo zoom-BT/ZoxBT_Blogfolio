@@ -1,0 +1,40 @@
+---
+title: "CPTAH : le pré-entraînement continu change-t-il l'effet de l'alignement sur les LLM africains ?"
+type: "Stage de recherche"
+status: "Terminé"
+date: 2026-09-21
+authors:
+  - Balbino Tchoutzine
+venue: ""
+reportUrl: "https://drive.google.com/file/d/1NN3Kj3phSYAnnF4LB8eeLnWXUsXvZDLD/view?usp=sharing"
+tags:
+  - alignment
+  - CPT
+  - SFT
+  - DPO
+  - QLoRA
+  - Hausa
+excerpt: "Stage de recherche en remote : même pipeline SFT puis DPO appliqué à Qwen3.5-4B-Base et à AfriqueQwen (CPT sur 35,5 milliards de tokens, 50 langues africaines), évalué en haoussa sur les axes HHH sans aucun juge. Le CPT apporte le traitement de la langue, mais aucune véracité détectable ; sur la modération (AfriHate), l'alignement dégrade le modèle sans CPT et améliore celui avec CPT."
+---
+
+## Contexte
+
+Stage de recherche en remote (27 juillet → 21 septembre 2026), sous l'encadrement scientifique de **Pascal Junior Tikeng Notsawo**, doctorant à **Mila** et à l'**Université de Montréal**.
+
+L'alignement (SFT puis DPO) a été conçu et validé sur des langues bien dotées ; ses garde-fous tiennent mal dès qu'un modèle est sollicité dans une langue peu dotée. Les modèles de langues africaines obtenus par pré-entraînement continu (CPT), comme ceux du projet AfriqueLLM, sont publics mais restent des modèles de base, sans alignement documenté.
+
+## Approche
+
+Comparaison à variable unique : le même pipeline **SFT + DPO** est appliqué à **Qwen3.5-4B-Base** et à **AfriqueQwen**, son dérivé pré-entraîné en continu sur 35,5 milliards de tokens dans cinquante langues africaines.
+
+- Six états de modèle, évalués en **haoussa** sur les trois axes HHH (utile, honnête, inoffensif)
+- Aucun juge : scoring par log-vraisemblance, planchers de hasard recalculés à partir des données, tests appariés
+- Répliqué sur trois graines aléatoires, en **QLoRA** sur les GPU gratuits de Kaggle
+
+## Résultats
+
+- Le CPT apporte la capacité à traiter la langue, mais **aucune véracité détectable** : sur les 183 questions non contaminées d'Uhura-TruthfulQA en haoussa, les deux backbones bruts obtiennent 0,3716.
+- Sur la **modération de contenu** (AfriHate), un axe que l'alignement n'entraîne pas, il pousse les deux bras en sens opposés : il dégrade le modèle sans CPT et améliore celui avec CPT (interaction de 0,042 en macro F1, écart-type de 0,007 sur trois graines).
+- Apports méthodologiques : une contamination de 77 % entre deux configurations d'Uhura-TruthfulQA, une règle de lecture des marges de récompense DPO et un pipeline d'évaluation reproductible.
+
+Le rapport complet est disponible [ici](https://drive.google.com/file/d/1NN3Kj3phSYAnnF4LB8eeLnWXUsXvZDLD/view?usp=sharing).

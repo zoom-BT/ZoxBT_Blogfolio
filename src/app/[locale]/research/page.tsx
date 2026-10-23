@@ -28,16 +28,22 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
         <div className="mx-auto max-w-6xl px-4 md:px-8">
           {research.length > 0 ? (
             <div className="space-y-6">
-              {research.map((item) => (
-                <AnimatedSection key={item.slug}>
-                  <div className="card overflow-hidden border-t-2 border-[var(--accent-blue)] p-0 md:flex">
+              {research.map((item) => {
+                const isInternship = /internship|stage de recherche/i.test(item.type);
+                const reportLabel = locale === 'fr'
+                  ? (isInternship ? 'Lire le rapport ↗' : 'Lire le papier ↗')
+                  : (isInternship ? 'Read report ↗' : 'Read paper ↗');
+                const card = (
+                  <>
                     {item.teaser && (
                       <div className="flex h-64 w-full flex-shrink-0 items-center justify-center overflow-hidden bg-[var(--bg-primary)] md:h-auto md:w-96">
                         <img src={item.teaser} alt={item.title} className="h-full w-full object-contain" />
                       </div>
                     )}
                     <div className="p-6">
-                      <h3 className="mb-2 text-xl font-bold text-[var(--text-primary)]">{item.title}</h3>
+                      <h3 className={`mb-2 text-xl font-bold text-[var(--text-primary)] ${item.reportUrl ? 'group-hover:text-[var(--accent-blue)] group-hover:underline' : ''}`}>
+                        {item.title}
+                      </h3>
                       <div className="mb-3 flex flex-wrap gap-2 text-sm text-[var(--text-tertiary)]">
                         {item.authors && <span>{item.authors.join(', ')}</span>}
                         {item.date && <span>• {formatDate(item.date, locale)}</span>}
@@ -48,14 +54,42 @@ export default async function ResearchPage({ params }: { params: Promise<{ local
                         )}
                       </div>
                       <p className="text-sm text-[var(--text-secondary)]">{item.excerpt}</p>
-                      <Link href={`/${locale}/research/${item.slug}`}
-                        className="mt-4 inline-flex items-center text-sm font-bold text-[var(--accent-blue)] hover:underline">
-                        {locale === 'fr' ? 'Voir détails' : 'View details'} →
-                      </Link>
+                      {item.tags && item.tags.length > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {item.tags.map((tag) => (
+                            <span key={tag} className="tag text-xs">{tag}</span>
+                          ))}
+                        </div>
+                      )}
+                      {item.reportUrl ? (
+                        <span className="mt-4 inline-flex items-center text-sm font-bold text-[var(--accent-blue)] group-hover:underline">
+                          {reportLabel}
+                        </span>
+                      ) : (
+                        <Link href={`/${locale}/research/${item.slug}`}
+                          className="mt-4 inline-flex items-center text-sm font-bold text-[var(--accent-blue)] hover:underline">
+                          {locale === 'fr' ? 'Voir détails' : 'View details'} →
+                        </Link>
+                      )}
                     </div>
-                  </div>
-                </AnimatedSection>
-              ))}
+                  </>
+                );
+
+                return (
+                  <AnimatedSection key={item.slug}>
+                    {item.reportUrl ? (
+                      <a href={item.reportUrl} target="_blank" rel="noopener noreferrer"
+                        className="card group block overflow-hidden border-t-2 border-[var(--accent-blue)] p-0 md:flex">
+                        {card}
+                      </a>
+                    ) : (
+                      <div className="card overflow-hidden border-t-2 border-[var(--accent-blue)] p-0 md:flex">
+                        {card}
+                      </div>
+                    )}
+                  </AnimatedSection>
+                );
+              })}
             </div>
           ) : (
             <p className="text-center text-[var(--text-tertiary)]">

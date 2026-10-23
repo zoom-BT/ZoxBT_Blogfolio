@@ -1,5 +1,5 @@
 import { getResearch, getResearchBySlug } from '@/lib/content';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { MDXRemote } from 'next-mdx-remote/rsc';
@@ -15,6 +15,7 @@ export default async function ResearchDetailPage({ params }: { params: Promise<{
   const { locale, slug } = await params;
   const item = getResearchBySlug(slug, locale);
   if (!item) notFound();
+  if (item.reportUrl) redirect(item.reportUrl);
 
   return (
     <div className="pt-20">
